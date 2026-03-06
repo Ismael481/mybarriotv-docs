@@ -7,51 +7,33 @@ Rama actual:
 main
 
 Ultimo commit:
-a8eded0
+a5a7ffe
 
 Tarea activa:
-TASK_002_xui_first_bridge
+TASK_003_adr003_sync_fix
 
 Resumen corto:
-Se implemento la primera version funcional minima del bridge `App TV -> Backend -> XUI` para Home catalog minimo y playback de prueba. El backend consulta XUI y devuelve contrato estable. La TV app cambia entre demo y backend con `BridgeEnabled`.
+Se verifico inconsistencia reportada de sincronizacion documental. El ADR_003 existe y esta en la ruta correcta en el repo privado. Se deja commit documental de correccion/resync para reflejo en el repo publico.
 
 Archivos modificados:
-- backend/package.json
-- backend/.env.example
-- backend/README.md
-- backend/src/server.js
-- backend/src/xuiClient.js
-- backend/src/mappers.js
-- apps/tv-app/app/build.gradle.kts
-- apps/tv-app/app/src/main/java/com/techlads/composetv/features/bridge/data/BackendBridgeDtos.kt
-- apps/tv-app/app/src/main/java/com/techlads/composetv/features/bridge/data/BackendBridgeApi.kt
-- apps/tv-app/app/src/main/java/com/techlads/composetv/features/bridge/BridgeCatalogRepository.kt
-- apps/tv-app/app/src/main/java/com/techlads/composetv/features/home/HomeViewModel.kt
-- apps/tv-app/app/src/main/java/com/techlads/composetv/features/details/ProductViewModel.kt
-- apps/tv-app/app/src/main/java/com/techlads/composetv/features/player/PlayerViewModel.kt
-- apps/tv-app/app/src/main/java/com/techlads/composetv/features/player/PlayerScreen.kt
-- apps/tv-app/app/src/main/java/com/techlads/composetv/navigation/AppNavigation.kt
 - docs/00_index/CHATGPT_CONTEXT.md
 - docs/00_index/CURRENT_STATUS.md
 - docs/00_index/ACTIVE_TASK.md
-- docs/02_tasks/TASK_002_xui_first_bridge.md
+- docs/02_tasks/TASK_003_adr003_sync_fix.md
 - docs/05_changelog/CHANGELOG_2026_Q1.md
 
 Archivos recomendados para revision por ChatGPT (repositorio publico):
 - docs/00_index/CURRENT_STATUS.md
 - docs/00_index/ACTIVE_TASK.md
-- docs/02_tasks/TASK_002_xui_first_bridge.md
-- docs/04_decisions/ADR_002_xui_as_content_engine.md
+- docs/02_tasks/TASK_003_adr003_sync_fix.md
 - docs/04_decisions/ADR_003_first_bridge_read_only_home_catalog.md
+- docs/05_changelog/CHANGELOG_2026_Q1.md
 
 Pendiente de prueba por el usuario:
-- Validar E2E real de Home + playback con backend y XUI.
-- Confirmar reproduccion de stream >= 10s con `BridgeEnabled=true`.
+- Confirmar en repo publico la presencia de `docs/04_decisions/ADR_003_first_bridge_read_only_home_catalog.md` tras el workflow.
 
 Riesgos o bloqueos:
-- Mapper backend podria requerir ajustes segun payload real de XUI.
-- No fue posible compilar app Android en este entorno por falta de JBR local.
+- Si falla sync aun con ruta correcta, el problema es de workflow externo y no del contenido docs.
 
 Cambios manuales externos requeridos:
-- Configurar variables de backend (`XUI_BASE_URL`, opcional `XUI_API_KEY`, paths XUI).
-- Asegurar en XUI endpoints operativos de Home y playback con item reproducible.
+- Ninguno en repositorio privado. Solo observacion del resultado de GitHub Actions de sync.

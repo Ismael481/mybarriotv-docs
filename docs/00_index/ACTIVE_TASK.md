@@ -1,9 +1,8 @@
 ﻿# ACTIVE_TASK
 
-Tarea activa: **TASK_002_xui_first_bridge**
+Tarea activa: **TASK_003_adr003_sync_fix**
 
 Enfoque actual:
-- Implementacion inicial del bridge minimo completada en backend y TV app.
-- Pendiente validacion E2E con entorno XUI real.
-- Mantener alcance limitado a Home minimo + playback de prueba via backend.
-- Sin auth, sesiones, device binding ni paneles web en esta fase.
+- Verificacion y correccion de consistencia documental de ADR_003 entre repo privado y mirror publico.
+- Sin cambios funcionales en backend ni TV app.
+- Commit documental dedicado para disparar nueva sincronizacion automatica.

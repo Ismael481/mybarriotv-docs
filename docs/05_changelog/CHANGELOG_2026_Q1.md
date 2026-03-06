@@ -14,3 +14,5 @@
 - Se integro TV app al backend con feature flag `BridgeEnabled` y base URL configurable `BACKEND_BASE_URL`.
 - Se incorporo repositorio bridge en app para Home y playback: `BridgeCatalogRepository`, `BackendBridgeApi`, `PlayerViewModel`.
 - Se mantuvo fallback a `DemoCatalogRepository` cuando `BridgeEnabled=false`.
+- Se verifico inconsistencia de sync sobre ADR_003: el archivo existe y la ruta oficial es `docs/04_decisions/ADR_003_first_bridge_read_only_home_catalog.md`.
+- Se agrego `TASK_003_adr003_sync_fix` y commit documental para forzar nueva sincronizacion del mirror publico.
