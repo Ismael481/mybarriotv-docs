@@ -1,36 +1,19 @@
 # ARCHITECTURE
 
-Estructura general:
-- apps/tv-app: aplicación del televisor
-- apps/web-app: panel administrativo y portal cliente
-- backend: API y lógica de negocio
-- docs: documentación viva
-- XUI: motor externo de contenido
+## Estructura de monorepo
+- `apps/tv-app/`: cliente TV Android existente.
+- `apps/web-app/`: reservado para frontend web futuro.
+- `backend/`: reservado para backend propio futuro.
+- `docs/`: documentación viva y sincronizable.
 
-Arquitectura objetivo:
-App TV -> Backend propio -> XUI
+## Arquitectura objetivo
+`App TV -> Backend propio -> XUI`
 
-Responsabilidades:
-- XUI:
-  - canales
-  - VOD
-  - acceso a contenido
-- Backend:
-  - autenticación
-  - clientes
-  - dispositivos
-  - sesiones
-  - reglas de negocio
-  - promociones
-  - integración con XUI
-- Web App:
-  - administración
-  - portal cliente
-- TV App:
-  - consumo de contenido
-  - sesión del usuario
-  - perfiles
-  - experiencia de reproducción
+## Principio de responsabilidades
+- **XUI**: motor de contenido (catálogo y entrega de contenido).
+- **Backend propio**: identidad, reglas de negocio, control de dispositivos, trazabilidad y adaptación hacia XUI.
+- **TV App**: experiencia de usuario y reproducción.
+- **Web App**: operación administrativa y portal cliente.
 
-Regla de arquitectura:
-La app no debe quedar acoplada directamente a XUI como arquitectura final.
+## Estado técnico real (hoy)
+La TV app aún trabaja con flujos demo/mock y no está conectada a backend propio ni a XUI en producción.

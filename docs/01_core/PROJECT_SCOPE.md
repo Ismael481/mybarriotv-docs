@@ -1,37 +1,20 @@
 # PROJECT_SCOPE
 
-Nombre del proyecto:
+## Nombre
 MyBarrioTV-App
 
-Visión general:
-Plataforma de streaming/IPTV compuesta por una app TV reutilizable, un backend propio, un panel web administrativo y un portal cliente.
+## Alcance de producto
+Monorepo privado para centralizar:
+- app TV (cliente principal),
+- backend propio (lógica de negocio),
+- web app futura (panel admin/portal cliente),
+- documentación viva del proyecto.
 
-Objetivo principal:
-Permitir que los usuarios consuman contenido en vivo y VOD desde una app de TV, mientras la lógica de negocio, autenticación, dispositivos y administración se controla desde un backend propio.
+## Objetivo actual de fase
+Ordenar base estructural del monorepo y auditar técnicamente la app TV existente sin romperla ni reemplazar mocks.
 
-Componentes principales:
-- App TV
-- Backend
-- Web App
-- Integración con XUI
-- Documentación del proyecto
-
-Roles previstos:
-- Administrador
-- Revendedor
-- Cliente final
-
-Fases oficiales:
-- Fase 0: documentación, estructura y auditoría
-- Fase 1: integración técnica inicial con XUI
-- Fase 2: backend mínimo
-- Fase 3: autenticación
-- Fase 4: control de dispositivo
-- Fase 5: panel admin
-- Fase 6: portal cliente
-- Fase 7: funciones avanzadas
-
-Restricciones:
-- No improvisar arquitectura
-- No mezclar demasiados cambios en una sola tarea
-- Mantener documentación viva del proyecto
+## Restricciones vigentes
+- Sin integración real con XUI en esta fase.
+- Sin backend funcional en esta fase.
+- Sin login real en esta fase.
+- Sin cambios funcionales amplios no solicitados.
