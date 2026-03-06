@@ -1,117 +1,114 @@
 ﻿# TASK_002_xui_first_bridge
 
 Fecha: 2026-03-06
-Estado: definido (documentacion), pendiente implementacion
+Estado: implementacion inicial completada (pendiente validacion E2E en entorno XUI)
 
 ## Objetivo
-Definir el primer bridge minimo entre la TV app y XUI manteniendo desde el inicio el patron `App TV -> Backend propio -> XUI`, para empezar a reemplazar mock/demo por contenido real sin integrar todo el producto.
+Implementar el primer bridge funcional minimo `App TV -> Backend -> XUI` para Home catalog minimo, seleccion de item y playback de prueba, evitando integracion directa de la TV app con XUI.
 
 ## Alcance
-- Disenar el primer flujo tecnico minimo, read-only y verificable.
-- Definir contrato inicial entre TV app y backend para ese flujo.
-- Definir rol minimo del backend frente a XUI.
-- Dejar criterios de prueba minima antes de ampliar integracion.
-- Documentar dependencias y pasos manuales externos de preparacion en XUI.
+- Backend minimo con endpoints:
+  - `GET /v1/content/home`
+  - `GET /v1/content/:id/playback`
+- Cliente XUI en backend con mapper a contrato estable.
+- Logs claros de inicio, exito y error en llamadas bridge.
+- Manejo basico de errores upstream XUI.
+- TV app con feature flag `BridgeEnabled` para alternar demo/backend.
+- Integracion de Home y playback via backend cuando `BridgeEnabled=true`.
 
 ## Fuera de alcance
 - Autenticacion real, sesiones y renovacion de tokens.
 - Vinculacion de dispositivo y control comercial.
 - Panel web y portal cliente.
-- Integracion total de pantallas/menus de la TV app.
-- Refactor grande de arquitectura o cambios visuales.
-- Logica de negocio amplia en backend.
+- Integracion de todas las pantallas.
+- Refactor grande de arquitectura o cambios visuales no necesarios.
+- Logica de negocio amplia.
 
 ## Restricciones
-- Prohibido acceso directo `TV app -> XUI`.
-- El primer bridge debe ser pequeno, read-only, de bajo riesgo y reemplazable.
-- Mantener cambios futuros acotados a un flujo vertical minimo.
-- No acoplar la app TV a estructuras internas de XUI.
-
-## Propuesta del primer flujo a integrar
-Flujo recomendado: **Home catalog minimo (lista simple) + seleccion de item + apertura de stream de prueba**, siempre via backend.
-
-Secuencia:
-1. TV app solicita `GET /v1/content/home` al backend.
-2. Backend obtiene contenido desde XUI (o adaptador XUI) y responde un contrato propio estable.
-3. TV app muestra lista minima (id, titulo, poster, tipo).
-4. Usuario selecciona item y TV app solicita `GET /v1/content/{id}/playback`.
-5. Backend resuelve/normaliza URL de stream de prueba desde XUI y devuelve solo datos necesarios para reproducir.
-6. TV app abre reproductor sin conocer endpoints ni tokens internos de XUI.
-
-Contrato minimo sugerido (fase 1):
-- `GET /v1/content/home`
-  - response: `sections[] -> items[] { id, title, image, contentType }`
-- `GET /v1/content/{id}/playback`
-  - response: `{ contentId, playbackUrl, streamType, drm: false }`
+- Sin llamadas directas App TV -> XUI.
+- Primer flujo pequeno, read-only, bajo riesgo y reemplazable.
+- Contrato backend estable, sin exponer payload crudo XUI.
 
 ## Dependencias
-- Backend propio con endpoint minimo expuesto para TV app.
-- Adaptador o cliente XUI en backend (no en TV app).
-- Entorno XUI con catalogo de prueba y al menos 1 stream reproducible.
-- Definicion de mapeo XUI -> contrato interno backend.
+- Node.js 18+ para ejecutar backend minimo.
+- Entorno XUI con endpoint de Home y playback.
+- Variables de entorno backend (`XUI_BASE_URL` obligatoria).
+- TV app apuntando a backend (`BACKEND_BASE_URL`, por defecto `http://10.0.2.2:8080`).
 
 ## Riesgos
-- Riesgo de acoplar backend al payload crudo de XUI si no se define mapper estable.
-- Riesgo de inestabilidad de stream de prueba en entorno XUI.
-- Riesgo de que la TV app mezcle flujo nuevo con `DemoCatalogRepository` sin feature flag claro.
-- Riesgo de crecimiento de alcance (scope creep) si se agregan auth/sesiones en esta fase.
+- Diferencias de payload real XUI respecto al mapper generico actual.
+- `id` no numerico de XUI: se mapea internamente a int para conservar navegacion actual.
+- Si XUI no responde stream valido, playback falla en modo bridge.
+- Validacion Android local bloqueada en este entorno por JBR faltante.
 
 ## Criterio de exito
-- La TV app deja de depender solo de mock para al menos 1 flujo real.
-- La TV app consume exclusivamente backend propio para ese flujo.
-- Backend consulta/prepara integracion con XUI y devuelve contrato interno.
-- La TV app no conoce detalles internos de XUI.
-- El flujo puede probarse end-to-end con un stream de prueba reproducible.
+- Home carga desde backend cuando `BridgeEnabled=true`.
+- Seleccion de item resuelve playback via backend.
+- Stream inicia reproduccion sin llamada directa App TV -> XUI.
+- Logs backend muestran consulta real a XUI y resultado.
 
 ## Prueba minima
-Caso E2E minimo:
-1. Abrir Home en TV app con feature flag de bridge activo.
-2. Ver al menos 1 seccion con items provenientes del backend.
-3. Seleccionar un item y abrir playback usando `GET /v1/content/{id}/playback`.
-4. Confirmar reproduccion minima (inicio de stream >= 10s sin crash).
-5. Confirmar en logs que no hubo llamada directa de la TV app a XUI.
+1. Configurar backend con `XUI_BASE_URL` y correr `npm start` en `backend/`.
+2. En TV app, activar `BridgeEnabled=true` en `app/build.gradle.kts`.
+3. Ejecutar app y abrir Home.
+4. Seleccionar item y reproducir stream.
+5. Confirmar en logs backend:
+   - `Bridge call started` para `/v1/content/home` y `/v1/content/{id}/playback`
+   - `Bridge call success`
+6. Validar reproduccion >= 10 segundos.
 
-## Impacto esperado por componente
+## Propuesta del primer flujo integrado
+1. TV app (`BridgeEnabled=true`) solicita `GET /v1/content/home` a backend.
+2. Backend consulta XUI, mapea respuesta y devuelve `sections/items` estables.
+3. TV app muestra lista minima.
+4. Usuario selecciona item.
+5. TV app solicita `GET /v1/content/{id}/playback` al backend.
+6. Backend consulta XUI, mapea playback y devuelve URL de stream.
+7. Player reproduce stream.
+
+## Impacto esperado
 ### App TV
-- Agregar cliente a backend para home minimo y playback minimo.
-- Mantener UI actual, cambiando solo proveedor de datos del flujo elegido.
-- Mantener fallback controlado a mock (feature flag) durante transicion.
+- Integracion minima backend para Home + playback con fallback a demo.
+- Feature flag `BridgeEnabled` para activar/desactivar bridge sin refactor.
 
 ### Backend
-- Exponer endpoints `v1/content/home` y `v1/content/{id}/playback`.
-- Implementar adapter XUI y mapeo a contrato interno.
-- Centralizar errores y normalizacion basica de respuesta.
+- Bridge minimo operativo a XUI con mapper y logs.
 
 ### XUI
-- Proveer fuente de catalogo de prueba y stream valido para entorno de integracion.
-- No exponer detalles operativos de XUI al cliente TV.
+- Sigue como motor de contenido; no se expone internamente al cliente TV.
 
 ## Orden recomendado de implementacion futura
-1. Backend: definir contrato interno y mocks de respuesta estables.
-2. Backend: conectar adapter XUI para `home` read-only.
-3. App TV: consumir `GET /v1/content/home` con flag.
-4. Backend: habilitar `GET /v1/content/{id}/playback` con stream de prueba.
-5. App TV: abrir player con response de backend.
-6. Ejecutar prueba minima E2E y congelar baseline.
+1. Ajustar mapper con payload real de XUI del entorno final.
+2. Agregar tests de contrato backend para home/playback.
+3. Extender flujo a detalle de contenido manteniendo contrato estable.
+4. Luego avanzar a auth/sesiones/device binding en tareas separadas.
 
-## Archivos tocados
-- `docs/02_tasks/TASK_002_xui_first_bridge.md`
-- `docs/04_decisions/ADR_003_first_bridge_read_only_home_catalog.md`
-- `docs/00_index/ACTIVE_TASK.md`
-- `docs/00_index/CURRENT_STATUS.md`
-- `docs/00_index/CHATGPT_CONTEXT.md`
-- `docs/05_changelog/CHANGELOG_2026_Q1.md`
+## Archivos tocados en esta implementacion
+- `backend/package.json`
+- `backend/.env.example`
+- `backend/README.md`
+- `backend/src/server.js`
+- `backend/src/xuiClient.js`
+- `backend/src/mappers.js`
+- `apps/tv-app/app/build.gradle.kts`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/bridge/data/BackendBridgeDtos.kt`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/bridge/data/BackendBridgeApi.kt`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/bridge/BridgeCatalogRepository.kt`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/home/HomeViewModel.kt`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/details/ProductViewModel.kt`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/player/PlayerViewModel.kt`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/player/PlayerScreen.kt`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/navigation/AppNavigation.kt`
 
 ## Pendiente de prueba
-- Validar en implementacion que el flujo corre sin dependencia directa a XUI desde la app TV.
-- Validar estabilidad del stream de prueba definido para el entorno tecnico.
+- Prueba E2E real con endpoint XUI definitivo.
+- Confirmar arranque de stream en dispositivo objetivo por >= 10s.
 
 ## Resultado esperado
-Plan tecnico minimo documentado y listo para implementacion incremental del primer bridge real `TV app -> Backend -> XUI`.
+Bridge minimo funcional listo para validar en entorno integrado, con fallback demo controlado por feature flag.
 
 ## Pasos manuales externos (XUI/configuracion)
-1. Crear o identificar en XUI una categoria de prueba para Home minimo.
-2. Asegurar al menos 1 item con metadata basica: id, titulo, imagen, tipo.
-3. Asegurar al menos 1 stream de prueba reproducible para ese item.
-4. Entregar al equipo backend los datos de entorno necesarios (base URL, credenciales de servicio, identificadores de catalogo).
-5. Validar desde backend que XUI responde correctamente antes de conectar la TV app.
+1. Confirmar endpoint real XUI para Home y playback.
+2. Configurar `XUI_BASE_URL`, `XUI_HOME_PATH` y `XUI_PLAYBACK_PATH_TEMPLATE` en backend.
+3. Proveer credencial (`XUI_API_KEY`) si aplica.
+4. Verificar que XUI entrega al menos un item reproducible en entorno de prueba.

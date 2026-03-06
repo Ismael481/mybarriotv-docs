@@ -1,20 +1,22 @@
 ﻿# CURRENT_STATUS
 
 ## Estado general
-- El monorepo mantiene estructura base en `apps/tv-app`, `apps/web-app`, `backend` y `docs`.
-- La app TV sigue operando con datos demo/mock en estado actual de codigo.
-- Se definio documentalmente el primer bridge minimo con XUI, sin implementacion de codigo en esta tarea.
+- Monorepo activo con `apps/tv-app`, `apps/web-app`, `backend` y `docs`.
+- Se implemento el primer bridge minimo `App TV -> Backend -> XUI` para Home y playback.
+- El backend ya expone endpoints `GET /v1/content/home` y `GET /v1/content/:id/playback`.
+- La TV app incorpora feature flag `BridgeEnabled` para alternar demo/backend.
 
 ## Arquitectura vigente en esta fase
 - Arquitectura objetivo: `App TV -> Backend propio -> XUI`.
-- Restriccion activa: no se permite integracion directa `App TV -> XUI`.
-- Decision vigente para primer puente: flujo read-only de Home minimo + playback de prueba via backend.
+- Regla activa: no hay integracion directa `App TV -> XUI`.
+- XUI sigue como motor de contenido; backend funciona como capa de adaptacion y control.
 
 ## Resultado de la fase actual
-- TASK_002 documentada con alcance, riesgos, prueba minima y orden de implementacion.
-- ADR_003 creado para fijar la decision del primer bridge minimo de bajo riesgo.
-- Queda pendiente la implementacion tecnica incremental en backend y TV app.
+- Backend minimo funcional con cliente XUI, mapper y logs de bridge.
+- TV app consumiendo backend para Home/playback cuando `BridgeEnabled=true`.
+- Fallback demo preservado cuando `BridgeEnabled=false`.
 
 ## Bloqueos o dependencias externas actuales
-- Preparacion de entorno XUI de prueba (catalogo minimo y stream de prueba reproducible).
-- Provision de parametros de integracion para backend (base URL, credenciales e identificadores requeridos).
+- Validar payload real de XUI y ajustar mapper si hay diferencias.
+- Ejecutar prueba E2E en entorno con stream real.
+- Entorno local no pudo compilar Android por falta de JBR (`jvm.cfg` de Android Studio).

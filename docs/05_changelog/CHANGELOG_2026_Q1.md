@@ -9,3 +9,8 @@
 - Se documento `TASK_002_xui_first_bridge` con el primer flujo minimo recomendado: Home catalog read-only + seleccion de item + playback de prueba via backend.
 - Se agrego `ADR_003_first_bridge_read_only_home_catalog` para fijar el alcance tecnico minimo del primer bridge `App TV -> Backend -> XUI`.
 - Se actualizaron `CHATGPT_CONTEXT`, `CURRENT_STATUS` y `ACTIVE_TASK` para reflejar el nuevo estado documental.
+- Se implemento backend minimo del bridge con endpoints `GET /v1/content/home` y `GET /v1/content/:id/playback` en `backend/src/server.js`.
+- Se agrego cliente XUI y mapper de contrato estable en `backend/src/xuiClient.js` y `backend/src/mappers.js`.
+- Se integro TV app al backend con feature flag `BridgeEnabled` y base URL configurable `BACKEND_BASE_URL`.
+- Se incorporo repositorio bridge en app para Home y playback: `BridgeCatalogRepository`, `BackendBridgeApi`, `PlayerViewModel`.
+- Se mantuvo fallback a `DemoCatalogRepository` cuando `BridgeEnabled=false`.
