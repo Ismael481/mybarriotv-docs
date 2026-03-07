@@ -61,3 +61,13 @@
 - Consistencia documental: `TASK_006` queda cerrada como implementada y `TASK_008` queda como tarea activa.
 
 - Hotfix TASK_008: se corrigio error de compilacion Kotlin en libs:network ajustando visibilidad de AuthInterceptor para compatibilidad con DI publica.
+- Extension TASK_008: se agrego registro de dispositivo por login exitoso (manual y QR exchange) para base de vinculacion cuenta-dispositivo.
+- TV app: nuevo DeviceIdentityProvider para enviar identidad de dispositivo en headers (X-Device-Mac, X-Device-Id, X-Device-Model, X-Device-Platform, X-App-Version).
+- Backend: captura y log de metadata de dispositivo en POST /v1/auth/login y POST /v1/auth/device/exchange.
+- Backend: nuevo endpoint protegido GET /v1/auth/devices y GET /v1/auth/me ahora incluye lista de dispositivos vinculados en memoria.
+- Nota tecnica: en Android moderno la MAC puede no estar disponible; se aplica fallback por deviceId sin bloquear login.
+- Extension TASK_008 UX web QR: la pagina de aprobacion ahora muestra metadata detectada de la TV (MAC/deviceId/modelo) para validar vinculacion visualmente desde movil.
+- Endurecimiento de identidad de dispositivo en TASK_008: se agregan X-Device-Serial y X-Device-Fingerprint (hash SHA-256) para mejorar vinculacion cuando MAC no esta disponible.
+- Extension TASK_008: se agrega captura de X-Device-Widevine-Id (MediaDrm) en TV app para mejorar identificacion persistente del dispositivo.
+- Backend: priorizacion de clave de vinculacion ajustada a MAC -> serial -> widevineId -> deviceId -> fingerprint.
+- Web QR: ahora muestra tambien Widevine ID detectado de la sesion TV cuando esta disponible.

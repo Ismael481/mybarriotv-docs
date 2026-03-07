@@ -13,7 +13,7 @@
 - `GET /v1/auth/protected`
 - JWT + sesion local TV + guard de navegacion.
 
-### Device login QR (nuevo en TASK_008)
+### Device login QR (TASK_008)
 - `POST /v1/auth/device/start`
 - `GET /v1/auth/device/status/:sessionId`
 - `POST /v1/auth/device/approve`
@@ -21,23 +21,32 @@
 - Estados de sesion: `pending`, `approved`, `expired`, `denied`.
 - Web minima de aprobacion: `GET /auth/device?sessionId=...`.
 
+### Vinculacion basica de dispositivo (extension TASK_008)
+- TV envia headers de identidad de dispositivo en login manual y QR exchange.
+- Backend registra dispositivo por usuario autenticado en memoria.
+- Endpoints de consulta:
+  - `GET /v1/auth/me` (incluye `devices`)
+  - `GET /v1/auth/devices` (protegido)
+- MAC se usa cuando Android la expone; se agrega serial, Widevine ID, fingerprint y fallback a identificador estable del dispositivo.
+
 ### TV app
 - Pantalla login dual activa (manual + QR en la misma pantalla).
 - Polling QR con login automatico al aprobar.
 - Manejo de expiracion/error con regeneracion de QR.
 - Login manual se mantiene funcional.
-- Hotfix compilacion aplicado: visibilidad de AuthInterceptor ajustada para compilar :libs:network.
 
 ## Dependencias externas actuales
 - XUI sin cambios para TASK_008.
 - OTP real y proveedor SMS siguen fuera de esta fase.
 
 ## Riesgos actuales
-- Sesiones QR en memoria (sin persistencia tras reinicio backend).
+- Sesiones QR y dispositivos vinculados en memoria (sin persistencia tras reinicio backend).
 - Web minima aun no migrada a web-app formal.
 
 ## Proximo enfoque recomendado
 - Validar E2E real TV + movil en LAN.
-- Luego endurecer persistencia/seguridad de device sessions y planificar migracion de web minima a `apps/web-app`.
+- Persistir vinculacion de dispositivo en DB y definir reglas de revocacion/limites.
+- Planificar migracion de web minima a `apps/web-app`.
+
 
 

@@ -1,7 +1,7 @@
 # TASK_008_qr_device_login_implementation
 
 Fecha: 2026-03-07
-Estado: implementada (pendiente validacion en TV fisica + movil)
+Estado: implementada (pendiente validacion final en TV fisica + movil)
 
 ## Objetivo
 Implementar la primera version funcional de login por QR para TV, manteniendo el login manual existente y una sola arquitectura auth.
@@ -24,6 +24,7 @@ Comportamiento:
 - Logs claros en start/approve/exchange.
 
 Web minima funcional (servida por backend):
+- La web del QR muestra metadata detectada de la sesion TV (MAC/serial/widevineId/deviceId/modelo) cuando esta disponible.
 - `GET /auth/device?sessionId=...`
 - Si no hay sesion web local, muestra login web simple.
 - Si hay sesion web valida, muestra pantalla de aprobacion/denegacion de la sesion TV.
@@ -49,12 +50,38 @@ Manejo de errores:
 - En esta fase se sirve desde backend para evitar arquitectura pesada.
 - `apps/web-app/README.md` actualizado para reflejar este estado transitorio.
 
+### 4) Vinculacion basica de dispositivo por login (extension TASK_008)
+Se agrego registro de identidad de dispositivo en cada login exitoso (pensado para evitar reset facil de demo por reinstalacion):
+- Login manual (`POST /v1/auth/login`).
+- Login QR final (`POST /v1/auth/device/exchange`).
+
+Datos de dispositivo enviados por TV app (headers):
+- `X-Device-Mac` (si Android la expone)
+- `X-Device-Id` (fallback estable basado en ANDROID_ID)
+- `X-Device-Model`
+- `X-Device-Serial` (si Android lo permite)
+- `X-Device-Widevine-Id` (si el dispositivo lo expone via MediaDrm)
+- `X-Device-Fingerprint` (huella SHA-256 estable del dispositivo)
+- `X-Device-Platform`
+- `X-App-Version`
+
+Backend:
+- Registra dispositivos por usuario en memoria.
+- Incluye dispositivos en `GET /v1/auth/me`.
+- Endpoint adicional para inspeccion: `GET /v1/auth/devices` (protegido JWT).
+
+Nota tecnica importante:
+- Se agrego Widevine ID como opcion mas estable para vinculacion cuando MAC no esta disponible.
+- La web de aprobacion QR tambien muestra serial/deviceId/modelo para validacion visual.
+- En Android TV moderno la MAC puede no estar disponible por restricciones del OS.
+- En ese caso se prioriza: `serial` -> `widevineId` -> `deviceId` -> `fingerprint`.
+
 ## Fuera de alcance (respetado)
 - OTP SMS real.
 - Registro completo avanzado.
 - Perfiles completos.
 - Billing/suscripciones.
-- Device binding completo.
+- Device binding completo productivo (persistencia/consistencia fuerte).
 - Roles/admin.
 - Panel web completo.
 - Rediseno amplio de UI.
@@ -65,10 +92,12 @@ Manejo de errores:
 - `backend/.env.example`
 - `backend/README.md`
 - `apps/tv-app/app/src/main/java/com/techlads/composetv/features/auth/data/BackendAuthApi.kt`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/auth/data/DeviceIdentityProvider.kt`
 - `apps/tv-app/app/src/main/java/com/techlads/composetv/features/auth/LoginViewModel.kt`
 - `apps/tv-app/app/src/main/java/com/techlads/composetv/navigation/AppNavigation.kt`
 - `apps/tv-app/features/login/src/main/java/com/techlads/login/withEmailPassword/LoginScreen.kt`
 - `apps/tv-app/features/login/src/main/java/com/techlads/login/withEmailPassword/LoginScreenContent.kt`
+- `apps/tv-app/libs/network/src/main/java/com/techlads/network/AuthInterceptor.kt`
 - `apps/web-app/README.md`
 - `docs/02_tasks/TASK_008_qr_device_login_implementation.md`
 - `docs/00_index/ACTIVE_TASK.md`
@@ -82,6 +111,7 @@ Manejo de errores:
 - `POST /v1/auth/device/approve`
 - `POST /v1/auth/device/exchange`
 - `GET /auth/device?sessionId=...` (web minima de aprobacion)
+- `GET /v1/auth/devices` (listado de dispositivos vinculados por usuario)
 
 ## Flujo completo (paso a paso)
 1. TV abre Login y muestra formulario manual + bloque QR.
@@ -91,6 +121,7 @@ Manejo de errores:
 5. Web aprueba sesion (`approve`).
 6. TV detecta `approved` en polling (`status`).
 7. TV pide token final (`exchange`), guarda sesion y entra automaticamente a Home.
+8. En cada login exitoso backend registra dispositivo para futura vinculacion.
 
 ## Como probar en local (TV + movil)
 
@@ -115,29 +146,40 @@ Manejo de errores:
 3. Iniciar sesion web con credenciales demo.
 4. Aprobar sesion TV.
 
-### Resultado esperado
-- TV entra a Home automaticamente tras aprobacion.
-- Login manual sigue operativo.
+### Verificacion de vinculacion de dispositivo
+1. Con token autenticado, llamar `GET /v1/auth/devices`.
+2. Verificar que aparezca el dispositivo usado para login.
+3. Verificar en logs backend `deviceMac`/`deviceWidevineId`/`deviceId` al login.
 
 ## Validacion ejecutada en sesion
-Backend validado por script local en puerto `8092`:
+Backend validado por script local en puerto `8093`:
+- login manual con headers de dispositivo => `200`
+- `GET /v1/auth/me` => incluye `devices`
+- `GET /v1/auth/devices` => lista de dispositivos vinculados
+
+Backend QR previo validado en puerto `8092`:
 - `start` => `200 pending`
 - `status` inicial => `pending`
 - `approve` => `approved`
 - `status` posterior => `approved`
 - `exchange` => `200` con token
 - `GET /auth/device` => HTML minima funcional
-- Hotfix aplicado: compilacion TV corregida en `apps/tv-app/libs/network/src/main/java/com/techlads/network/AuthInterceptor.kt` (visibilidad del interceptor).
+
+Hotfixes aplicados durante TASK_008:
+- compilacion TV corregida en `apps/tv-app/libs/network/src/main/java/com/techlads/network/AuthInterceptor.kt` (visibilidad del interceptor)
+- compatibilidad Kotlin/Ktor ajustada en `BackendAuthApi` y `LoginViewModel`
 
 ## Riesgos actuales
-- Estado de device sessions en memoria (se pierde al reiniciar backend).
+- Estado de device sessions y devices vinculados en memoria (se pierde al reiniciar backend).
 - Pagina web minima servida por backend (transitoria, no web app final).
-- Falta validacion funcional final en TV fisica + movil real en red local.
+- En Android moderno la MAC puede no estar disponible; fallback por prioridad: `serial` -> `widevineId` -> `deviceId` -> `fingerprint`.
 
 ## Pendiente para siguiente fase
-- Persistencia de `loginSession` (DB) para robustez operativa.
+- Persistencia de `loginSession` y dispositivos vinculados (DB) para robustez operativa.
+- Reglas de vinculacion productiva (limites por cuenta, revocacion, estado activo/inactivo).
 - Migrar pagina minima a `apps/web-app` cuando se abra fase web formal.
 - Endurecimiento de seguridad del flujo device login (rate limit, auditoria, anti-abuso).
 - Definir/integrar OTP real y modelo completo de cuenta/perfiles (fuera de TASK_008).
+
 
 
