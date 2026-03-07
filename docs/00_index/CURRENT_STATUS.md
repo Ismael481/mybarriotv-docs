@@ -1,33 +1,35 @@
 # CURRENT_STATUS
 
 ## Estado general
-- Bridge `App TV -> Backend -> XUI` sigue operativo y no se modifico su arquitectura.
-- Se implemento base minima de autenticacion (TASK_006) para iniciar fase de sesion.
+- Bridge `App TV -> Backend -> XUI` operativo y estable.
+- `TASK_006_authentication_foundation` ya implementada en backend y TV app.
+- Nueva fase activa: `TASK_007_auth_experience_and_device_login_design` (solo diseno/documentacion).
 
-## Resultado de TASK_006
+## Estado real de auth (implementado)
 ### Backend
-- Modulo auth basico agregado.
-- Endpoints nuevos:
-  - `POST /v1/auth/login`
-  - `GET /v1/auth/me` (JWT requerido)
-  - `GET /v1/auth/protected` (JWT requerido, prueba)
-- JWT HS256 generado/validado con secreto por env.
-- Middleware auth aplicado a endpoints protegidos.
-- Logs de auth y acceso protegido activos.
+- `POST /v1/auth/login`
+- `GET /v1/auth/me`
+- `GET /v1/auth/protected`
+- JWT base y middleware auth funcionando.
 
 ### TV app
-- Login por usuario/password conectado al backend.
-- Token guardado localmente en `UserSession` (DataStore existente).
-- Header `Authorization: Bearer` agregado automaticamente a requests por interceptor.
-- Guard de navegacion aplicado: sin sesion no entra a Home.
+- Login manual minimo conectado a backend.
+- Sesion local persistida.
+- Guard de navegacion activo para bloquear Home sin sesion.
+
+## Diseno objetivo abierto en TASK_007
+- Pantalla TV con login manual y login QR visibles simultaneamente.
+- Flujo QR via web propia con aprobacion de sesion TV.
+- Registro web preparado para OTP SMS futuro.
+- Separacion de modelo: Cuenta (principal) vs Perfil (subidentidad de consumo).
 
 ## Dependencias externas actuales
-- XUI mantiene el rol de motor de contenido y no requiere cambios para TASK_006.
-- Configuracion externa requerida: variables de entorno auth en backend.
+- XUI no requiere cambios para TASK_007.
+- OTP futuro depende de proveedor SMS externo aun no seleccionado.
 
 ## Riesgos actuales
-- Seguridad minima: sin refresh token, sin roles, sin device binding (esperado por alcance).
-- Si `AUTH_JWT_SECRET` no se personaliza en ambiente real, riesgo de seguridad.
+- Implementar QR u OTP sin cerrar contratos puede forzar retrabajo de TASK_006.
+- Desalinear web/TV en auth puede crear dos sistemas de login paralelos.
 
 ## Proximo enfoque recomendado
-- Validar TASK_006 en TV fisica y luego iniciar backend minimo para auth + dispositivo (fase siguiente planificada).
+- Tomar TASK_007 como blueprint obligatorio y luego implementar por fases: backend loginSession -> TV QR -> web aprobacion -> OTP real.

@@ -44,3 +44,9 @@
 - TV app: login screen conectado a backend con estado de carga/error y persistencia de token en `UserSession`.
 - TV app: guard de navegacion para bloquear Home sin sesion y redireccionar a Login.
 - TV app: interceptor de auth activado en `HttpClient` para enviar `Authorization: Bearer <token>` en requests.
+- Se abre TASK_007_auth_experience_and_device_login_design como fase de diseno documental de experiencia auth final (sin cambios de codigo).
+- Se define arquitectura auth unica con dos canales de entrada TV: manual y QR, convergiendo al mismo core JWT backend.
+- Se documenta flujo QR correcto: escaneo -> web propia -> aprobacion de sesion TV -> autenticacion automatica de TV.
+- Se documenta flujo web de login/registro y preparacion para OTP SMS futuro (sin integrar OTP real).
+- Se deja definida la separacion conceptual y de modelo entre Cuenta principal y Perfiles de consumo.
+- Se corrige consistencia documental: TASK_006 permanece como implementada y TASK_007 queda como tarea activa para siguientes fases.

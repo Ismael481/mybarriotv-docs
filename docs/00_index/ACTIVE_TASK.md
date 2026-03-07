@@ -1,10 +1,10 @@
 # ACTIVE_TASK
 
-Tarea activa: **TASK_006_authentication_foundation**
+Tarea activa: **TASK_007_auth_experience_and_device_login_design**
 
 Estado:
-- Implementada en codigo (backend + TV app)
-- Pendiente: validacion funcional final en TV fisica
+- En analisis/diseno documental
+- Sin cambios de codigo funcional en esta fase
 
 Objetivo activo de cierre:
-- Confirmar login real en dispositivo TV y persistencia de sesion tras reinicio.
+- Dejar cerrado el diseno de experiencia auth (TV manual + TV QR + web aprobacion + OTP futuro) sin romper la base implementada en TASK_006.
