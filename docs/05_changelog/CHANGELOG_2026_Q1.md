@@ -157,3 +157,9 @@
 - Backend: auditoria de denegaciones ops y uso de fallback (`ops_access_denied`, `ops_access_compat_allowed`).
 - Web profile: bloque ops visible solo para `operator`; oculto para `customer`.
 - TASK_014 validada en entorno operativo: `customer` denegado en ops (`403`), `operator` habilitado, y cambios/reversiones de `accountStatus` + `device accessStatus` verificados.
+- Se implemento `TASK_015_admin_dashboard_minimum`.
+- Web: nueva vista admin dedicada en `/admin` (alias `/ops`) para operacion de cuentas/dispositivos.
+- Web: dashboard con busqueda de cuentas, detalle, cambio de `accountStatus` y cambio de `device accessStatus`.
+- Web: guard de acceso por role (`operator`) usando `/v1/auth/me`; customer queda fuera.
+- Web profile: se mantiene estable y agrega boton `Ir a Admin` solo para operador.
+- Backend: nuevas rutas web de entrega para dashboard (`GET /admin`, `GET /ops`) sin cambios en logica ops.

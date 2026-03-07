@@ -4,6 +4,7 @@
 - Bridge `App TV -> Backend -> XUI`: operativo.
 - TASK_006 a TASK_013: implementadas (TASK_013 validada).
 - TASK_014: implementada y validada.
+- TASK_015: implementada en codigo; pendiente validacion manual final.
 
 ## Auth backend vigente
 - Core:
@@ -42,10 +43,12 @@
 
 ## Web auth/profile
 - Superficie unificada en `/auth/login` (signin/signup/reset/device-approve/profile).
-- Bloque ops en perfil visible solo para `role=operator`.
-- Para `customer`, bloque ops oculto.
+- Dashboard admin minimo dedicado en `/admin` (alias `/ops`) para operadores.
+- Perfil mantiene funciones base y expone acceso a admin solo para `role=operator`.
+- `customer` queda fuera de dashboard admin.
 - Estilo visual actual preservado (`v34` + `v34-custom`).
 
 ## Riesgos abiertos
 - Persistencia auth en JSON (sin DB productiva).
 - Sin RBAC completo (solo rol minimo).
+- Validacion visual/manual final pendiente de dashboard `/admin` en navegador (operator/customer).

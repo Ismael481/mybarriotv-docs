@@ -1,10 +1,13 @@
 # ACTIVE_TASK
 
-Tarea activa: **Ninguna (cierre TASK_014 completado)**
+Tarea activa: **TASK_015_admin_dashboard_minimum**
 
 Estado actual:
 - TASK_013: validada.
 - TASK_014: implementada y validada (backend + web + docs).
+- TASK_015: implementada en codigo y docs; pendiente validacion manual final.
 
-Siguiente paso:
-- Definir y abrir `TASK_015` (dashboard/admin minimo en fase posterior).
+Objetivo de cierre inmediato:
+- Validar dashboard dedicado `/admin`:
+  - `operator` entra y opera cuentas/dispositivos.
+  - `customer` no entra (denegado/redirigido).

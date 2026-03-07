@@ -2,42 +2,40 @@
 
 Fecha: 2026-03-07
 Rama: `main`
-Tarea activa: `N/A (TASK_014 validada)`
+Tarea activa: `TASK_015_admin_dashboard_minimum`
 
 ## Resumen operativo
-- TASK_014 introduce rol minimo de cuenta (`customer|operator`).
-- Ops authorization pasa a basarse en `role=operator`.
-- `AUTH_OPS_ALLOWED_SUBS` queda solo como compatibilidad temporal.
-- Web profile muestra bloque ops solo para `operator`.
+- TASK_015 agrega dashboard admin minimo dedicado en `/admin` (alias `/ops`).
+- Acceso a dashboard permitido solo para `role=operator`.
+- Perfil se mantiene operativo y ahora actua como puerta hacia admin para operadores.
 
 ## Cambios clave recientes
 - Backend:
-  - cuenta persistida ahora incluye `role` (default `customer`).
-  - `/v1/auth/me` incluye role.
-  - `/v1/auth/ops/*` valida role operador.
-  - auditoria de denegaciones ops (`ops_access_denied`).
-  - bootstrap opcional de operadores por `AUTH_BOOTSTRAP_OPERATOR_USERNAMES`.
+  - nuevas rutas web `GET /admin` y `GET /ops` para servir dashboard.
+  - se reutilizan endpoints ops existentes sin cambios de logica.
 - Web:
-  - visibilidad del panel ops en profile condicionada por `me.user.role`.
+  - nueva pantalla `auth/admin.html` con busqueda, detalle y acciones ops.
+  - guard de role desde frontend por `/v1/auth/me` (`operator` requerido).
+  - `profile` agrega boton `Ir a Admin` solo para operadores.
+  - estilos admin incorporados en `v34-custom.css` preservando visual actual.
 
 ## Pruebas tecnicas ejecutadas
-- `node --check` OK en backend modificado.
-- Smoke tests backend:
-  - `/v1/auth/me` devuelve role.
-  - acceso ops permitido para operator.
-  - acceso ops denegado para token sin rol operador (sin fallback aplicable).
-  - operaciones ops siguen impactando gate de acceso en cuenta/dispositivo.
-- Validacion operativa en backend activo (2026-03-07):
-  - login `customer` => `user.role=customer` y `403` en `/v1/auth/ops/accounts`.
-  - login `operator` => `user.role=operator` y acceso correcto a `/v1/auth/ops/accounts`.
-  - cambio/reversion de `accountStatus` y `device accessStatus` aplicado correctamente por ops.
+- `node --check backend/src/server.js` OK.
+- Verificacion de contrato/rutas:
+  - `/admin` y `/ops` sirven dashboard web.
+  - dashboard usa `GET/POST /v1/auth/ops/*` existentes.
+- Smoke tests en backend activo:
+  - `/admin` HTTP 200 con contenido de dashboard.
+  - `customer` recibe `403` en `/v1/auth/ops/accounts`.
+  - `operator` accede a `/v1/auth/ops/accounts`.
+  - cambio/reversion de estado de cuenta y dispositivo verificado.
 
 ## Cambios manuales externos
 - Ninguno.
-- No hay cambios requeridos en XUI para TASK_014.
+- No hay cambios requeridos en XUI para TASK_015.
 
 ## Leer en repo publico
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
-- `docs/02_tasks/TASK_014_minimum_roles_and_ops_authorization.md`
+- `docs/02_tasks/TASK_015_admin_dashboard_minimum.md`
 - `docs/05_changelog/CHANGELOG_2026_Q1.md`
