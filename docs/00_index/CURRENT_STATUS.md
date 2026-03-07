@@ -2,17 +2,23 @@
 
 ## Estado general
 - Bridge `App TV -> Backend -> XUI` operativo.
-- `TASK_006` cerrada e implementada.
+- `TASK_006` implementada.
 - `TASK_007` cerrada como diseno.
-- `TASK_008` cerrada e implementada.
-- `TASK_009` cerrada e implementada/validada.
-- `TASK_010` implementada y en validacion final del usuario.
+- `TASK_008` implementada.
+- `TASK_009` implementada y validada.
+- `TASK_010` implementada (web auth surface formalizada en `apps/web-app`).
+- `TASK_011` implementada (OTP SMS + registro real), pendiente validacion final con proveedor real.
 
 ## Auth actual
 ### Core
 - `POST /v1/auth/login`
 - `GET /v1/auth/me`
 - `GET /v1/auth/protected`
+
+### Registro OTP SMS
+- `POST /v1/auth/register/request-otp`
+- `POST /v1/auth/register/verify-otp`
+- `POST /v1/auth/register/complete`
 
 ### Device login QR
 - `POST /v1/auth/device/start`
@@ -25,20 +31,27 @@
 - `POST /v1/auth/devices/revoke`
 - Estado: `active` / `revoked`
 
-## Web auth surface (TASK_010)
-- Superficie web minima formalizada en `apps/web-app/public/auth`:
-  - `/auth/login`
-  - `/auth/device?sessionId=...`
-  - `/auth/register`
-- UI web auth actualizada a estilo moderno/elegante manteniendo la misma logica de flujo.
-- Backend mantiene auth API central.
-- TV login manual y QR se mantienen sin cambios de UI.
+## Persistencia y hardening
+- Store JSON para cuentas, OTP requests, sesiones QR y dispositivos.
+- Rate limiting basico en QR + endpoints OTP.
+- Auditoria basica de eventos auth/device/otp.
 
-## Persistencia y hardening activos
-- Store JSON persistente para sesiones/devices (`AUTH_STORE_FILE`).
-- Rate limiting basico en `start`, `approve`, `exchange`.
-- Auditoria basica en store.
+## Web auth
+- Vive en `apps/web-app/public/auth`:
+  - `/auth/login`
+  - `/auth/device`
+  - `/auth/register`
+- `register.html` ya conectado al flujo OTP real.
+- `/auth/login` usa layout visual adaptado de `login-form-v34`.
+- Flujo UX de registro endurecido: validaciones fuertes, countdown OTP y bloqueo de campos tras envio OTP.
+- Ultimo ajuste UX: alineacion fina de botones/input SMS, mejor visibilidad del icono revelar contrasena y mensajes de error orientados a cliente (sin codigos tecnicos).
+- Micro-ajuste visual final aplicado: input codigo SMS reducido y boton `Enviar SMS` ampliado para alineacion mas limpia en desktop.
+- Ajuste final aplicado: alineacion exacta de la fila SMS usando grid (mismo ancho visual que inputs superiores) y ojo de password sin fondo circular.
+- Ajuste puntual adicional: ojo de password reposicionado para visibilidad estable, `Registrar cuenta` al ancho del input y campo telefono reajustado visualmente.
+- Ajuste final puntual: placeholder telefono unificado a `Telefono +53XXXXXXXX` y ojito de password con icono nativo visible.
+- Ajuste UX adicional: placeholder del campo password simplificado a `Contrasena` con aviso en blur si no cumple politica fuerte.
+- Ajuste UX adicional: aviso en blur del telefono cuando no cumple formato esperado.
 
 ## Riesgos actuales
-- Store JSON no es DB productiva.
-- Registro web aun base visual/funcional (sin OTP real).
+- Store JSON no sustituye DB productiva.
+- Validacion final pendiente con credenciales reales de `zdsms` en entorno usuario.

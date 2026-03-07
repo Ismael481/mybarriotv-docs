@@ -89,3 +89,25 @@
 - Backend: CORS basico opcional por `AUTH_CORS_ORIGIN` para pruebas web en origen separado.
 - Se preserva flujo TV QR y login manual sin cambios de arquitectura auth.
 - TASK_010 UI pass: mejora visual completa de la web auth (`/auth/login`, `/auth/device`, `/auth/register`) con estilo moderno, manteniendo la misma logica.
+- Se implemento `TASK_011_sms_otp_registration_and_verification`.
+- Backend: nuevos endpoints `POST /v1/auth/register/request-otp`, `POST /v1/auth/register/verify-otp`, `POST /v1/auth/register/complete`.
+- Backend: nuevo modulo `registrationOtp` con expiracion OTP, max intentos, activacion de cuenta y auditoria basica.
+- Backend: nuevo adaptador SMS desacoplado `smsProvider` integrado con `zdsms` (token + message/send).
+- Backend: store auth ampliado para cuentas y requests OTP persistidas.
+- Backend: login soporta cuentas registradas (usuario o telefono) manteniendo login demo existente.
+- Web app: `register.html` conectado al flujo real request OTP / verify OTP / complete registro.
+- Configuracion: nuevas variables `AUTH_OTP_*`, `AUTH_RL_OTP_*`, `SMS_*`.
+- Hotfix TASK_011: eliminados modo `mock` y envio por `campaign/send`; SMS queda en integracion real `zdSMS` por `message/send`.
+- Hotfix TASK_011: backend carga `.env` automaticamente al iniciar.
+- Hotfix TASK_011: normalizacion de `recipient` a formato numerico para envio SMS.
+- TASK_011 UI: `/auth/login` adaptado a estilo `login-form-v34` (awesome-login-pages) manteniendo login + registro OTP funcional.
+- TASK_011 UX pass: reglas de validacion y flujo OTP en web (`Enviar SMS` + `Registrar cuenta`, countdown, bloqueo de campos, password fuerte, telefono 8 digitos con/sin +53, toggle de password).
+- TASK_011 UX fix: alineacion de bloque codigo SMS + boton, mejora visibilidad de toggle password y mensajes de error amigables para cliente.
+- TASK_011 copy fix: SMS enviado al usuario usa texto de "codigo de verificacion" en lugar de "OTP".
+- TASK_011 UX fix 2: manejo de errores de backend por texto libre (`Invalid OTP code`) convertido a mensajes cliente de codigo SMS, con ajuste adicional de alineacion/contraste en formulario.
+- TASK_011 UX fix 3: micro-ajuste de registro web para mejorar alineacion (input codigo SMS mas corto + boton `Enviar SMS` mas ancho) y mayor visibilidad del icono mostrar contrasena.
+- TASK_011 UX fix 4: alineacion exacta de fila SMS con grid (ancho visual igual a inputs superiores) y boton ojo de password en estilo simple sin fondo circular.
+- TASK_011 UX fix 5: icono ojo reposicionado en overlay para mejor visibilidad, boton `Registrar cuenta` expandido al ancho del input y ajuste fino de alineacion visual en campo telefono.
+- TASK_011 UX fix 6: placeholder de telefono simplificado a `Telefono +53XXXXXXXX` y reemplazo del icono ojo por variante nativa para visibilidad consistente.
+- TASK_011 UX fix 7: placeholder de password simplificado a `Contrasena` y aviso en blur cuando no cumple politica de password fuerte.
+- TASK_011 UX fix 8: aviso en blur para formato de telefono invalido con mensaje de formato esperado.
