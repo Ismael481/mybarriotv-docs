@@ -1,4 +1,4 @@
-﻿# CHANGELOG 2026 Q1
+# CHANGELOG 2026 Q1
 
 ## 2026-03-06
 - Se reorganizo la base del repositorio hacia estructura monorepo con la app TV ubicada en `apps/tv-app/`.
@@ -36,3 +36,11 @@
 - Backend: snapshot operativo en memoria con `lastCheck`, `lastSuccessAt`, `lastError` y contadores (`checks/success/failures/retries`).
 - Se mantuvo contrato estable de Home/Playback sin cambios para TV app.
 - TASK_005 validada en local en caso sano y caso degradado (upstream 404 clasificado como `STREAM_UNAVAILABLE`).
+- Se implemento `TASK_006_authentication_foundation` con auth minima previa a logica comercial y device binding.
+- Backend: nuevo modulo `backend/src/auth.js` con validacion de credenciales, JWT HS256, parser JSON y middleware de auth.
+- Backend: nuevos endpoints `POST /v1/auth/login`, `GET /v1/auth/me` y `GET /v1/auth/protected` (los dos ultimos protegidos con JWT).
+- Backend: nuevas variables env de auth en `.env.example` y documentacion actualizada en `backend/README.md`.
+- TV app: nuevo cliente auth `BackendAuthApi` y `LoginViewModel` para login real con backend.
+- TV app: login screen conectado a backend con estado de carga/error y persistencia de token en `UserSession`.
+- TV app: guard de navegacion para bloquear Home sin sesion y redireccionar a Login.
+- TV app: interceptor de auth activado en `HttpClient` para enviar `Authorization: Bearer <token>` en requests.

@@ -1,9 +1,10 @@
 # ACTIVE_TASK
 
-Tarea activa: **NINGUNA (sesion cerrada)**
+Tarea activa: **TASK_006_authentication_foundation**
 
-Ultima tarea completada:
-- `TASK_005_bridge_operational_monitoring` (cerrada y validada en local)
+Estado:
+- Implementada en codigo (backend + TV app)
+- Pendiente: validacion funcional final en TV fisica
 
-Siguiente fase sugerida:
-- Fundacion de login/auth sobre bridge ya estabilizado y monitoreado.
+Objetivo activo de cierre:
+- Confirmar login real en dispositivo TV y persistencia de sesion tras reinicio.

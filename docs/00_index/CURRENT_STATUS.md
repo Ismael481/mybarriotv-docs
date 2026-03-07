@@ -1,28 +1,33 @@
 # CURRENT_STATUS
 
 ## Estado general
-- Bridge `App TV -> Backend -> XUI` operativo y validado en TV fisica.
-- Home y playback funcionales en estado sano.
-- Fase de estabilizacion (TASK_004) aplicada y probada.
-- Monitoreo operativo basico (TASK_005) implementado en backend.
+- Bridge `App TV -> Backend -> XUI` sigue operativo y no se modifico su arquitectura.
+- Se implemento base minima de autenticacion (TASK_006) para iniciar fase de sesion.
 
-## Resultado de TASK_005
-- Nuevo endpoint operativo: `GET /v1/bridge/ops`.
-- El backend expone estado resumido y estable del bridge:
-  - estado general (`ok`, `degraded`, `unknown`)
-  - timestamp de ultimo chequeo
-  - ultimo error conocido y clasificacion
-  - timestamp del ultimo exito
-  - contadores basicos (`checks`, `success`, `failures`, `retries`)
-- Monitoreo implementado en memoria (sin DB ni infraestructura externa).
-- No hubo cambios funcionales en Home ni playback para esta fase.
-- Validacion local completada:
-  - caso sano: `status=ok`, `lastError=null`
-  - caso fallo upstream: `status=degraded`, `lastError.code=STREAM_UNAVAILABLE`, `upstreamStatus=404`
+## Resultado de TASK_006
+### Backend
+- Modulo auth basico agregado.
+- Endpoints nuevos:
+  - `POST /v1/auth/login`
+  - `GET /v1/auth/me` (JWT requerido)
+  - `GET /v1/auth/protected` (JWT requerido, prueba)
+- JWT HS256 generado/validado con secreto por env.
+- Middleware auth aplicado a endpoints protegidos.
+- Logs de auth y acceso protegido activos.
+
+### TV app
+- Login por usuario/password conectado al backend.
+- Token guardado localmente en `UserSession` (DataStore existente).
+- Header `Authorization: Bearer` agregado automaticamente a requests por interceptor.
+- Guard de navegacion aplicado: sin sesion no entra a Home.
 
 ## Dependencias externas actuales
-- La disponibilidad final del stream sigue dependiendo de XUI/origen.
-- Si el stream cae en origen, el backend lo clasifica mejor pero no reemplaza la operacion de XUI.
+- XUI mantiene el rol de motor de contenido y no requiere cambios para TASK_006.
+- Configuracion externa requerida: variables de entorno auth en backend.
 
-## Siguiente enfoque recomendado
-- Abrir fase de autenticacion/login con mejor observabilidad base ya disponible.
+## Riesgos actuales
+- Seguridad minima: sin refresh token, sin roles, sin device binding (esperado por alcance).
+- Si `AUTH_JWT_SECRET` no se personaliza en ambiente real, riesgo de seguridad.
+
+## Proximo enfoque recomendado
+- Validar TASK_006 en TV fisica y luego iniciar backend minimo para auth + dispositivo (fase siguiente planificada).
