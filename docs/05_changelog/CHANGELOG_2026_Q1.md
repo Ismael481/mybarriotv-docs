@@ -111,3 +111,20 @@
 - TASK_011 UX fix 6: placeholder de telefono simplificado a `Telefono +53XXXXXXXX` y reemplazo del icono ojo por variante nativa para visibilidad consistente.
 - TASK_011 UX fix 7: placeholder de password simplificado a `Contrasena` y aviso en blur cuando no cumple politica de password fuerte.
 - TASK_011 UX fix 8: aviso en blur para formato de telefono invalido con mensaje de formato esperado.
+- TASK_011 UX fix 9: `Registrar cuenta` deshabilitado hasta solicitar SMS y escribir codigo; input de codigo bloqueado hasta envio del primer SMS.
+- TASK_011 auth fix: login por telefono normalizado para aceptar `XXXXXXXX`, `53XXXXXXXX` y `+53XXXXXXXX` tras registro.
+- TASK_011 auth extension: flujo de restablecimiento de contrasena por SMS OTP con endpoints `password-reset/request-otp`, `password-reset/verify-otp`, `password-reset/complete`.
+- TASK_011 web extension: link `Restablecer contrasena` en login y modo visual de reset (telefono + nueva contrasena + confirmar + codigo SMS) con mismas reglas de seguridad OTP.
+- TASK_011 UX fix 10: en registro, error `PHONE_EXISTS` muestra mensaje orientado a usuario y link pequeno para abrir `Restablecer contrasena`.
+- TASK_011 UX fix 11: enlace a reset en registro ampliado a `USERNAME_EXISTS` y mitigacion de autocompletado inicial no deseado en campos web.
+- TASK_011 UX fix 12: compactacion responsive en breakpoints moviles para reducir/eliminar scroll vertical inicial sin cambios de flujo visual.
+- TASK_011 UX fix 13: ajuste puntual de alineacion en mobile para vista `Restablecer contrasena` (centrado y eliminacion de salto de linea visual).
+- TASK_011 copy fix: textos de UI actualizados para mostrar `contraseña` con `ñ` en login/registro/restablecer.
+- TASK_011 QR web fix: `qrUrl` de device login cambia a `/auth/login?mode=device-approve&sessionId=...` y `/auth/device` pasa a redireccion legacy.
+- TASK_011 cleanup: eliminados artefactos legacy de web auth (`auth/device.html`, `auth/register.html`, `assets/auth.css`) y rutas legacy movidas a redireccion backend hacia `/auth/login`.
+- TASK_011 flow fix: login web ahora redirige a perfil minimo y en modo QR (`device-approve`) aprueba automaticamente la sesion TV tras autenticar.
+- TASK_011 auth fix: frontend web vuelve a enviar `Authorization: Bearer` en llamadas protegidas (`/v1/auth/device/approve`, `/v1/auth/me`, `/v1/auth/devices`).
+- TASK_011 demo/session fix: cuentas registradas usan TTL corto configurable por `AUTH_ACCOUNT_DEMO_TTL_SECONDS` (default 60s), la TV persiste `expiresAt` y ejecuta auto-logout al expirar token.
+- TASK_011 web profile UX fix: modo `profile` oculta panel de `Registrarse/Entrar` para mostrar solo vista de sesion activa.
+- TASK_011 web hotfix: corregido conflicto JS por redeclaracion global (`container`) en `login.html`; vuelven a funcionar botones de registro/reset y submit login sin recarga muda.
+- TASK_011 TV UX fix: al vencer demo se fuerza logout con aviso en login (`Tu demo ha expirado...`) para guiar a suscripcion.

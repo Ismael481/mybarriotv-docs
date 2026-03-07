@@ -1,4 +1,4 @@
-# TASK_011_sms_otp_registration_and_verification
+﻿# TASK_011_sms_otp_registration_and_verification
 
 Fecha: 2026-03-07  
 Estado: implementada (pendiente validacion final en entorno del usuario)
@@ -13,6 +13,9 @@ Implementar registro real con verificacion OTP por SMS manteniendo backend como 
   - `POST /v1/auth/register/request-otp`
   - `POST /v1/auth/register/verify-otp`
   - `POST /v1/auth/register/complete`
+  - `POST /v1/auth/password-reset/request-otp`
+  - `POST /v1/auth/password-reset/verify-otp`
+  - `POST /v1/auth/password-reset/complete`
 - Expiracion OTP, max intentos, limpieza de requests expandidas y rate limiting basico.
 - Auditoria minima en store (`auditEvents`) para request/verify/complete/fallos de envio.
 - Auth login ahora soporta cuentas registradas (usuario o telefono + password) sin perder usuario demo existente.
@@ -64,11 +67,35 @@ Implementar registro real con verificacion OTP por SMS manteniendo backend como 
   - ajuste puntual final de copy/visibilidad: placeholder de telefono simplificado a `Telefono +53XXXXXXXX` y boton ojo cambiado a icono nativo visible (sin dependencia de fuente externa)
   - micro-ajuste final de registro: placeholder de password simplificado a `Contrasena` y aviso al salir del campo cuando no cumple politica de password fuerte
   - micro-ajuste UX adicional: aviso en blur del campo telefono cuando no cumple formato requerido (`+53XXXXXXXX` o `XXXXXXXX`)
+  - regla UX final de registro: `Registrar cuenta` queda deshabilitado hasta enviar el primer SMS y escribir codigo; input de codigo queda bloqueado hasta solicitar SMS
+  - correccion funcional login: backend ahora acepta telefono de login en variantes `XXXXXXXX`, `53XXXXXXXX` y `+53XXXXXXXX` para evitar `Invalid credentials` por formato
+  - login web ahora muestra link `Restablecer contrasena` bajo botones de acceso
+  - flujo visual de restablecimiento en la misma pantalla (modo reset): telefono + nueva contrasena + confirmar contrasena + SMS code
+  - seguridad OTP equivalente al registro: request/verify/complete con expiracion, intentos maximos y rate limiting
+  - ajuste UX adicional en registro: si el telefono ya existe (`PHONE_EXISTS`), se muestra mensaje claro y link pequeno para llevar directo al modo `Restablecer contrasena`
+  - ajuste UX adicional: el link pequeno a `Restablecer contrasena` se activa tambien en `USERNAME_EXISTS`
+  - ajuste de entrada web: desactivacion/limpieza de autocompletado al cargar para evitar campos prellenados automaticamente
+  - ajuste responsive final: compactacion de escala en breakpoints moviles para evitar scroll vertical inicial (sin cambiar UX/flujo)
+  - ajuste puntual mobile adicional: en modo `Restablecer contrasena` se corrige centrado de titulo y salto de linea visual
+  - ajuste de copy final: textos visibles de web auth actualizados para usar `contraseÃ±a` con `Ã±`
+  - correccion de flujo QR web: el `qrUrl` ahora apunta a `/auth/login?mode=device-approve&sessionId=...` (superficie web nueva)
+  - compatibilidad retroactiva: backend redirige `/auth/device` y `/auth/register` a modos de `/auth/login`
+  - limpieza de codigo legado web: eliminados `apps/web-app/public/auth/device.html`, `apps/web-app/public/auth/register.html` y `apps/web-app/public/auth/assets/auth.css`
+  - flujo login ajustado: luego de iniciar sesion web se redirige a vista minima de perfil
+  - modo QR `device-approve`: tras login web, la aprobacion de TV se ejecuta automaticamente y luego se abre perfil (sin botones manuales `Aprobar/Denegar`)
+  - perfil web minimo: usuario, telefono (si aplica), placeholder de contraseÃ±a y lista de TVs vinculadas
+  - fix de autorizacion web: llamadas protegidas del frontend incluyen nuevamente `Authorization: Bearer`, corrigiendo `Unauthorized` en `device/approve`
   - mensaje SMS actualizado a "codigo de verificacion" (sin termino OTP visible al cliente)
+  - ajuste de perfil web: al abrir `mode=profile` se ocultan paneles `Registrarse/Entrar` para evitar UI mezclada con sesion activa
+  - countdown de demo en perfil ajustado para reflejar TTL corto de cuenta cuando se configura `AUTH_ACCOUNT_DEMO_TTL_SECONDS`
+  - hotfix de interaccion web: corregido choque de variable global `container` con `v34-mode.js`; se restablece funcionamiento de `Entrar`, `Registrarse` y `Restablecer Contraseña` sin recarga silenciosa
 
 ### TV app
-- Sin cambios de arquitectura ni rediseño.
+- Sin cambios de arquitectura ni rediseÃ±o.
 - Login manual y QR se mantienen funcionales.
+- Login manual y QR ahora guardan `expiresAtEpochSeconds` en `UserSession`.
+- `DefaultUserSession` agrega auto-logout al expirar token para regresar automaticamente a login.
+- Nuevo aviso post-expiracion: al volver al login muestra mensaje `Tu demo ha expirado. Activa una suscripción para continuar.`
 
 ## Archivos tocados
 - `backend/src/authPersistence.js`
@@ -77,7 +104,11 @@ Implementar registro real con verificacion OTP por SMS manteniendo backend como 
 - `backend/src/server.js`
 - `backend/.env.example`
 - `backend/README.md`
-- `apps/web-app/public/auth/register.html`
+- `apps/web-app/public/auth/login.html`
+- `apps/web-app/public/auth/assets/v34-custom.css`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/auth/LoginViewModel.kt`
+- `apps/tv-app/libs/auth-imp/src/main/kotlin/com/techlads/auth/imp/DefaultUserSession.kt`
+- `apps/tv-app/libs/auth/src/main/kotlin/com/techlads/auth/UserSession.kt`
 - `docs/02_tasks/TASK_011_sms_otp_registration_and_verification.md`
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
@@ -86,6 +117,7 @@ Implementar registro real con verificacion OTP por SMS manteniendo backend como 
 
 ## Variables de entorno requeridas
 - OTP/Auth:
+  - `AUTH_ACCOUNT_DEMO_TTL_SECONDS` (TTL corto de demo para cuentas registradas)
   - `AUTH_OTP_TTL_SECONDS`
   - `AUTH_OTP_MAX_ATTEMPTS`
   - `AUTH_OTP_RETENTION_SECONDS`
