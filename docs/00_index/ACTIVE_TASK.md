@@ -1,18 +1,19 @@
-﻿# ACTIVE_TASK
+# ACTIVE_TASK
 
-Tarea activa: **TASK_011_sms_otp_registration_and_verification**
+Tarea activa: **TASK_012_account_access_gate_foundation**
 
 Estado actual:
-- TASK_009: implementada y validada.
-- TASK_010: implementada (surface web auth en `apps/web-app`).
-- TASK_011: implementada en codigo, en etapa de cierre por validacion E2E final.
+- TASK_011: implementada.
+- TASK_012: implementada en codigo (backend + TV + docs), pendiente validacion final en TV fisica.
 
 Objetivo de cierre inmediato:
-- Confirmar E2E final: registro SMS -> login web -> aprobacion QR TV -> acceso TV.
-- Confirmar expiracion demo: auto-logout TV + aviso de demo expirada.
-- Confirmar UX login TV nueva: QR izquierda / login derecha, sin boton de regenerar (autogeneracion).
-- Dejar listo el traspaso a la siguiente tarea (OTP productivo/perfiles).
+- Validar E2E final del gate de acceso en TV:
+  - active + allowed entra Home
+  - expired bloquea antes de Home
+  - suspended bloquea antes de Home
+  - blocked bloquea aunque login sea valido
+  - QR respeta gate
 
 Pendiente manual (usuario):
-- Validacion final en TV fisica y movil en red LAN.
-- Confirmacion funcional final del flujo completo con cuenta real.
+- Ejecutar validacion en TV fisica/LAN con cuentas en estados `active`, `expired`, `suspended`.
+- Confirmar UX/mensajes de `AccessBlocked` por `reasonCode`.

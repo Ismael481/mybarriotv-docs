@@ -130,3 +130,13 @@
 - TASK_011 TV UX fix: al vencer demo se fuerza logout con aviso en login (`Tu demo ha expirado...`) para guiar a suscripcion.
 - TASK_011 TV login polish: pantalla login reorganizada a dos bloques (QR izquierda / login derecha), se elimina boton `Regenerar QR` y el QR se regenera automaticamente al expirar/denegar.
 - TASK_011 doc pass: indices (`ACTIVE_TASK`, `CURRENT_STATUS`, `CHATGPT_CONTEXT`) consolidados y depurados para reflejar estado real y pruebas ejecutadas.
+- Se implemento `TASK_012_account_access_gate_foundation`.
+- Backend: store auth extendido con `accountStatus` (`trial|active|expired|suspended`) y `accessStatus` de dispositivo (`allowed|blocked`) manteniendo compatibilidad JSON.
+- Backend: nuevo endpoint protegido `GET /v1/auth/access` con `accountStatus`, `deviceStatus`, `canAccessApp` y `reasonCode`.
+- Backend: `POST /v1/auth/login` y `POST /v1/auth/device/exchange` mantienen autenticacion valida sin decidir acceso comercial en ese paso.
+- Backend: nueva auditoria `auth_access_checked` y helpers de auditoria para cambios de estado de cuenta/dispositivo.
+- TV app: gate post-login manual y post-exchange QR antes de persistir sesion/navegar a Home.
+- TV app: nuevo estado `AuthState.AccessBlocked` y nueva pantalla de bloqueo con mensaje por `reasonCode`.
+- TV app: navegacion ajustada para tres estados de auth (`LoggedOut`, `AccessBlocked`, `LoggedIn`).
+- Validacion tecnica backend ejecutada para 5 casos minimos de acceso, incluyendo QR que respeta gate.
+- Se corrige inconsistencia documental: `ACTIVE_TASK`, `CURRENT_STATUS`, `CHATGPT_CONTEXT` y `TASK_012` quedan alineados con estado real.

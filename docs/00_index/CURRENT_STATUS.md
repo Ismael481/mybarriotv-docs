@@ -1,18 +1,15 @@
-﻿# CURRENT_STATUS
+# CURRENT_STATUS
 
 ## Estado general
 - Bridge `App TV -> Backend -> XUI`: operativo.
-- TASK_006: implementada.
-- TASK_007: cerrada como diseno.
-- TASK_008: implementada.
-- TASK_009: implementada y validada.
-- TASK_010: implementada.
-- TASK_011: implementada en codigo; pendiente validacion E2E final de usuario.
+- TASK_006 a TASK_011: implementadas.
+- TASK_012: implementada en codigo; pendiente validacion final en TV fisica.
 
 ## Auth backend vigente
 - Core:
   - `POST /v1/auth/login`
   - `GET /v1/auth/me`
+  - `GET /v1/auth/access`
   - `GET /v1/auth/protected`
 - Registro SMS:
   - `POST /v1/auth/register/request-otp`
@@ -31,19 +28,23 @@
   - `GET /v1/auth/devices`
   - `POST /v1/auth/devices/revoke`
 
-## Web auth
-- Superficie unica en `/auth/login` (modos signup/reset/device-approve/profile).
-- Rutas legacy (`/auth/device`, `/auth/register`) quedan por redireccion.
-- Registro y reset por SMS OTP funcionales con validaciones y rate limit basico.
-- Perfil web minimo activo y aprobacion TV automatica en modo `device-approve`.
+## Gate de acceso comercial (TASK_012)
+- Modelo de cuenta extendido: `accountStatus = trial|active|expired|suspended`.
+- Modelo de dispositivo extendido: `accessStatus = allowed|blocked` (compat con `active|revoked`).
+- Endpoint `GET /v1/auth/access` devuelve:
+  - `accountStatus`
+  - `deviceStatus`
+  - `canAccessApp`
+  - `reasonCode` cuando aplica (`NO_SUBSCRIPTION|ACCOUNT_EXPIRED|ACCOUNT_SUSPENDED|DEVICE_BLOCKED`)
+- Login manual y QR mantienen autenticacion valida, pero el acceso final se decide en gate.
 
 ## TV app auth
 - Login manual + QR funcionales.
-- Login screen en layout dual: QR izquierda / login derecha.
-- QR sin boton manual de regeneracion; regeneracion automatica en `expired` o `denied`.
-- Demo corta para cuentas registradas (`AUTH_ACCOUNT_DEMO_TTL_SECONDS`, default 60s).
-- Expiracion demo: auto-logout + aviso en login (`demo expirada`).
+- Gate obligatorio post-login/manual y post-exchange/QR antes de persistir sesion.
+- Nuevo estado de sesion `AccessBlocked` con pantalla dedicada y mensaje por `reasonCode`.
+- Navegacion controlada por `AuthState`: `LoggedOut`, `AccessBlocked`, `LoggedIn`.
 
 ## Riesgos abiertos
-- Persistencia auth en JSON (no DB productiva).
-- Falta validacion E2E final completa en entorno operativo del usuario.
+- Persistencia auth en JSON (sin DB productiva).
+- Validacion manual pendiente en TV fisica/LAN para copy/UX final de bloqueo.
+- Entorno local actual no permite compilar TV (`jvm.cfg` faltante en JBR local).
