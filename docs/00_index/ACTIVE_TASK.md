@@ -1,8 +1,9 @@
-﻿# ACTIVE_TASK
+# ACTIVE_TASK
 
-Tarea activa: **TASK_004_bridge_stream_stabilization**
+Tarea activa: **NINGUNA (sesion cerrada)**
 
-Enfoque actual:
-- Estabilizacion del bridge de playback ante cortes temporales de XUI.
-- Clasificacion de errores upstream + retry controlado en backend.
-- Manejo de error de playback en app con retry simple y acotado.
+Ultima tarea completada:
+- `TASK_005_bridge_operational_monitoring` (cerrada y validada en local)
+
+Siguiente fase sugerida:
+- Fundacion de login/auth sobre bridge ya estabilizado y monitoreado.

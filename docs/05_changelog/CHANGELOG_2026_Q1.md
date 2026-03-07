@@ -31,3 +31,8 @@
 - TV app: reconexion runtime controlada en player (auto-retry corto y `Play` fuerza `prepare()` cuando queda en estado de recuperacion).
 - TV app: si `Play` no retoma stream en ventana corta, se ejecuta reconexion forzada para evitar estado congelado.
 - TV app: mensajes de error/carga/reconexion del player traducidos a espanol para validacion en TV fisica.
+- Se implemento `TASK_005_bridge_operational_monitoring` para monitoreo operativo basico previo a login.
+- Backend: nuevo endpoint `GET /v1/bridge/ops` con estado resumido del bridge.
+- Backend: snapshot operativo en memoria con `lastCheck`, `lastSuccessAt`, `lastError` y contadores (`checks/success/failures/retries`).
+- Se mantuvo contrato estable de Home/Playback sin cambios para TV app.
+- TASK_005 validada en local en caso sano y caso degradado (upstream 404 clasificado como `STREAM_UNAVAILABLE`).
