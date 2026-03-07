@@ -147,3 +147,13 @@
 - Web auth (`/auth/login?mode=profile`): nuevo panel minimo de operacion de acceso para operador (`user:*`), sin rediseño amplio.
 - Web: gestion minima de cuenta/dispositivos (buscar cuenta, cambiar estado de cuenta, bloquear/desbloquear dispositivo) manteniendo estilo v34 actual.
 - Docs core actualizadas para estado real: `ARCHITECTURE.md` y `PROJECT_SCOPE.md`.
+- TASK_013 queda marcada como validada tras pruebas funcionales en entorno del usuario.
+- Se implemento `TASK_014_minimum_roles_and_ops_authorization`.
+- Backend: modelo de cuenta extendido con `role` (`customer|operator`) en persistencia JSON.
+- Backend: `/v1/auth/me` expone `role` para control de superficie web.
+- Backend: `/v1/auth/ops/*` usa `role=operator` como autorizacion principal.
+- Backend: `AUTH_OPS_ALLOWED_SUBS` queda como fallback de compatibilidad temporal.
+- Backend: nuevo `AUTH_BOOTSTRAP_OPERATOR_USERNAMES` para promover operadores al arranque con auditoria.
+- Backend: auditoria de denegaciones ops y uso de fallback (`ops_access_denied`, `ops_access_compat_allowed`).
+- Web profile: bloque ops visible solo para `operator`; oculto para `customer`.
+- TASK_014 validada en entorno operativo: `customer` denegado en ops (`403`), `operator` habilitado, y cambios/reversiones de `accountStatus` + `device accessStatus` verificados.

@@ -1,6 +1,6 @@
 # TASK_013_account_and_device_access_management_minimum
 
-Estado: done (pendiente validacion manual final en entorno operativo)
+Estado: validated
 
 Fecha de creacion:
 2026-03-07
@@ -95,8 +95,8 @@ Prueba minima pendiente (usuario):
 - validar que login QR/manual no se rompen
 
 Criterio de exito:
-- Cumplido en implementacion:
-  - ya se puede operar `accountStatus` y `device accessStatus` sin editar JSON manual.
+- Validado:
+  - se puede operar `accountStatus` y `device accessStatus` sin editar JSON manual.
   - cambios impactan gate actual de TV de forma inmediata en siguiente evaluacion de acceso.
   - web muestra estado y TVs vinculadas con acciones claras.
   - cambios quedan auditados.
