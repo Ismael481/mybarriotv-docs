@@ -96,6 +96,8 @@ Implementar registro real con verificacion OTP por SMS manteniendo backend como 
 - Login manual y QR ahora guardan `expiresAtEpochSeconds` en `UserSession`.
 - `DefaultUserSession` agrega auto-logout al expirar token para regresar automaticamente a login.
 - Nuevo aviso post-expiracion: al volver al login muestra mensaje `Tu demo ha expirado. Activa una suscripción para continuar.`
+- Ajuste visual login TV: layout dual en la misma vista (QR a la izquierda, login manual a la derecha), sin cambios de arquitectura.
+- Se elimina boton `Regenerar QR`; la regeneracion ahora es automatica al detectar estados `expired` o `denied`.
 
 ## Archivos tocados
 - `backend/src/authPersistence.js`
@@ -109,6 +111,9 @@ Implementar registro real con verificacion OTP por SMS manteniendo backend como 
 - `apps/tv-app/app/src/main/java/com/techlads/composetv/features/auth/LoginViewModel.kt`
 - `apps/tv-app/libs/auth-imp/src/main/kotlin/com/techlads/auth/imp/DefaultUserSession.kt`
 - `apps/tv-app/libs/auth/src/main/kotlin/com/techlads/auth/UserSession.kt`
+- `apps/tv-app/features/login/src/main/java/com/techlads/login/withEmailPassword/LoginScreen.kt`
+- `apps/tv-app/features/login/src/main/java/com/techlads/login/withEmailPassword/LoginScreenContent.kt`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/navigation/AppNavigation.kt`
 - `docs/02_tasks/TASK_011_sms_otp_registration_and_verification.md`
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
@@ -152,6 +157,22 @@ Implementar registro real con verificacion OTP por SMS manteniendo backend como 
 4. Verificar con `123456`.
 5. Completar registro.
 6. Probar login en `/auth/login` o TV con esas credenciales.
+
+## Pruebas realizadas (2026-03-07)
+- Backend:
+  - `POST /v1/auth/login` con credenciales invalidas devuelve `401`.
+  - `POST /v1/auth/device/approve` validado con bearer token real y `sessionId` valido.
+  - verificado TTL diferenciado de token:
+    - cuentas `account:*` usan `AUTH_ACCOUNT_DEMO_TTL_SECONDS`.
+    - usuarios demo `user:*` mantienen `AUTH_TOKEN_TTL_SECONDS`.
+- Web:
+  - flujo `device-approve` corrige `Missing bearer token` tras fix de header.
+  - fix de JS global en login (`container`) recupera funcionamiento de botones y submit.
+- TV:
+  - compilacion `:app:compileDebugKotlin` en verde.
+  - login dual actualizado (QR izquierda / manual derecha).
+  - QR sin boton de regeneracion manual; reintento automatico en `expired`/`denied`.
+  - auto-logout por expiracion demo con aviso visible en login.
 
 ## Pendiente antes de perfiles
 - Ajustar politicas productivas de cuenta (bloqueo, recuperacion, etc.).

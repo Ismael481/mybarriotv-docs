@@ -128,3 +128,5 @@
 - TASK_011 web profile UX fix: modo `profile` oculta panel de `Registrarse/Entrar` para mostrar solo vista de sesion activa.
 - TASK_011 web hotfix: corregido conflicto JS por redeclaracion global (`container`) en `login.html`; vuelven a funcionar botones de registro/reset y submit login sin recarga muda.
 - TASK_011 TV UX fix: al vencer demo se fuerza logout con aviso en login (`Tu demo ha expirado...`) para guiar a suscripcion.
+- TASK_011 TV login polish: pantalla login reorganizada a dos bloques (QR izquierda / login derecha), se elimina boton `Regenerar QR` y el QR se regenera automaticamente al expirar/denegar.
+- TASK_011 doc pass: indices (`ACTIVE_TASK`, `CURRENT_STATUS`, `CHATGPT_CONTEXT`) consolidados y depurados para reflejar estado real y pruebas ejecutadas.
