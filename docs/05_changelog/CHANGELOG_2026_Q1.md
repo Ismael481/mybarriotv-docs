@@ -19,3 +19,15 @@
 - Se habilito `android:usesCleartextTraffic="true"` en la TV app para permitir pruebas LAN HTTP contra backend local.
 - Se valido E2E en TV fisica: Home carga `test1` desde backend y playback reproduce stream real de XUI.
 - Se documento dependencia operativa externa: el stream de XUI puede requerir restart manual cuando se pausa/cae.
+
+## 2026-03-07
+- Se implemento `TASK_004_bridge_stream_stabilization` para mejorar resiliencia del playback bridge.
+- Backend: nuevo endpoint `GET /v1/bridge/health` para check de salud del bridge/upstream.
+- Backend: clasificacion de errores upstream (`TIMEOUT`, `STREAM_UNAVAILABLE`, `INVALID_RESPONSE`, `UPSTREAM_UNREACHABLE`, `UPSTREAM_HTTP_ERROR`).
+- Backend: retry controlado configurable (`BRIDGE_MAX_RETRIES`) con logs de fallo/retry/resultado.
+- TV app: manejo de error de playback con estado controlado y retry manual limitado (max 2).
+- TV app: deteccion de fallo de player al inicio mediante listener de error de ExoPlayer.
+- TV app: indicador visible de `buffering/reconnecting` (bolita girando) durante recuperacion temporal del stream.
+- TV app: reconexion runtime controlada en player (auto-retry corto y `Play` fuerza `prepare()` cuando queda en estado de recuperacion).
+- TV app: si `Play` no retoma stream en ventana corta, se ejecuta reconexion forzada para evitar estado congelado.
+- TV app: mensajes de error/carga/reconexion del player traducidos a espanol para validacion en TV fisica.

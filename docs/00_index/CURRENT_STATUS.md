@@ -1,18 +1,24 @@
 ﻿# CURRENT_STATUS
 
 ## Estado general
-- El primer bridge minimo ya fue validado en TV fisica.
-- La TV app carga Home desde backend y muestra `test1`.
-- La TV app solicita playback via backend y reproduce stream real de XUI.
+- Bridge minimo `App TV -> Backend -> XUI` sigue operativo y validado en TV fisica.
+- Home y playback funcionan en estado sano.
+- Se implemento fase de estabilizacion de stream para fallos temporales upstream.
 
-## Resultado de la fase actual
-- Flujo validado: Home -> seleccion de item -> playback.
-- Arquitectura confirmada: `App TV -> Backend propio -> XUI`.
-- Ajuste tecnico aplicado: `android:usesCleartextTraffic="true"` para backend LAN en HTTP.
+## Resultado de TASK_004
+- Backend con health endpoint del bridge: `GET /v1/bridge/health`.
+- Backend con clasificacion de errores (`TIMEOUT`, `STREAM_UNAVAILABLE`, `INVALID_RESPONSE`, `UPSTREAM_UNREACHABLE`, `UPSTREAM_HTTP_ERROR`).
+- Backend con retry controlado configurable (`BRIDGE_MAX_RETRIES`).
+- Logs backend mejorados para trazabilidad de inicio/fallo/retry/resultado.
+- App TV con estado de error de playback controlado, retry manual limitado y indicador visible de buffering/reconnecting en player.
+- App TV con reconexion runtime controlada (auto-retry corto) cuando el stream cae durante reproduccion.
+- Mensajes visibles de playback/reconexion actualizados a espanol para pruebas en TV fisica.
 
 ## Dependencias externas actuales
-- Backend debe mantenerse levantado en `10.10.6.121:8080` durante pruebas locales.
-- En XUI, el stream de prueba puede requerir restart manual cuando se pausa/cae.
+- La disponibilidad final del stream depende del estado operativo de XUI/origen.
+- Si stream cae en XUI, puede requerir restart operativo en panel, aunque ahora el bridge responde de forma controlada.
+- Si XUI devuelve pantalla propia de canal offline, ese comportamiento es upstream y no se controla desde la app.
 
 ## Siguiente enfoque recomendado
-- Estabilizacion operativa del stream (health check/reintento) en siguiente tarea.
+- Monitoreo operativo basico de streams y politicas de alerta.
+- Luego continuar a fase de autenticacion.
