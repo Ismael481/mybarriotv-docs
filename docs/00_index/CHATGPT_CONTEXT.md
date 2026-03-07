@@ -7,33 +7,38 @@ Rama actual:
 main
 
 Ultimo commit:
-a5a7ffe
+aec5ee9
 
 Tarea activa:
-TASK_003_adr003_sync_fix
+TASK_002_xui_first_bridge
 
 Resumen corto:
-Se verifico inconsistencia reportada de sincronizacion documental. El ADR_003 existe y esta en la ruta correcta en el repo privado. Se deja commit documental de correccion/resync para reflejo en el repo publico.
+Validacion E2E completada en TV fisica. El bridge minimo ya carga contenido real (`test1`) desde backend y reproduce stream de XUI via backend. Se confirma la arquitectura objetivo sin acceso directo App->XUI.
 
 Archivos modificados:
+- apps/tv-app/app/src/main/AndroidManifest.xml
+- backend/src/xuiClient.js
+- backend/src/mappers.js
+- backend/.env.example
+- backend/README.md
 - docs/00_index/CHATGPT_CONTEXT.md
 - docs/00_index/CURRENT_STATUS.md
 - docs/00_index/ACTIVE_TASK.md
-- docs/02_tasks/TASK_003_adr003_sync_fix.md
+- docs/02_tasks/TASK_002_xui_first_bridge.md
 - docs/05_changelog/CHANGELOG_2026_Q1.md
 
 Archivos recomendados para revision por ChatGPT (repositorio publico):
 - docs/00_index/CURRENT_STATUS.md
 - docs/00_index/ACTIVE_TASK.md
-- docs/02_tasks/TASK_003_adr003_sync_fix.md
-- docs/04_decisions/ADR_003_first_bridge_read_only_home_catalog.md
+- docs/02_tasks/TASK_002_xui_first_bridge.md
 - docs/05_changelog/CHANGELOG_2026_Q1.md
 
 Pendiente de prueba por el usuario:
-- Confirmar en repo publico la presencia de `docs/04_decisions/ADR_003_first_bridge_read_only_home_catalog.md` tras el workflow.
+- Ninguna critica para esta fase minima; bridge validado.
 
 Riesgos o bloqueos:
-- Si falla sync aun con ruta correcta, el problema es de workflow externo y no del contenido docs.
+- Dependencia operativa externa: en XUI el stream de prueba puede requerir restart manual si se pausa/cae.
 
 Cambios manuales externos requeridos:
-- Ninguno en repositorio privado. Solo observacion del resultado de GitHub Actions de sync.
+- Mantener stream de prueba activo en XUI para sesiones de demo.
+- Rotar password de linea de prueba al finalizar pruebas.

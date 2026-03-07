@@ -1,8 +1,8 @@
 ﻿# ACTIVE_TASK
 
-Tarea activa: **TASK_003_adr003_sync_fix**
+Tarea activa: **TASK_002_xui_first_bridge**
 
 Enfoque actual:
-- Verificacion y correccion de consistencia documental de ADR_003 entre repo privado y mirror publico.
-- Sin cambios funcionales en backend ni TV app.
-- Commit documental dedicado para disparar nueva sincronizacion automatica.
+- Cierre documental de validacion E2E en TV fisica completada.
+- Primer bridge operativo (`App TV -> Backend -> XUI`) con Home minimo y playback.
+- Registrar dependencia operativa externa: stream de XUI puede requerir restart manual.

@@ -16,3 +16,6 @@
 - Se mantuvo fallback a `DemoCatalogRepository` cuando `BridgeEnabled=false`.
 - Se verifico inconsistencia de sync sobre ADR_003: el archivo existe y la ruta oficial es `docs/04_decisions/ADR_003_first_bridge_read_only_home_catalog.md`.
 - Se agrego `TASK_003_adr003_sync_fix` y commit documental para forzar nueva sincronizacion del mirror publico.
+- Se habilito `android:usesCleartextTraffic="true"` en la TV app para permitir pruebas LAN HTTP contra backend local.
+- Se valido E2E en TV fisica: Home carga `test1` desde backend y playback reproduce stream real de XUI.
+- Se documento dependencia operativa externa: el stream de XUI puede requerir restart manual cuando se pausa/cae.

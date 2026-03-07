@@ -1,16 +1,18 @@
 ﻿# CURRENT_STATUS
 
 ## Estado general
-- La implementacion inicial de `TASK_002_xui_first_bridge` sigue documentada en indices y changelog.
-- Se ejecuto auditoria de consistencia documental por incidente de sincronizacion del ADR_003.
+- El primer bridge minimo ya fue validado en TV fisica.
+- La TV app carga Home desde backend y muestra `test1`.
+- La TV app solicita playback via backend y reproduce stream real de XUI.
 
-## Resultado de esta fase
-- Confirmado que `ADR_003_first_bridge_read_only_home_catalog` existe en repo privado.
-- Confirmado que no hubo renombre ni cambio de ruta del ADR_003.
-- Se agrego trazabilidad de correccion documental y commit de resync.
+## Resultado de la fase actual
+- Flujo validado: Home -> seleccion de item -> playback.
+- Arquitectura confirmada: `App TV -> Backend propio -> XUI`.
+- Ajuste tecnico aplicado: `android:usesCleartextTraffic="true"` para backend LAN en HTTP.
 
-## Ruta valida del ADR_003
-- `docs/04_decisions/ADR_003_first_bridge_read_only_home_catalog.md`
+## Dependencias externas actuales
+- Backend debe mantenerse levantado en `10.10.6.121:8080` durante pruebas locales.
+- En XUI, el stream de prueba puede requerir restart manual cuando se pausa/cae.
 
-## Bloqueos o dependencias externas
-- Si el mirror publico no refleja el ADR tras este commit, revisar workflow de GitHub Actions de sincronizacion (configuracion externa al contenido docs).
+## Siguiente enfoque recomendado
+- Estabilizacion operativa del stream (health check/reintento) en siguiente tarea.
