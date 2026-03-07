@@ -140,3 +140,10 @@
 - TV app: navegacion ajustada para tres estados de auth (`LoggedOut`, `AccessBlocked`, `LoggedIn`).
 - Validacion tecnica backend ejecutada para 5 casos minimos de acceso, incluyendo QR que respeta gate.
 - Se corrige inconsistencia documental: `ACTIVE_TASK`, `CURRENT_STATUS`, `CHATGPT_CONTEXT` y `TASK_012` quedan alineados con estado real.
+- Se implemento `TASK_013_account_and_device_access_management_minimum`.
+- Backend: nuevos endpoints ops protegidos para listar/buscar cuentas, ver detalle y cambiar `accountStatus`/`device accessStatus`.
+- Backend: nuevo control minimo de operacion por `AUTH_OPS_ALLOWED_SUBS` (default `user:demo`).
+- Backend: auditoria ampliada para cambios ops con actor/timestamp/evento.
+- Web auth (`/auth/login?mode=profile`): nuevo panel minimo de operacion de acceso para operador (`user:*`), sin rediseño amplio.
+- Web: gestion minima de cuenta/dispositivos (buscar cuenta, cambiar estado de cuenta, bloquear/desbloquear dispositivo) manteniendo estilo v34 actual.
+- Docs core actualizadas para estado real: `ARCHITECTURE.md` y `PROJECT_SCOPE.md`.

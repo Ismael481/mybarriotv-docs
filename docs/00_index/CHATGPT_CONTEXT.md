@@ -2,39 +2,42 @@
 
 Fecha: 2026-03-07
 Rama: `main`
-Tarea activa: `TASK_012_account_access_gate_foundation`
+Tarea activa: `TASK_013_account_and_device_access_management_minimum`
 
 ## Resumen operativo
-- TASK_012 implementa gate comercial minimo separado de autenticacion valida.
-- Backend agrega `GET /v1/auth/access` y estados persistentes de cuenta/dispositivo.
-- TV app consulta gate despues de login manual y QR exchange; si no hay acceso, no entra a Home.
+- TASK_013 hace operable el gate de TASK_012 sin editar JSON manual.
+- Backend agrega endpoints ops minimos para listar cuentas, ver detalle y cambiar estados de cuenta/dispositivo.
+- Web `mode=profile` agrega panel minimo de operacion para operador (`user:*`) manteniendo UX existente.
 
 ## Cambios clave recientes
 - Backend:
-  - `accountStatus`: `trial|active|expired|suspended`.
-  - `accessStatus` de dispositivo: `allowed|blocked` (compat con `active|revoked`).
-  - endpoint `GET /v1/auth/access` + auditoria `auth_access_checked`.
-- TV:
-  - `BackendAuthApi.access()`.
-  - `LoginViewModel` valida `canAccessApp` antes de `setLoggedIn`.
-  - nuevo `AuthState.AccessBlocked` + pantalla `AccessBlocked`.
+  - `listAccounts()` en store.
+  - nuevas rutas `/v1/auth/ops/accounts*`.
+  - actualizacion de estados via `updateAccountStatus` y `setLinkedDeviceAccessStatus`.
+  - auditoria con actor/timestamp para cambios ops.
+  - env nuevo: `AUTH_OPS_ALLOWED_SUBS` (default `user:demo`).
+- Web:
+  - panel `Operacion de acceso (minima)` embebido en perfil.
+  - buscar cuentas, ver detalle, cambiar `accountStatus`, cambiar `accessStatus` por TV.
+  - estilos nuevos acotados en `v34-custom.css` siguiendo paleta actual.
 
 ## Pruebas tecnicas ejecutadas
-- Backend `node --check` en archivos modificados: OK.
-- Casos minimos del gate validados con store temporal:
-  - active+allowed => acceso true
-  - expired => `ACCOUNT_EXPIRED`
-  - suspended => `ACCOUNT_SUSPENDED`
-  - blocked => `DEVICE_BLOCKED`
-  - QR exchange respeta gate => `DEVICE_BLOCKED`
-- Compilacion TV no ejecutable por entorno local (`jvm.cfg` faltante en JBR de Android Studio).
+- `node --check backend/src/server.js` OK.
+- `node --check backend/src/authPersistence.js` OK.
+- Smoke test backend en puerto 18081:
+  - login demo operador
+  - listado ops
+  - detalle cuenta
+  - cambio accountStatus
+  - cambio device accessStatus
+  - todos los pasos en OK
 
 ## Cambios manuales externos
-- Ninguno para TASK_012.
-- No hay cambios requeridos en XUI para este alcance.
+- Ninguno.
+- No hay cambios requeridos en XUI para TASK_013.
 
 ## Leer en repo publico
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
-- `docs/02_tasks/TASK_012_account_access_gate_foundation.md`
+- `docs/02_tasks/TASK_013_account_and_device_access_management_minimum.md`
 - `docs/05_changelog/CHANGELOG_2026_Q1.md`

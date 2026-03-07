@@ -1,19 +1,16 @@
 # ACTIVE_TASK
 
-Tarea activa: **TASK_012_account_access_gate_foundation**
+Tarea activa: **TASK_013_account_and_device_access_management_minimum**
 
 Estado actual:
-- TASK_011: implementada.
-- TASK_012: implementada en codigo (backend + TV + docs), pendiente validacion final en TV fisica.
+- TASK_012: implementada.
+- TASK_013: implementada en codigo (backend + web + docs), pendiente validacion manual final en entorno operativo.
 
 Objetivo de cierre inmediato:
-- Validar E2E final del gate de acceso en TV:
-  - active + allowed entra Home
-  - expired bloquea antes de Home
-  - suspended bloquea antes de Home
-  - blocked bloquea aunque login sea valido
-  - QR respeta gate
+- Validar E2E del ciclo operativo minimo de acceso:
+  - cambiar `accountStatus` desde web ops
+  - cambiar `device accessStatus` desde web ops
+  - verificar reaccion del gate en TV (manual y QR)
 
 Pendiente manual (usuario):
-- Ejecutar validacion en TV fisica/LAN con cuentas en estados `active`, `expired`, `suspended`.
-- Confirmar UX/mensajes de `AccessBlocked` por `reasonCode`.
+- Ejecutar prueba minima completa en TV fisica/LAN con cuenta real y TV vinculada.

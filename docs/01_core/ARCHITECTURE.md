@@ -1,19 +1,34 @@
 # ARCHITECTURE
 
 ## Estructura de monorepo
-- `apps/tv-app/`: cliente TV Android existente.
-- `apps/web-app/`: reservado para frontend web futuro.
-- `backend/`: reservado para backend propio futuro.
-- `docs/`: documentación viva y sincronizable.
+- `apps/tv-app/`: cliente TV Android (principal).
+- `apps/web-app/`: superficie web minima de auth/perfil/operacion.
+- `backend/`: backend propio (auth, reglas de acceso, bridge XUI).
+- `docs/`: documentacion viva sincronizable.
 
 ## Arquitectura objetivo
 `App TV -> Backend propio -> XUI`
 
-## Principio de responsabilidades
-- **XUI**: motor de contenido (catálogo y entrega de contenido).
-- **Backend propio**: identidad, reglas de negocio, control de dispositivos, trazabilidad y adaptación hacia XUI.
-- **TV App**: experiencia de usuario y reproducción.
-- **Web App**: operación administrativa y portal cliente.
+## Responsabilidades
+- **XUI**: catalogo y entrega de contenido.
+- **Backend propio**: identidad, sesiones, gate comercial, control de dispositivos, auditoria y adaptacion a XUI.
+- **TV app**: experiencia de usuario, reproduccion y consumo del gate de acceso.
+- **Web app**: auth web minima y operacion minima de estados de acceso (no panel admin completo).
 
-## Estado técnico real (hoy)
-La TV app aún trabaja con flujos demo/mock y no está conectada a backend propio ni a XUI en producción.
+## Estado tecnico real (2026-03-07)
+- Bridge TV->Backend->XUI operativo en entorno actual.
+- Auth implementada con:
+  - login manual
+  - login QR
+  - registro OTP SMS
+  - reset password OTP SMS
+  - device binding persistente
+- Gate comercial activo por cuenta/dispositivo (`/v1/auth/access`).
+- Operacion minima de acceso disponible via backend ops + web profile.
+- Persistencia actual en JSON store (sin DB productiva aun).
+
+## Limites vigentes
+- Sin billing/pagos.
+- Sin RBAC completo.
+- Sin panel admin/portal cliente completos.
+- Sin migracion a DB en esta fase.
