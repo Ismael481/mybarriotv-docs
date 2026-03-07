@@ -2,34 +2,42 @@
 
 ## Estado general
 - Bridge `App TV -> Backend -> XUI` operativo y estable.
-- `TASK_006_authentication_foundation` ya implementada en backend y TV app.
-- Nueva fase activa: `TASK_007_auth_experience_and_device_login_design` (solo diseno/documentacion).
+- `TASK_006_authentication_foundation` cerrada como implementada.
+- `TASK_007_auth_experience_and_device_login_design` cerrada como blueprint documental.
+- `TASK_008_qr_device_login_implementation` implementada y activa para validacion final.
 
-## Estado real de auth (implementado)
-### Backend
+## Estado auth actual
+### Core auth (existente)
 - `POST /v1/auth/login`
 - `GET /v1/auth/me`
 - `GET /v1/auth/protected`
-- JWT base y middleware auth funcionando.
+- JWT + sesion local TV + guard de navegacion.
+
+### Device login QR (nuevo en TASK_008)
+- `POST /v1/auth/device/start`
+- `GET /v1/auth/device/status/:sessionId`
+- `POST /v1/auth/device/approve`
+- `POST /v1/auth/device/exchange`
+- Estados de sesion: `pending`, `approved`, `expired`, `denied`.
+- Web minima de aprobacion: `GET /auth/device?sessionId=...`.
 
 ### TV app
-- Login manual minimo conectado a backend.
-- Sesion local persistida.
-- Guard de navegacion activo para bloquear Home sin sesion.
-
-## Diseno objetivo abierto en TASK_007
-- Pantalla TV con login manual y login QR visibles simultaneamente.
-- Flujo QR via web propia con aprobacion de sesion TV.
-- Registro web preparado para OTP SMS futuro.
-- Separacion de modelo: Cuenta (principal) vs Perfil (subidentidad de consumo).
+- Pantalla login dual activa (manual + QR en la misma pantalla).
+- Polling QR con login automatico al aprobar.
+- Manejo de expiracion/error con regeneracion de QR.
+- Login manual se mantiene funcional.
+- Hotfix compilacion aplicado: visibilidad de AuthInterceptor ajustada para compilar :libs:network.
 
 ## Dependencias externas actuales
-- XUI no requiere cambios para TASK_007.
-- OTP futuro depende de proveedor SMS externo aun no seleccionado.
+- XUI sin cambios para TASK_008.
+- OTP real y proveedor SMS siguen fuera de esta fase.
 
 ## Riesgos actuales
-- Implementar QR u OTP sin cerrar contratos puede forzar retrabajo de TASK_006.
-- Desalinear web/TV en auth puede crear dos sistemas de login paralelos.
+- Sesiones QR en memoria (sin persistencia tras reinicio backend).
+- Web minima aun no migrada a web-app formal.
 
 ## Proximo enfoque recomendado
-- Tomar TASK_007 como blueprint obligatorio y luego implementar por fases: backend loginSession -> TV QR -> web aprobacion -> OTP real.
+- Validar E2E real TV + movil en LAN.
+- Luego endurecer persistencia/seguridad de device sessions y planificar migracion de web minima a `apps/web-app`.
+
+

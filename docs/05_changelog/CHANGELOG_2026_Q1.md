@@ -50,3 +50,14 @@
 - Se documenta flujo web de login/registro y preparacion para OTP SMS futuro (sin integrar OTP real).
 - Se deja definida la separacion conceptual y de modelo entre Cuenta principal y Perfiles de consumo.
 - Se corrige consistencia documental: TASK_006 permanece como implementada y TASK_007 queda como tarea activa para siguientes fases.
+- Se implemento `TASK_008_qr_device_login_implementation` con primera version funcional de login QR para TV sin romper login manual.
+- Backend: nuevo modulo `backend/src/deviceLogin.js` para sesiones temporales de device login (pending/approved/expired/denied).
+- Backend: nuevos endpoints `POST /v1/auth/device/start`, `GET /v1/auth/device/status/:sessionId`, `POST /v1/auth/device/approve`, `POST /v1/auth/device/exchange`.
+- Backend: pagina web minima de aprobacion para QR en `GET /auth/device?sessionId=...`.
+- Backend: nuevas variables env para QR (AUTH_WEB_BASE_URL, AUTH_DEVICE_SESSION_TTL_SECONDS).
+- TV app: login dual en misma pantalla (manual + bloque QR), con polling de estado y auto-login por exchange al aprobar desde web.
+- TV app: manejo de expiracion/error de QR y opcion de regenerar QR sin afectar login manual.
+- Web app: README actualizado para reflejar implementacion transitoria de pagina minima servida desde backend en TASK_008.
+- Consistencia documental: `TASK_006` queda cerrada como implementada y `TASK_008` queda como tarea activa.
+
+- Hotfix TASK_008: se corrigio error de compilacion Kotlin en libs:network ajustando visibilidad de AuthInterceptor para compatibilidad con DI publica.

@@ -1,10 +1,10 @@
 # ACTIVE_TASK
 
-Tarea activa: **TASK_007_auth_experience_and_device_login_design**
+Tarea activa: **TASK_008_qr_device_login_implementation**
 
 Estado:
-- En analisis/diseno documental
-- Sin cambios de codigo funcional en esta fase
+- Implementada en codigo (backend + TV + web minima)
+- Pendiente: validacion funcional final en TV fisica + movil
 
 Objetivo activo de cierre:
-- Dejar cerrado el diseno de experiencia auth (TV manual + TV QR + web aprobacion + OTP futuro) sin romper la base implementada en TASK_006.
+- Verificar end-to-end QR real (escaneo, aprobacion web, login automatico en TV) sin romper login manual.

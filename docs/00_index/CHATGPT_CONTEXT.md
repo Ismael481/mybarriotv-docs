@@ -7,19 +7,34 @@ Rama actual:
 main
 
 Tarea activa:
-TASK_007_auth_experience_and_device_login_design (diseno/documentacion)
+TASK_008_qr_device_login_implementation (implementada, pendiente validacion TV+movil)
 
 Resumen corto:
-`TASK_006_authentication_foundation` ya quedo implementada (backend JWT + login/me/protected + sesion local TV + guard Home).
-La fase actual (`TASK_007`) define el diseno final de experiencia auth para evitar retrabajo: login manual TV + login QR TV, aprobacion desde web/movil, registro web preparado para OTP y separacion Cuenta/Perfil.
+`TASK_006` queda cerrada como implementada (auth base JWT + login manual TV).
+`TASK_007` queda cerrada como diseno.
+En `TASK_008` se implemento login QR funcional de dispositivo sin romper login manual:
+- backend `loginSession` temporal
+- login dual en TV (manual + QR)
+- web minima para aprobar sesion
+- exchange de token para auto-login en TV
 
-Correccion de consistencia documental:
-- El estado oficial del repo privado deja `TASK_006` como implementada.
-- `TASK_007` queda marcada como nueva tarea activa.
-- Estos cambios quedan listos para sincronizacion al mirror publico desde `docs/`.
+Consistencia documental corregida:
+- `TASK_006` se mantiene oficialmente cerrada/implementada.
+- `TASK_008` queda como tarea activa.
 
-Archivos modificados en TASK_007:
-- docs/02_tasks/TASK_007_auth_experience_and_device_login_design.md
+Archivos modificados en TASK_008:
+- backend/src/deviceLogin.js
+- backend/src/server.js
+- backend/.env.example
+- backend/README.md
+- apps/tv-app/app/src/main/java/com/techlads/composetv/features/auth/data/BackendAuthApi.kt
+- apps/tv-app/app/src/main/java/com/techlads/composetv/features/auth/LoginViewModel.kt
+- apps/tv-app/app/src/main/java/com/techlads/composetv/navigation/AppNavigation.kt
+- apps/tv-app/features/login/src/main/java/com/techlads/login/withEmailPassword/LoginScreen.kt
+- apps/tv-app/features/login/src/main/java/com/techlads/login/withEmailPassword/LoginScreenContent.kt
+- apps/web-app/README.md
+- apps/tv-app/libs/network/src/main/java/com/techlads/network/AuthInterceptor.kt
+- docs/02_tasks/TASK_008_qr_device_login_implementation.md
 - docs/00_index/ACTIVE_TASK.md
 - docs/00_index/CURRENT_STATUS.md
 - docs/00_index/CHATGPT_CONTEXT.md
@@ -30,19 +45,26 @@ Archivos recomendados para revision por ChatGPT (repositorio publico):
 - docs/00_index/ACTIVE_TASK.md
 - docs/02_tasks/TASK_006_authentication_foundation.md
 - docs/02_tasks/TASK_007_auth_experience_and_device_login_design.md
+- docs/02_tasks/TASK_008_qr_device_login_implementation.md
 - docs/05_changelog/CHANGELOG_2026_Q1.md
 
 Pendiente de prueba por el usuario:
-- No hay pruebas funcionales nuevas en TASK_007 (fase documental).
-- Se mantiene pendiente validacion en TV fisica de TASK_006.
+- Validacion E2E real en TV + movil (escaneo QR, aprobacion web, login automatico TV).
+- Confirmar que login manual sigue estable en TV fisica.
 
 Riesgos o bloqueos:
-- OTP SMS depende de proveedor externo aun no definido.
-- QR login requiere contratos backend/web/TV coordinados para evitar doble sistema auth.
+- Device sessions en memoria (reinicio backend invalida sesiones pendientes).
+- Web minima aun transitoria (servida por backend, no portal web final).
 
 Cambios manuales externos requeridos:
-- XUI: ninguno para TASK_007.
-- OTP futuro: seleccionar y configurar proveedor SMS fuera del repo (pendiente).
+- XUI: ninguno para TASK_008.
+- Configurar backend env para QR:
+  - `AUTH_WEB_BASE_URL`
+  - `AUTH_DEVICE_SESSION_TTL_SECONDS`
+  - `AUTH_DEMO_USER`
+  - `AUTH_DEMO_PASS`
+  - `AUTH_JWT_SECRET`
 
 Siguiente fase recomendada:
-- Implementar backend `loginSession` para QR segun diseno de TASK_007, antes de integrar web y aprobacion de sesion TV.
+- Endurecer persistencia y seguridad de device login, luego migrar la web minima a `apps/web-app` formal y abrir fase OTP real.
+
