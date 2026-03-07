@@ -1,52 +1,45 @@
 # CURRENT_STATUS
 
 ## Estado general
-- Bridge `App TV -> Backend -> XUI` operativo y estable.
-- `TASK_006_authentication_foundation` cerrada como implementada.
-- `TASK_007_auth_experience_and_device_login_design` cerrada como blueprint documental.
-- `TASK_008_qr_device_login_implementation` implementada y activa para validacion final.
+- Bridge `App TV -> Backend -> XUI` operativo.
+- `TASK_006_authentication_foundation` cerrada e implementada.
+- `TASK_007_auth_experience_and_device_login_design` cerrada como diseno.
+- `TASK_008_qr_device_login_implementation` cerrada como implementada.
+- `TASK_009_auth_persistence_and_device_binding_hardening` implementada y en validacion final.
 
-## Estado auth actual
-### Core auth (existente)
+## Estado auth/dispositivos actual
+### Core auth
 - `POST /v1/auth/login`
 - `GET /v1/auth/me`
 - `GET /v1/auth/protected`
-- JWT + sesion local TV + guard de navegacion.
 
-### Device login QR (TASK_008)
+### Device login QR
 - `POST /v1/auth/device/start`
 - `GET /v1/auth/device/status/:sessionId`
 - `POST /v1/auth/device/approve`
 - `POST /v1/auth/device/exchange`
-- Estados de sesion: `pending`, `approved`, `expired`, `denied`.
-- Web minima de aprobacion: `GET /auth/device?sessionId=...`.
+- `GET /auth/device?sessionId=...`
 
-### Vinculacion basica de dispositivo (extension TASK_008)
-- TV envia headers de identidad de dispositivo en login manual y QR exchange.
-- Backend registra dispositivo por usuario autenticado en memoria.
-- Endpoints de consulta:
-  - `GET /v1/auth/me` (incluye `devices`)
-  - `GET /v1/auth/devices` (protegido)
-- MAC se usa cuando Android la expone; se agrega serial, Widevine ID, fingerprint y fallback a identificador estable del dispositivo.
+### Device binding
+- `GET /v1/auth/devices`
+- `POST /v1/auth/devices/revoke`
+- Estados de vinculo: `active`, `revoked`
+- Deduplicacion por `deviceKey` (prioridad: mac -> serial -> widevineId -> deviceId -> fingerprint)
 
-### TV app
-- Pantalla login dual activa (manual + QR en la misma pantalla).
-- Polling QR con login automatico al aprobar.
-- Manejo de expiracion/error con regeneracion de QR.
-- Login manual se mantiene funcional.
+## Persistencia
+- Sesiones QR persistidas en archivo JSON (`AUTH_STORE_FILE`).
+- Dispositivos vinculados persistidos en el mismo store.
+- Estado sobrevive reinicio del backend (validado en entorno local de desarrollo).
 
-## Dependencias externas actuales
-- XUI sin cambios para TASK_008.
-- OTP real y proveedor SMS siguen fuera de esta fase.
+## Endurecimiento aplicado
+- Expiracion y limpieza de sesiones QR con retencion configurable.
+- Rate limit basico anti abuso en `start`, `approve`, `exchange`.
+- Auditoria basica en store (`auditEvents`) + logs backend.
 
 ## Riesgos actuales
-- Sesiones QR y dispositivos vinculados en memoria (sin persistencia tras reinicio backend).
-- Web minima aun no migrada a web-app formal.
+- Persistencia en archivo JSON (single-instance), no equivalente a DB productiva.
+- Web de aprobacion sigue como implementacion minima en backend.
 
 ## Proximo enfoque recomendado
-- Validar E2E real TV + movil en LAN.
-- Persistir vinculacion de dispositivo en DB y definir reglas de revocacion/limites.
-- Planificar migracion de web minima a `apps/web-app`.
-
-
-
+- Validacion final en entorno del usuario (TV + movil + reinicio backend real).
+- En siguiente fase, migrar store a DB y mover web de aprobacion a `apps/web-app`.

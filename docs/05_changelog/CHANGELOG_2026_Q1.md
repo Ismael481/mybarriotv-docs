@@ -71,3 +71,13 @@
 - Extension TASK_008: se agrega captura de X-Device-Widevine-Id (MediaDrm) en TV app para mejorar identificacion persistente del dispositivo.
 - Backend: priorizacion de clave de vinculacion ajustada a MAC -> serial -> widevineId -> deviceId -> fingerprint.
 - Web QR: ahora muestra tambien Widevine ID detectado de la sesion TV cuando esta disponible.
+- Se implemento `TASK_009_auth_persistence_and_device_binding_hardening`.
+- Backend: nuevo modulo `backend/src/authPersistence.js` para persistir sesiones QR, dispositivos vinculados y auditoria basica en archivo JSON.
+- Backend: sesiones de device login (`start/status/approve/exchange`) pasan de memoria a persistencia en store.
+- Backend: dispositivos vinculados pasan de memoria a persistencia y se deduplican por `deviceKey`.
+- Backend: nuevos estados de vinculacion `active` / `revoked` y nuevo endpoint `POST /v1/auth/devices/revoke`.
+- Backend: se bloquea login manual y exchange QR cuando el `deviceKey` esta revocado para la cuenta.
+- Backend: se agrega rate limit basico anti abuso en `POST /v1/auth/device/start`, `POST /v1/auth/device/approve`, `POST /v1/auth/device/exchange`.
+- Backend: se agregan variables de entorno de store/retencion/rate-limit en `.env.example`.
+- TV app: mensaje de error QR endurecido para casos `DEVICE_REVOKED` y rate limit.
+- Documentacion: `TASK_008` queda reflejada como implementada y `TASK_009` pasa a tarea activa.

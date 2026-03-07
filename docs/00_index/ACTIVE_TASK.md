@@ -1,11 +1,11 @@
 # ACTIVE_TASK
 
-Tarea activa: **TASK_008_qr_device_login_implementation**
+Tarea activa: **TASK_009_auth_persistence_and_device_binding_hardening**
 
 Estado:
-- Implementada en codigo (backend + TV + web minima)
-- Extension aplicada: registro de dispositivo por login (MAC + serial + widevineId + deviceId + fingerprint)
-- Pendiente: validacion funcional final en TV fisica + movil
+- TASK_008 queda implementada (login manual + QR + aprobacion web + exchange + registro basico de dispositivo).
+- TASK_009 implementada en codigo y en validacion final.
 
 Objetivo activo de cierre:
-- Verificar E2E QR real y confirmar registro de dispositivo vinculado tras login manual/QR.
+- Confirmar en entorno del usuario que sesiones QR y dispositivos vinculados persisten tras reinicio backend.
+- Validar revocacion basica de dispositivo y rate limit sin romper login manual/QR.

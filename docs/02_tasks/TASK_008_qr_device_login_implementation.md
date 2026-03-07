@@ -1,7 +1,7 @@
 # TASK_008_qr_device_login_implementation
 
 Fecha: 2026-03-07
-Estado: implementada (pendiente validacion final en TV fisica + movil)
+Estado: implementada (validada en sesion de usuario)
 
 ## Objetivo
 Implementar la primera version funcional de login por QR para TV, manteniendo el login manual existente y una sola arquitectura auth.
