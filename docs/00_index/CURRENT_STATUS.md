@@ -2,13 +2,14 @@
 
 ## Estado general
 - Bridge `App TV -> Backend -> XUI` operativo.
-- `TASK_006_authentication_foundation` cerrada e implementada.
-- `TASK_007_auth_experience_and_device_login_design` cerrada como diseno.
-- `TASK_008_qr_device_login_implementation` cerrada como implementada.
-- `TASK_009_auth_persistence_and_device_binding_hardening` implementada y en validacion final.
+- `TASK_006` cerrada e implementada.
+- `TASK_007` cerrada como diseno.
+- `TASK_008` cerrada e implementada.
+- `TASK_009` cerrada e implementada/validada.
+- `TASK_010` implementada y en validacion final del usuario.
 
-## Estado auth/dispositivos actual
-### Core auth
+## Auth actual
+### Core
 - `POST /v1/auth/login`
 - `GET /v1/auth/me`
 - `GET /v1/auth/protected`
@@ -18,28 +19,26 @@
 - `GET /v1/auth/device/status/:sessionId`
 - `POST /v1/auth/device/approve`
 - `POST /v1/auth/device/exchange`
-- `GET /auth/device?sessionId=...`
 
 ### Device binding
 - `GET /v1/auth/devices`
 - `POST /v1/auth/devices/revoke`
-- Estados de vinculo: `active`, `revoked`
-- Deduplicacion por `deviceKey` (prioridad: mac -> serial -> widevineId -> deviceId -> fingerprint)
+- Estado: `active` / `revoked`
 
-## Persistencia
-- Sesiones QR persistidas en archivo JSON (`AUTH_STORE_FILE`).
-- Dispositivos vinculados persistidos en el mismo store.
-- Estado sobrevive reinicio del backend (validado en entorno local de desarrollo).
+## Web auth surface (TASK_010)
+- Superficie web minima formalizada en `apps/web-app/public/auth`:
+  - `/auth/login`
+  - `/auth/device?sessionId=...`
+  - `/auth/register`
+- UI web auth actualizada a estilo moderno/elegante manteniendo la misma logica de flujo.
+- Backend mantiene auth API central.
+- TV login manual y QR se mantienen sin cambios de UI.
 
-## Endurecimiento aplicado
-- Expiracion y limpieza de sesiones QR con retencion configurable.
-- Rate limit basico anti abuso en `start`, `approve`, `exchange`.
-- Auditoria basica en store (`auditEvents`) + logs backend.
+## Persistencia y hardening activos
+- Store JSON persistente para sesiones/devices (`AUTH_STORE_FILE`).
+- Rate limiting basico en `start`, `approve`, `exchange`.
+- Auditoria basica en store.
 
 ## Riesgos actuales
-- Persistencia en archivo JSON (single-instance), no equivalente a DB productiva.
-- Web de aprobacion sigue como implementacion minima en backend.
-
-## Proximo enfoque recomendado
-- Validacion final en entorno del usuario (TV + movil + reinicio backend real).
-- En siguiente fase, migrar store a DB y mover web de aprobacion a `apps/web-app`.
+- Store JSON no es DB productiva.
+- Registro web aun base visual/funcional (sin OTP real).

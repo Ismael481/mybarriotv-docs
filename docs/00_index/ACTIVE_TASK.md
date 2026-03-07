@@ -1,11 +1,10 @@
 # ACTIVE_TASK
 
-Tarea activa: **TASK_009_auth_persistence_and_device_binding_hardening**
+Tarea activa: **TASK_010_web_auth_surface_and_registration_prep**
 
 Estado:
-- TASK_008 queda implementada (login manual + QR + aprobacion web + exchange + registro basico de dispositivo).
-- TASK_009 implementada en codigo y en validacion final.
+- `TASK_009` implementada y validada.
+- `TASK_010` implementada en codigo, pendiente validacion final del usuario.
 
 Objetivo activo de cierre:
-- Confirmar en entorno del usuario que sesiones QR y dispositivos vinculados persisten tras reinicio backend.
-- Validar revocacion basica de dispositivo y rate limit sin romper login manual/QR.
+- Verificar en entorno real que la superficie web en `apps/web-app` mantiene login web y aprobacion QR sin romper TV.

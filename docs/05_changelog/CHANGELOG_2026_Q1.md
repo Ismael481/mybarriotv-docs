@@ -81,3 +81,11 @@
 - Backend: se agregan variables de entorno de store/retencion/rate-limit en `.env.example`.
 - TV app: mensaje de error QR endurecido para casos `DEVICE_REVOKED` y rate limit.
 - Documentacion: `TASK_008` queda reflejada como implementada y `TASK_009` pasa a tarea activa.
+- TASK_009 queda reflejada como implementada/validada.
+- Se implemento `TASK_010_web_auth_surface_and_registration_prep`.
+- Web app: nueva superficie minima en `apps/web-app/public/auth` con `device.html`, `login.html`, `register.html` y estilos compartidos.
+- Backend: retiro de HTML embebido para `/auth/device` y serving de paginas desde `apps/web-app/public`.
+- Backend: nuevas rutas web `GET /auth/login`, `GET /auth/register`, `GET /auth/assets/*`.
+- Backend: CORS basico opcional por `AUTH_CORS_ORIGIN` para pruebas web en origen separado.
+- Se preserva flujo TV QR y login manual sin cambios de arquitectura auth.
+- TASK_010 UI pass: mejora visual completa de la web auth (`/auth/login`, `/auth/device`, `/auth/register`) con estilo moderno, manteniendo la misma logica.
