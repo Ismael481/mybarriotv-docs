@@ -1,20 +1,14 @@
 # ACTIVE_TASK
 
-Tarea activa: **TASK_020_tv_app_profile_selection_post_login**
+Tarea activa: **TASK_036_tv_runtime_access_gate_enforcement_on_account_expiry**
 
 Estado actual:
-- Implementacion de seleccion de perfil post-login completada en TV app.
-- Documentacion base y de tarea actualizadas.
-- Pendiente validacion manual en TV fisica/emulador.
+- TV revalida acceso en runtime contra backend (`/v1/auth/access`) durante sesion activa.
+- Si la cuenta expira/suspende, la sesion pasa a `AccessBlocked` y sale de Home sin esperar relogin manual.
 
 Objetivo de cierre inmediato:
-- Validar que login (manual y QR) redirija a `WhoIsWatching` cuando haya perfiles activos.
-- Validar que seleccion de perfil persista y permita entrada a Home.
-- Validar casos de 1 y 2 perfiles.
+- Validar en TV fisica/emulador que cuenta vencida dentro de sesion activa salga automaticamente a pantalla bloqueada.
 
 Archivos foco:
 - `apps/tv-app/app/src/main/java/com/techlads/composetv/navigation/AppNavigation.kt`
-- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/wiw/WhoIsWatching.kt`
-- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/wiw/WhoIsWatchingContent.kt`
-- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/auth/LoginViewModel.kt`
-- `apps/tv-app/libs/auth-imp/src/main/kotlin/com/techlads/auth/imp/DefaultUserSession.kt`
+- `docs/02_tasks/TASK_036_tv_runtime_access_gate_enforcement_on_account_expiry.md`

@@ -242,3 +242,99 @@
 - TV navegacion: usuario logueado sin perfil seleccionado ahora pasa por `WhoIsWatching` antes de `Home`.
 - TV `WhoIsWatching`: reemplazo de data hardcodeada por perfiles dinamicos (`name` + avatar `boy/girl/old`) y persistencia de seleccion.
 - Validacion pendiente: pruebas manuales en TV fisica/emulador; build Android no ejecutada en este entorno por error local de JBR (`jvm.cfg`).
+- Se implemento `TASK_021_tv_profile_session_context_and_switching`.
+- TV Home ahora muestra el perfil activo en topbar y agrega accion `Cambiar perfil` sin logout completo.
+- `Cambiar perfil` limpia `selectedProfileId` y reutiliza `WhoIsWatching` como selector.
+- Sesion TV endurecida: seleccion de perfil solo valida si el perfil existe y `effectiveStatus=active`.
+- TV sincroniza perfiles de cuenta con `/v1/auth/me` en runtime (intervalo 30s) para detectar invalidaciones hechas desde admin.
+- Si perfil seleccionado desaparece o pasa a inactive, se limpia seleccion y se aplica recuperacion por enrutado (`WhoIsWatching` o fallback Home sin perfiles activos).
+- TASK_021 no introduce cambios grandes de backend, billing, DB ni arquitectura global.
+- TASK_021 hotfix: corregido `Preview` de `HomeScreenContent` pasando `onSongClick` explicito para resolver error de compilacion Kotlin.
+- TASK_021 UX ajuste: `Cambiar perfil` movido a `Settings -> Profile` (flujo de perfil normal), removido del topbar principal.
+- TASK_021 UX ajuste: avatar del perfil activo aplicado al icono circular de perfil en la esquina superior izquierda del home.
+- TV branding tweak: `app_name` actualizado a `MyBarrioTV` (antes `Compose TV`) en recursos de app.
+- TASK_021 UX/data: `Settings -> Profile` ahora muestra estado de cuenta y tiempo restante de expiracion (cuando aplica).
+- TASK_021 session model: `accountStatus` agregado a `AuthState.LoggedIn` y persistido en `UserSession`.
+- TASK_021 build hotfix: `AppNavigation.kt` agrega opt-in explicito de `ExperimentalTime` en funciones con `Instant` para resolver error Kotlin de compilacion.
+- TASK_021 UX/performance: shimmer de carga agregado a miniaturas remotas de tarjetas (`CarouselItem`, `PersonCard`) mediante componente reutilizable `ShimmerAsyncImage`.
+- TASK_021 cleanup: removido logging por item en `CarouselItem` para reducir overhead durante scroll/carga de posters.
+- BUG_004 fix: admin `/ops` ahora permite configurar demo global por `minutos|horas` y persiste conversion a segundos.
+- BUG_004 fix: endpoint `/v1/auth/ops/settings/demo` ampliado a `POST|PUT|PATCH` y CORS actualizado para evitar `Method Not Allowed`.
+- BUG_004 fix: UX de expiracion de cuenta mejorada en admin (usar demo global, sumar duracion rapida, limpiar expiracion y preview restante).
+- BUG_004 fix: `handleOpsAccountStatusUpdate` valida `expiresAt` antes de mutar `accountStatus` para evitar estados parciales.
+- BUG_004 hardening: `buildAccessDecision` persiste `accountStatus=expired` cuando la cuenta vence por fecha (trial consume demo; active expira automaticamente).
+- TASK_021 build hotfix 2: resuelto error Kotlin `This annotation is not repeatable` combinando `@OptIn` en `AppNavigation`.
+- TASK_021 build hotfix 2: resuelto `Unresolved reference 'matchParentSize'` en shimmer usando `fillMaxSize`.
+- Se implemento `TASK_022_account_profile2_entitlement_and_single_demo_enforcement`.
+- Backend: cuentas normalizadas al arranque con `p1` obligatorio activo y nuevo campo `profile2Enabled`.
+- Backend: creacion de perfiles endurecida: `p2` solo se crea si `profile2Enabled=true` (`ACCOUNT_PROFILE2_DISABLED` cuando no aplica).
+- Backend: actualizacion de estado de perfil endurecida para impedir desactivar `p1` (`PROFILE_PRIMARY_REQUIRED`).
+- Backend: `POST /v1/auth/ops/accounts/:accountId/status` ahora permite actualizar `profile2Enabled` y mantiene bloqueo duro de retorno a `trial` tras `demoConsumedAt`.
+- Backend: `GET /v1/auth/me`, `GET /v1/auth/account`, ops list/detail ahora exponen `profile2Enabled`.
+- Web perfil cliente: ocultamiento total de `p2` cuando no esta habilitado por entitlement.
+- Web admin: nuevo control `Segundo perfil pagado`; bloqueo de controles `trial/demo` para cuentas con demo consumido.
+- TV app: `AppNavigation` auto-selecciona `p1` activo cuando no hay perfil seleccionado y prioriza arranque a Home en ese caso.
+- Dependencias externas: sin cambios requeridos en XUI ni configuraciones manuales fuera del repo.
+- Se implemento `TASK_023_admin_account_detail_profile2_creation_and_expiry_simplification`.
+- Admin detalle de cuenta: boton de estado renombrado a `Aplicar`.
+- Admin detalle de cuenta: removidos controles de `Demo por defecto`, `Usar demo global` y `Expiracion rapida` en el flujo principal de detalle.
+- Admin detalle de cuenta: expiracion unificada a selector de fecha/hora (`datetime-local`) con aplicacion directa junto al estado.
+- Admin perfiles: agregado bloque `Agregar perfil` para crear el segundo perfil (`p2`) directamente desde `Perfiles de cuenta`.
+- Backend ops: nuevo endpoint `POST /v1/auth/ops/accounts/:accountId/profiles` para crear perfil desde admin.
+- Backend legacy hardening: cuentas `trial` sin `expiresAt` ahora reciben expiracion derivada y se evita modo demo indefinido por datos antiguos.
+- Se implemento `TASK_024_admin_account_delete_operation`.
+- Backend: nuevo helper `deleteAccountById` para eliminar cuenta y limpiar indices (`username/phone`) + dispositivos vinculados.
+- Backend: nuevo endpoint ops `DELETE /v1/auth/ops/accounts/:accountId`.
+- Backend: proteccion `ACCOUNT_DELETE_SELF_FORBIDDEN` para impedir auto-eliminacion de la cuenta con sesion activa.
+- Admin web: nuevo boton `Eliminar cuenta` en detalle con confirmacion y refresco de listado/panel tras eliminar.
+- Documentacion backend actualizada con endpoint ops de eliminacion.
+- Se implemento `TASK_025_admin_can_activate_profile2_fix`.
+- Backend fix: al activar `p2` desde Admin (`ops profile status -> active`), el flujo habilita automaticamente `profile2Enabled` y luego aplica estado `active`.
+- Resultado: Admin puede activar el segundo perfil sin bloqueo por entitlement previo.
+- Se implemento `TASK_026_admin_expiry_date_time_split`.
+- Admin: expiracion de cuenta separada en campos `fecha` + `hora` con boton `Guardar`.
+- Admin: `Aplicar` de estado de cuenta queda desacoplado de expiracion.
+- Backend: nuevo endpoint ops `POST /v1/auth/ops/accounts/:accountId/expiry` para actualizar solo `expiresAt`.
+- Se implemento `TASK_027_tv_home_selected_profile_topbar_label`.
+- TV Home: topbar ahora muestra el nombre del perfil activo (`Perfil: <nombre>`) junto al contexto superior.
+- BUG_005 fix: se corrige percepcion de perdida de sesion de perfil al hacer visible el perfil seleccionado en Home.
+- Se implemento `TASK_028_register_otp_pending_lock_after_reload`.
+- Backend registro OTP: bloqueo de solicitudes duplicadas con `OTP_REQUEST_PENDING` cuando existe solicitud abierta (`pending|verified`) para el mismo `phone/username`.
+- Backend API: `POST /v1/auth/register/request-otp` ahora expone `otpRequestId` y `expiresAtEpochSeconds` tambien en error de solicitud pendiente.
+- Web auth: al recargar durante OTP pendiente, el formulario recupera countdown, mantiene bloqueo de inputs de identidad y evita reiniciar flujo.
+- Web auth: estado local OTP se limpia al expirar/completar para habilitar nuevo intento controlado.
+- BUG_006 fix: se corrige perdida/inconsistencia de estado OTP de registro tras recarga.
+- Se implemento `TASK_029_admin_profile_create_route_fix`.
+- Backend ops: corregido matcher de ruta para `POST /v1/auth/ops/accounts/:accountId/profiles` (longitud de segmentos), permitiendo ejecutar `handleOpsProfileCreate`.
+- BUG_007 fix: `Agregar perfil` en Admin vuelve a crear `p2` correctamente.
+- Se implemento `TASK_030_tv_topbar_profile_label_expiry_and_initial_focus_fix`.
+- TV Home: removida la linea `Perfil: ...` bajo `MyBarrioTV`.
+- TV auth/session: agregado `accountExpiresAt` persistido y sincronizado desde `/v1/auth/me` (`account.expiresAt`).
+- TV perfil: vencimiento ahora usa expiracion real de cuenta; mitigado caso visual de `Vence en 0m` por redondeo sub-minuto.
+- TV topbar: foco inicial dirigido a `Home` al abrir app, evitando arranque sobre avatar/perfil.
+- BUG_008 fix: corregidas inconsistencias de etiqueta topbar, expiracion mostrada y foco inicial.
+- Se implemento `TASK_031_expiry_reason_and_demo_notice_fix`.
+- Backend access: `buildAccessDecision` ahora diferencia expiracion demo vs expiracion de cuenta activa usando `accountStatusReason` para evitar `DEMO_ALREADY_USED` incorrecto.
+- TV session: auto-logout por expiracion de token cambia mensaje a `Tu sesion expiro...`; aviso de demo queda solo para trial realmente vencido.
+- BUG_009 fix: eliminado mensaje falso de `demo expirado` en cuentas activas/expiradas por tiempo de cuenta.
+- Se implemento `TASK_032_tv_profile_account_countdown_and_token_ttl_fix`.
+- TV Profile: agregado bloque de vencimiento con fecha y contador regresivo en tiempo real (`Tiempo restante`).
+- TV navegacion: propagado `accountExpiryEpochMs` hasta pantalla de perfil para countdown preciso por cuenta.
+- Backend auth: `createAccessToken` deja de usar TTL demo para cuentas `account:*`; usa TTL normal de sesion (`AUTH_TOKEN_TTL_SECONDS`).
+- BUG_010 fix: se corrige expulsion temprana por token de 60s en cuentas activas.
+- Se implemento `TASK_033_admin_live_expiry_sync_without_login_dependency`.
+- Backend persistencia: reconciliacion automatica de expiracion por `expiresAt` integrada en lecturas de cuenta/perfiles (`get/list`) para evitar estado stale en ops.
+- Admin web: auto-refresh de listado y detalle cada 15s cuando la pestaña esta visible.
+- BUG_011 fix: cuentas vencidas ya no esperan login del cliente para aparecer `expired` en panel admin.
+- Se implemento `TASK_034_tv_profile_name_suffix_cleanup`.
+- TV Profile: nombre mostrado del perfil principal limpia sufijo final ` 1` para mostrar solo nombre base del cliente.
+- BUG_012 fix: eliminado detalle visual donde aparecia numeracion de perfil principal en cabecera de Profile.
+- Se implemento `TASK_035_profile_visibility_and_tv_profile_selection_flow_fix`.
+- TV: auto-seleccion de perfil restringida a escenarios con 1 perfil activo; con 2 perfiles activos abre selector `WhoIsWatching`.
+- TV: flujo `Cambiar perfil` vuelve a selector en escenarios multi-perfil al limpiar seleccion previa.
+- Web cliente: fallback de render para `p2` cuando el perfil existe en payload aunque `profile2Enabled` legacy llegue desalineado.
+- BUG_013 fix: corregido salto de selector en TV y ocultamiento de `p2` en web en cuentas legacy.
+- Se implemento `TASK_036_tv_runtime_access_gate_enforcement_on_account_expiry`.
+- TV: gate de acceso (`/v1/auth/access`) aplicado periodicamente durante sesion activa para detectar expiracion/suspension en caliente.
+- TV: al recibir `canAccessApp=false`, transicion automatica a `AccessBlocked` sin esperar nuevo login.
+- BUG_014 fix: resuelto caso donde TV permanecia en Home aun con cuenta ya expirada en backend/admin.

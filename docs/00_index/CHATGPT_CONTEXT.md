@@ -2,33 +2,26 @@
 
 Fecha: 2026-03-08
 Rama: `main`
-Tarea activa: `TASK_020_tv_app_profile_selection_post_login`
+Tarea activa: `TASK_036_tv_runtime_access_gate_enforcement_on_account_expiry`
 
 ## Resumen operativo
-- TV app ahora solicita seleccion de perfil tras login cuando la cuenta tiene perfiles activos.
-- `WhoIsWatching` dejo de usar avatares hardcodeados y consume perfiles reales (`name` + `avatar`) desde sesion.
-- La sesion auth de TV persiste `accountProfiles` y `selectedProfileId` para controlar navegacion a Home.
+- Corregido caso donde TV mostraba cuenta `expired` pero mantenia sesion en Home.
+- Ahora la app aplica gate de acceso tambien durante sesion activa, no solo al login.
 
 ## Cambios clave recientes
-- Auth TV:
-  - `AuthState.LoggedIn` extendido con perfiles/seleccion.
-  - `UserSession` extendido con `selectProfile` y persistencia de perfiles en DataStore.
-- Login TV:
-  - tras login/exchange, se consulta `/v1/auth/me` con token para capturar perfiles.
-- Navegacion TV:
-  - `LoggedIn` sin perfil seleccionado y con perfiles activos => `WhoIsWatching`.
-  - con perfil seleccionado => `Home`.
+- `AppNavigation`: loop runtime agrega consulta periodica a `/v1/auth/access`.
+- Si backend devuelve `canAccessApp=false`, se setea `AuthState.AccessBlocked` con mensaje por reasonCode.
+- Polling runtime reducido a 10s para reaccion mas rapida a expiraciones.
 
 ## Pruebas tecnicas ejecutadas
-- Compilacion Android no ejecutable en este entorno por error local JBR:
-  - `Error: could not open ...\jbr\lib\jvm.cfg`
+- Build Android no ejecutable en este entorno por problema local JBR (`jvm.cfg`).
 
 ## Cambios manuales externos
-- Ninguno en XUI.
-- Requiere validacion manual en dispositivo TV/emulador con backend actualizado.
+- Ninguno.
 
 ## Leer en repo publico
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
-- `docs/02_tasks/TASK_020_tv_app_profile_selection_post_login.md`
+- `docs/02_tasks/TASK_036_tv_runtime_access_gate_enforcement_on_account_expiry.md`
+- `docs/03_bugs/BUG_014_tv_stays_logged_in_after_account_expiry.md`
 - `docs/05_changelog/CHANGELOG_2026_Q1.md`
