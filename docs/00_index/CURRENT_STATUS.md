@@ -4,6 +4,7 @@
 - Bridge `App TV -> Backend -> XUI`: operativo.
 - Flujo auth y gate de acceso: operativo (manual + QR + OTP + control de dispositivos + ops minima).
 - TASK_006 a TASK_036: implementadas segun historial documental.
+- TASK_036 validada manualmente: al expirar/suspender cuenta en caliente, TV pasa a `AccessBlocked` de inmediato.
 - Se ejecuto auditoria integral y se consolidaron riesgos de cierre pendientes.
 
 ## Debilidades principales detectadas

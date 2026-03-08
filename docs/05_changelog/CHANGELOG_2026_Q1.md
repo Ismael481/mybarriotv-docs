@@ -342,3 +342,4 @@
 - Se consolidaron debilidades criticas: secretos versionados en `backend/.env`, deuda de mantenibilidad en backend/web y falta de pruebas automatizadas.
 - Se actualizaron indices obligatorios (`CHATGPT_CONTEXT`, `CURRENT_STATUS`, `ACTIVE_TASK`) con estado real y orden recomendado de proxima fase.
 - Se corrigio calidad editorial en plantillas/documentos base (`PROMPT_RULES`, `TASK_XXX`, `BUG_XXX`, `ADR_XXX`) para evitar texto con codificacion danada en el mirror publico.
+- TASK_036 validacion manual confirmada por usuario: al cambiar cuenta a `expired/suspended`, TV sale de Home inmediatamente y muestra `AccessBlocked`.

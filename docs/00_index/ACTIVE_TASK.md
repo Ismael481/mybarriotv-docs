@@ -5,7 +5,7 @@ Tarea activa: **TASK_037_comprehensive_project_audit_and_next_steps**
 Estado actual:
 - Auditoria integral completada sobre `apps/tv-app`, `apps/web-app`, `backend` y `docs`.
 - Hallazgos consolidados y priorizados en documentacion de tarea.
-- Pendiente de cierre funcional: decision de priorizacion de la siguiente tarea de implementacion.
+- TASK_036 ya validada manualmente en TV/emulador; pendiente decidir siguiente implementacion.
 
 Objetivo inmediato:
 - Entregar al siguiente ciclo (ChatGPT/usuario) un mapa claro de riesgos, incongruencias y orden recomendado de ejecucion.

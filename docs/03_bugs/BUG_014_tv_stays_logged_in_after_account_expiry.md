@@ -24,5 +24,7 @@ Correccion aplicada:
 Archivos:
 - `apps/tv-app/app/src/main/java/com/techlads/composetv/navigation/AppNavigation.kt`
 
-Validacion pendiente:
-- Prueba manual en TV fisica/emulador con expiracion en caliente.
+Validacion:
+- Prueba manual confirmada por usuario en TV/emulador.
+- Al marcar cuenta `expired` o `suspended`, la TV sale de Home inmediatamente.
+- La app muestra pantalla de bloqueo con mensaje de expiracion/bloqueo.

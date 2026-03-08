@@ -1,6 +1,6 @@
 # TASK_036_tv_runtime_access_gate_enforcement_on_account_expiry
 
-Estado: implemented (pendiente validacion manual)
+Estado: completed (validada manualmente)
 
 Fecha de creacion:
 2026-03-08
@@ -29,10 +29,10 @@ Archivos tocados:
 Riesgos:
 - Mayor frecuencia de polling (`10s`) incrementa levemente llamadas backend por sesion activa.
 
-Pendiente de prueba:
-- Dejar TV logueada en Home con expiracion cercana.
-- Verificar que al expirar cuenta pase automaticamente a pantalla bloqueada.
-- Confirmar mensaje correcto segun `reasonCode` (`ACCOUNT_EXPIRED`, `DEMO_ALREADY_USED`, etc.).
+Pruebas ejecutadas:
+- Validacion manual real en TV/emulador reportada por usuario.
+- Al cambiar cuenta a `expired` o `suspended` desde admin, la TV sale de Home de forma inmediata.
+- La app cambia a pantalla bloqueada con mensaje consistente de expiracion/bloqueo.
 
 Resultado esperado:
 - Sesion TV se bloquea automaticamente cuando backend ya no autoriza acceso.
