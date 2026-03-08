@@ -220,3 +220,25 @@
 - TASK_018 profile edit: cada perfil muestra lapiz para editar `name` y `avatar`.
 - TASK_018 backend: nuevo endpoint `POST /v1/auth/profiles/:profileId` para actualizar nombre/avatar de perfil.
 - TASK_018 copy fix: mensaje para conflicto de telefono ajustado a "Este numero ya esta en uso.".
+- TASK_018 profile UX pass (cuenta cliente): se eliminaron botones de edicion separados en usuario/telefono/contrasena y se agrego un unico lapiz en cabecera para abrir modal unificado.
+- TASK_018 profile UX pass (modal): edicion de cuenta consolidada en una sola vista con usuario, correo, cambio de telefono OTP y cambio de contrasena OTP.
+- TASK_018 profile copy: bloque `Perfiles (max 2)` actualizado a `Perfiles`.
+- TASK_018 profile status UI: se agrega estado de cuenta junto al avatar (`MODO DEMO|ACTIVA|EXPIRADA|INACTIVA`) con referencia de vencimiento cuando exista dato.
+- BUG_002 fix: guardado de perfil/avatar en web ahora usa fallback de metodo (`POST` y, si 405, `PUT`) para evitar `Method Not Allowed`.
+- TASK_018 backend compat: ` /v1/auth/profiles/:profileId` ahora acepta `POST|PUT|PATCH` para update.
+- TASK_018 security flow tweak: OTP de cambio de telefono se envia al numero registrado actual.
+- TASK_019 QR hardening: TV ahora regenera QR automaticamente en expiracion y errores recoverables (`expired/not_found/already_exchanged/invalid_state/denied`).
+- TASK_019 TV UX: al regenerar QR se limpia `sessionId/qrUrl/expiry` previo para evitar mostrar codigo viejo.
+- TASK_019 backend security: sesiones QR `approved` no intercambiadas ahora tambien expiran por TTL.
+- TASK_019 backend security: al crear nuevo QR para la misma TV se expiran sesiones `pending` anteriores (superseded).
+- TASK_019 backend contract: `GET /v1/auth/device/status/:sessionId` devuelve `410 SESSION_EXPIRED` para sesion faltante/vieja.
+- TASK_019 backend contract: `approve/exchange` de sesion faltante/vieja devuelve `EXPIRED` (410).
+- TASK_019 web UX/security: `device-approve.html` valida sesion QR al cargar y antes de aprobar; bloquea formulario si QR vencio.
+- TASK_019 web UX/security: `login.html` en modo `device-approve` valida sesion pending antes de autenticar.
+- BUG_003 fix: QR viejo en navegador ahora muestra mensaje claro de expirado/reescaneo en lugar de error ambiguo.
+- Se implemento `TASK_020_tv_app_profile_selection_post_login`.
+- TV auth/session: `AuthState.LoggedIn` y `UserSession` extendidos con perfiles de cuenta y `selectedProfileId` persistido.
+- TV login: se consulta `/v1/auth/me` tras autenticacion para hidratar perfiles reales de la cuenta.
+- TV navegacion: usuario logueado sin perfil seleccionado ahora pasa por `WhoIsWatching` antes de `Home`.
+- TV `WhoIsWatching`: reemplazo de data hardcodeada por perfiles dinamicos (`name` + avatar `boy/girl/old`) y persistencia de seleccion.
+- Validacion pendiente: pruebas manuales en TV fisica/emulador; build Android no ejecutada en este entorno por error local de JBR (`jvm.cfg`).

@@ -1,21 +1,20 @@
 # ACTIVE_TASK
 
-Tarea activa: **TASK_018_customer_account_completion_and_self_service_hardening**
+Tarea activa: **TASK_020_tv_app_profile_selection_post_login**
 
 Estado actual:
-- TASK_013: validada.
-- TASK_014: implementada y validada (backend + web + docs).
-- TASK_015: validada.
-- TASK_016: implementada en codigo y docs; pendiente validacion visual/manual final.
-- TASK_017: implementada en codigo y docs; pendiente validacion visual/manual final.
-- TASK_018: implementada en codigo y docs; pendiente validacion visual/manual final.
+- Implementacion de seleccion de perfil post-login completada en TV app.
+- Documentacion base y de tarea actualizadas.
+- Pendiente validacion manual en TV fisica/emulador.
 
 Objetivo de cierre inmediato:
-- Validar perfil cliente/admin en capa operativa minima:
-  - completion obligatorio solo de correo al primer acceso en profile.
-  - edicion de cuenta en modal (blur) para username/correo/telefono/contrasena.
-  - telefono y contrasena cambian con OTP dentro del modal.
-  - perfiles con `active|inactive` visibles en cliente.
-  - cada perfil tiene lapiz para editar nombre y avatar.
-  - operador puede activar/desactivar perfiles desde `/admin`.
-  - al expirar/suspender cuenta, perfiles quedan inactivos por consistencia comercial.
+- Validar que login (manual y QR) redirija a `WhoIsWatching` cuando haya perfiles activos.
+- Validar que seleccion de perfil persista y permita entrada a Home.
+- Validar casos de 1 y 2 perfiles.
+
+Archivos foco:
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/navigation/AppNavigation.kt`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/wiw/WhoIsWatching.kt`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/wiw/WhoIsWatchingContent.kt`
+- `apps/tv-app/app/src/main/java/com/techlads/composetv/features/auth/LoginViewModel.kt`
+- `apps/tv-app/libs/auth-imp/src/main/kotlin/com/techlads/auth/imp/DefaultUserSession.kt`

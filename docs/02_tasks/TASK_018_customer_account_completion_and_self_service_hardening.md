@@ -1,4 +1,4 @@
-# TASK_018_customer_account_completion_and_self_service_hardening
+﻿# TASK_018_customer_account_completion_and_self_service_hardening
 
 Estado: done (pendiente validacion visual/manual final)
 
@@ -13,39 +13,18 @@ Agregar una capa minima de completion y operacion de cuenta/perfiles en `/auth/l
 
 Alcance:
 - Backend:
-  - nuevo modulo OTP para cambios autenticados de cuenta (`password` y `phone`).
-  - nuevos endpoints protegidos de cuenta:
-    - `GET /v1/auth/account`
-    - `POST /v1/auth/account`
-    - `POST /v1/auth/account/password/request-otp`
-    - `POST /v1/auth/account/password/verify-otp`
-    - `POST /v1/auth/account/password/complete`
-    - `POST /v1/auth/account/phone/request-otp`
-    - `POST /v1/auth/account/phone/verify-otp`
-    - `POST /v1/auth/account/phone/complete`
-  - endpoint adicional para editar perfil de consumo:
-    - `POST /v1/auth/profiles/:profileId`
-  - `GET /v1/auth/me` y `GET /v1/auth/devices` exponen datos para UX de cuenta (completion + politica de desvinculacion).
-  - cooldown de desvinculacion self-service: 1 TV cada 90 dias por cuenta.
-  - persistencia JSON extendida para:
-    - `email` de cuenta
-    - timestamp de ultima desvinculacion self-service
-    - requests OTP de cambios de cuenta
+  - OTP para cambios autenticados de cuenta (`password` y `phone`).
+  - endpoints protegidos de cuenta y perfiles.
+  - update de perfil compatible por `POST|PUT|PATCH` en `/v1/auth/profiles/:profileId`.
+  - OTP de cambio de telefono enviado al numero registrado actual.
 - Web profile:
-  - titulo actualizado a `Cuenta del cliente`.
-  - bloque obligatorio de completion cuando falta correo.
-  - modal de edicion con blur para cambiar username/correo/telefono/contrasena.
-  - telefono/contrasena siguen flujo OTP (request/verify/complete).
-  - perfiles de consumo con avatar y estado (`active|inactive`).
-  - boton lapiz por perfil para editar nombre y avatar.
-  - nombre de TV vinculada visible bajo cada perfil.
-- Web admin (`/admin`):
-  - detalle de cuenta muestra perfiles.
-  - accion para activar/desactivar perfil.
-- Backend ops:
-  - endpoint de estado por perfil:
-    - `POST /v1/auth/ops/accounts/:accountId/profiles/:profileId/status`
-  - cambio de cuenta a `expired|suspended` inactiva perfiles de la cuenta.
+  - icono unico de edicion en header para abrir modal de cuenta.
+  - sin botones separados de editar en usuario/telefono/contrasena.
+  - modal unico con usuario, correo, telefono y contrasena.
+  - telefono/contrasena via OTP en el mismo modal.
+  - titulo de bloque `Perfiles` (sin texto `max 2`).
+  - estado de cuenta junto al avatar (`demo|activa|expirada|inactiva` + vencimiento).
+  - edicion de perfil (nombre/avatar) con fallback de metodo para evitar 405.
 
 No tocar:
 - Billing/pagos.
@@ -54,68 +33,47 @@ No tocar:
 - TV app.
 
 Archivos involucrados:
-- `backend/src/authPersistence.js`
-- `backend/src/accountChangeOtp.js`
-- `backend/src/server.js`
-- `backend/README.md`
 - `apps/web-app/public/auth/login.html`
 - `apps/web-app/public/auth/assets/v34-custom.css`
-- `docs/02_tasks/TASK_018_customer_account_completion_and_self_service_hardening.md`
+- `backend/src/accountChangeOtp.js`
+- `backend/src/server.js`
+- `docs/03_bugs/BUG_002_profile_edit_method_not_allowed.md`
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
 - `docs/00_index/CHATGPT_CONTEXT.md`
 - `docs/05_changelog/CHANGELOG_2026_Q1.md`
+- `docs/02_tasks/TASK_018_customer_account_completion_and_self_service_hardening.md`
 
 Implementacion realizada:
-- Se extendio store auth a version `7` y se agrego soporte persistente para requests OTP de cambios de cuenta.
-- Se agrego modulo `accountChangeOtp` con validacion OTP y max intentos para cambios de:
-  - contrasena (OTP a telefono actual).
-  - telefono (OTP al nuevo telefono).
-- Se agrego actualizacion de identidad de cuenta (`username`, `email`, `phone`) con control de unicidad.
-- Se agrego evaluacion de completion de cuenta:
-  - requerido cuando `email` esta vacio.
-- Se agrego estado por perfil (`active|inactive`) en persistencia de cuenta.
-- Se agrego operacion ops para cambiar estado de perfil por cuenta.
-- Se agrego inactivacion automatica de perfiles cuando `accountStatus` pasa a `expired|suspended`.
-- Se agrego politica de desvinculacion self-service:
-  - maximo una desvinculacion cada 90 dias por cuenta.
-- Se actualizo profile web con:
-  - bloque de completion de correo.
-  - modal unico (blur) para organizar edicion de cuenta y seguridad.
-  - cambio de telefono/contrasena con OTP dentro del modal.
-  - perfiles de consumo con selector de avatar y badge de estado.
-  - edicion de perfiles via lapiz (nombre + avatar).
-  - tarjeta de perfiles mostrando avatar y linea con nombre de TV vinculada.
-  - correo en tarjeta superior con estilo compacto para evitar desborde visual.
-- Se actualizo admin web con listado de perfiles en detalle y accion de cambio `active|inactive`.
-- Se agrego endpoint de update de perfil para UI cliente (`POST /v1/auth/profiles/:profileId`).
+- Se quitan botones de edicion por campo en la grilla superior de cuenta.
+- Se agrega lapiz unico en la cabecera del perfil para abrir el modal de edicion de cuenta.
+- El modal de cuenta abre en vista unificada con:
+  - `username` + `email`
+  - cambio de `telefono` con OTP
+  - cambio de `contrasena` con OTP
+- Se renombra el bloque de perfiles de `Perfiles (max 2)` a `Perfiles`.
+- Se agrega visual del estado de cuenta junto al avatar con etiqueta y vencimiento.
+- Se corrige guardado de perfil/avatar:
+  - frontend intenta `POST` y ante 405 reintenta `PUT`.
+  - backend acepta `POST|PUT|PATCH` para update de perfil.
+- Se ajusta OTP de cambio de telefono para enviarse al numero ya registrado.
 
-Pruebas tecnicas ejecutadas:
-- `node --check` OK:
-  - `backend/src/authPersistence.js`
-  - `backend/src/accountChangeOtp.js`
-  - `backend/src/server.js`
-- Smoke test de integracion en backend temporal (`PORT=8095`, store JSON aislado):
-  - login account OK.
-  - `profileCompletionRequired=true` inicialmente.
-  - completion de cuenta via `POST /v1/auth/account` OK.
-  - `profileCompletionRequired=false` despues de completion.
-  - cambio de username via `POST /v1/auth/account` OK.
-  - primera desvinculacion TV OK; segunda devuelve `429 DEVICE_REVOKE_COOLDOWN`.
-  - password change request con contrasena debil devuelve `PASSWORD_WEAK`.
-  - phone change request con mismo telefono devuelve `PHONE_UNCHANGED`.
+Riesgos:
+- El dato de vencimiento puede no estar disponible en todos los entornos; se muestra `Sin fecha` cuando falta.
+- Validacion final depende de pruebas manuales con backend reiniciado y proveedor SMS activo.
 
-Pendiente manual de validacion:
-- Reiniciar proceso backend en entorno donde se pruebe (si estaba levantado antes de estos cambios).
-- Validar UX final completa en `/auth/login?mode=profile` con cuenta real:
-  - completion obligatorio de correo al primer acceso.
-  - cambio de telefono con OTP.
-  - cambio de contrasena con OTP.
-  - creacion/listado de perfiles con avatar + estado.
-- Validar en `/admin`:
-  - operador cambia `profileStatus` por perfil.
-  - cuenta en `expired|suspended` refleja perfiles inactivos.
+Pendiente de prueba:
+- Validar flujo de modal unico de cuenta en UI real.
+- Validar cambio de telefono OTP recibido en numero registrado actual.
+- Validar que editar avatar/nombre de perfil no arroje 405.
+- Validar estado de cuenta mostrado junto al avatar para `trial|active|expired|suspended`.
 
-Cambios manuales externos:
-- Ninguno en XUI.
-- Para validar OTP real se requiere configuracion operativa de `SMS_ZDSMS_*` en entorno backend.
+Resultado esperado:
+- UX de cuenta simplificada con un unico punto de edicion.
+- Cambios sensibles protegidos por OTP.
+- Edicion de perfil estable sin `Method Not Allowed`.
+
+Pasos manuales si existen:
+- Reiniciar backend para cargar cambios de metodos/rutas.
+- Si se prueba OTP real, configurar `SMS_ZDSMS_*`.
+- No hay cambios manuales en XUI para esta tarea.
