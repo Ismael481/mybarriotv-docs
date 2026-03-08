@@ -338,3 +338,7 @@
 - TV: gate de acceso (`/v1/auth/access`) aplicado periodicamente durante sesion activa para detectar expiracion/suspension en caliente.
 - TV: al recibir `canAccessApp=false`, transicion automatica a `AccessBlocked` sin esperar nuevo login.
 - BUG_014 fix: resuelto caso donde TV permanecia en Home aun con cuenta ya expirada en backend/admin.
+- Se implemento `TASK_037_comprehensive_project_audit_and_next_steps` (auditoria documental integral).
+- Se consolidaron debilidades criticas: secretos versionados en `backend/.env`, deuda de mantenibilidad en backend/web y falta de pruebas automatizadas.
+- Se actualizaron indices obligatorios (`CHATGPT_CONTEXT`, `CURRENT_STATUS`, `ACTIVE_TASK`) con estado real y orden recomendado de proxima fase.
+- Se corrigio calidad editorial en plantillas/documentos base (`PROMPT_RULES`, `TASK_XXX`, `BUG_XXX`, `ADR_XXX`) para evitar texto con codificacion danada en el mirror publico.

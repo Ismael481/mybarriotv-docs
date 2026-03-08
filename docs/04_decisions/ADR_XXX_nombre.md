@@ -7,18 +7,18 @@ Estado:
 proposed | accepted | deprecated
 
 Contexto:
-<qué problema o decisión había que tomar>
+<que problema o decision habia que tomar>
 
-Decisión:
-<qué se decidió>
+Decision:
+<que se decidio>
 
 Motivo:
-<por qué se decidió eso>
+<por que se decidio eso>
 
 Consecuencias:
 - ventaja 1
 - ventaja 2
-- limitación 1
+- limitacion 1
 
 Alternativas consideradas:
 - alternativa 1

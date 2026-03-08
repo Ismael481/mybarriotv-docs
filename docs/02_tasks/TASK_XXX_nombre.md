@@ -3,25 +3,25 @@
 Estado:
 pending | in_progress | blocked | done
 
-Fecha de creación:
+Fecha de creacion:
 YYYY-MM-DD
 
-Última actualización:
+Ultima actualizacion:
 YYYY-MM-DD
 
 Objetivo:
-<qué se busca lograr>
+<que se busca lograr>
 
 Motivo:
-<por qué esta tarea existe>
+<por que esta tarea existe>
 
 Alcance:
-- qué sí toca
-- qué sí toca
+- que si toca
+- que si toca
 
 No tocar:
-- qué no debe tocarse
-- qué no debe romperse
+- que no debe tocarse
+- que no debe romperse
 
 Archivos involucrados:
 - ruta/archivo1
@@ -30,14 +30,16 @@ Archivos involucrados:
 Dependencias:
 - tarea o componente previo necesario
 
-Implementación realizada:
-<qué se cambió exactamente>
+Implementacion realizada:
+<que se cambio exactamente>
 
 Cambios manuales externos:
 - ninguno
+
 o
+
 - cambio requerido en XUI
-- cambio requerido en configuración
+- cambio requerido en configuracion
 
 Riesgos:
 - riesgo 1
@@ -47,9 +49,9 @@ Pruebas requeridas por el usuario:
 - prueba 1
 - prueba 2
 
-Criterio de éxito:
-- condición 1
-- condición 2
+Criterio de exito:
+- condicion 1
+- condicion 2
 
 Pendientes:
 - punto 1

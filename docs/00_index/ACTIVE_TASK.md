@@ -1,14 +1,15 @@
 # ACTIVE_TASK
 
-Tarea activa: **TASK_036_tv_runtime_access_gate_enforcement_on_account_expiry**
+Tarea activa: **TASK_037_comprehensive_project_audit_and_next_steps**
 
 Estado actual:
-- TV revalida acceso en runtime contra backend (`/v1/auth/access`) durante sesion activa.
-- Si la cuenta expira/suspende, la sesion pasa a `AccessBlocked` y sale de Home sin esperar relogin manual.
+- Auditoria integral completada sobre `apps/tv-app`, `apps/web-app`, `backend` y `docs`.
+- Hallazgos consolidados y priorizados en documentacion de tarea.
+- Pendiente de cierre funcional: decision de priorizacion de la siguiente tarea de implementacion.
 
-Objetivo de cierre inmediato:
-- Validar en TV fisica/emulador que cuenta vencida dentro de sesion activa salga automaticamente a pantalla bloqueada.
+Objetivo inmediato:
+- Entregar al siguiente ciclo (ChatGPT/usuario) un mapa claro de riesgos, incongruencias y orden recomendado de ejecucion.
 
 Archivos foco:
-- `apps/tv-app/app/src/main/java/com/techlads/composetv/navigation/AppNavigation.kt`
-- `docs/02_tasks/TASK_036_tv_runtime_access_gate_enforcement_on_account_expiry.md`
+- `docs/02_tasks/TASK_037_comprehensive_project_audit_and_next_steps.md`
+- `docs/00_index/CURRENT_STATUS.md`
