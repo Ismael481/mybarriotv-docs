@@ -163,3 +163,60 @@
 - Web: guard de acceso por role (`operator`) usando `/v1/auth/me`; customer queda fuera.
 - Web profile: se mantiene estable y agrega boton `Ir a Admin` solo para operador.
 - Backend: nuevas rutas web de entrega para dashboard (`GET /admin`, `GET /ops`) sin cambios en logica ops.
+- Se implemento `TASK_016_admin_dashboard_detail_and_usability`.
+- Web `/admin`: agregado resumen superior por estados (`trial|active|expired|suspended`) y filtros por estado.
+- Web `/admin`: mejora de legibilidad de listado/detalle, estados UX (loading/empty/error/success) y confirmaciones de acciones sensibles.
+- Web `/admin`: visualizacion de dispositivos mejorada (modelo/nombre, key resumida, estado claro).
+- Backend: `GET /v1/auth/ops/accounts/:accountId` extendido con `recentAudit` para contexto operativo reciente.
+- TASK_015 sincronizada como validada; TASK_016 queda activa para validacion visual/manual final.
+- TASK_016 UI pass 2: rediseño visual completo de `/admin` (estilo moderno/limpio), manteniendo intacta la logica de operaciones y autorizacion.
+- TASK_016 UI pass 3: ajuste visual para aproximar layout de referencia del usuario (sidebar oscuro + panel principal claro), sin cambios en contratos ni auth.
+- TASK_016 UI pass 4: mejora visual integral del dashboard admin (estilo mas moderno/premium) manteniendo intacta la logica funcional existente.
+- Se implemento `TASK_017_profile_surface_slots_and_qr_approve_split`.
+- Backend: nuevos endpoints `GET /v1/auth/profiles` y `POST /v1/auth/profiles` (maximo 2 perfiles por cuenta).
+- Backend: `/v1/auth/me` ahora expone perfiles de cuenta cuando aplica.
+- Backend/Web: `/auth/device` redirige a nueva ruta dedicada `/auth/device-approve`.
+- Backend: `POST /v1/auth/device/start` ahora entrega `qrUrl` directo a `/auth/device-approve?sessionId=...`.
+- Web: nueva pagina `auth/device-approve.html` separada del profile/login principal.
+- Web profile: mejora visual y funcional de perfiles de consumo (tarjetas + creacion de perfil con avatar).
+- Web profile UI pass 2: rediseno del perfil cliente a formato card moderno (inspirado en `1-html-css-card-profile-card`) adaptado a la paleta azul del proyecto.
+- Web profile: countdown demo removido del perfil web, con mensaje de alcance TV.
+- Se implemento `TASK_018_customer_account_completion_and_self_service_hardening`.
+- Backend: nuevo store auth `version=6` con soporte de `email` de cuenta y requests OTP para cambios autenticados de cuenta.
+- Backend: nuevo modulo `accountChangeOtp` para cambio de telefono/contrasena con OTP y max intentos.
+- Backend: nuevos endpoints protegidos de cuenta:
+  - `GET /v1/auth/account`
+  - `POST /v1/auth/account`
+  - `POST /v1/auth/account/password/request-otp`
+  - `POST /v1/auth/account/password/verify-otp`
+  - `POST /v1/auth/account/password/complete`
+  - `POST /v1/auth/account/phone/request-otp`
+  - `POST /v1/auth/account/phone/verify-otp`
+  - `POST /v1/auth/account/phone/complete`
+- Backend: desvinculacion self-service de TV limitada a 1 accion cada 90 dias por cuenta (`DEVICE_REVOKE_COOLDOWN`).
+- Backend: `GET /v1/auth/me` y `GET /v1/auth/devices` ahora exponen `profileCompletionRequired` y politica de desvinculacion.
+- Web profile: titulo actualizado a `Cuenta del cliente`.
+- Web profile: completion obligatorio de cuenta (correo + perfil inicial con avatar) cuando falta informacion.
+- Web profile: nuevo bloque para editar username/correo.
+- Web profile: nuevos flujos OTP para cambio de telefono y contrasena.
+- Web profile: listado de TVs para cliente muestra modelo/estado y accion de desvincular con cooldown.
+
+## 2026-03-08
+- TASK_018 UX tweak: en `/auth/login?mode=profile` se elimina el recuadro visual de `Gestion de cuenta` y se mantienen los controles de self-service sin ese panel.
+- TASK_018 UX simplification: se elimina del perfil cliente la UI de cambios de cuenta/telefono/contrasena (OTP) para mantener cuenta base minimalista.
+- TASK_018 profile completion tweak: `profileCompletionRequired` pasa a depender solo de correo; el bloque de completion pide unicamente email.
+- TASK_018 perfiles simplificados: creacion/listado de perfiles sin selector/avatar en la UI cliente.
+- TASK_018 profile UX pass: correo en tarjeta con tipografia compacta y ellipsis para evitar overflow en contenedor.
+- TASK_018 profile UX pass: vuelve selector de avatar en creacion de perfiles y se muestra avatar en cada tarjeta.
+- TASK_018 profile UX pass: cada perfil muestra referencia de nombre de TV vinculada bajo su info principal.
+- TASK_018 profiles status: modelo de perfiles extendido con `status` (`active|inactive`) y exposicion en `/v1/auth/me` + `/v1/auth/profiles`.
+- TASK_018 ops extension: nuevo endpoint `POST /v1/auth/ops/accounts/:accountId/profiles/:profileId/status` para activar/desactivar perfiles desde admin.
+- TASK_018 account coherence: al cambiar cuenta a `expired|suspended`, los perfiles pasan a `inactive` automaticamente.
+- TASK_018 admin UI: detalle de cuenta ahora muestra perfiles con avatar, estado y accion de guardado por perfil.
+- TASK_018 customer profile UI: vuelve bloque compacto para editar telefono y cambiar contrasena con OTP (incluye ver/ocultar input de nueva contrasena).
+- TASK_018 customer profile UX pass: edicion de cuenta movida a modal con blur (flujo mas ordenado y responsive).
+- TASK_018 customer profile UX pass: `username/correo` se editan desde modal de cuenta.
+- TASK_018 customer profile UX pass: telefono/contrasena con OTP se operan dentro del modal.
+- TASK_018 profile edit: cada perfil muestra lapiz para editar `name` y `avatar`.
+- TASK_018 backend: nuevo endpoint `POST /v1/auth/profiles/:profileId` para actualizar nombre/avatar de perfil.
+- TASK_018 copy fix: mensaje para conflicto de telefono ajustado a "Este numero ya esta en uso.".

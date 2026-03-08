@@ -1,6 +1,6 @@
 # TASK_015_admin_dashboard_minimum
 
-Estado: done (pendiente validacion manual final)
+Estado: validated
 
 Fecha de creacion:
 2026-03-07
@@ -71,9 +71,6 @@ Pruebas tecnicas ejecutadas:
   - login `operator` -> `role=operator` y acceso a `/v1/auth/ops/accounts`.
   - cambio/reversion de `accountStatus` y `device accessStatus` exitoso y persistente.
 
-Pendiente manual de validacion:
-- login `operator` -> acceso y operacion completa en `/admin`.
-- login `customer` -> acceso denegado en `/admin`.
-- busqueda de cuenta + apertura de detalle.
-- cambio de `accountStatus` y `device accessStatus` con persistencia tras recarga.
-- confirmar no regresiones en perfil/login/QR/gate.
+Resultado:
+- TASK_015 queda validada como base del dashboard admin minimo.
+- TASK_016 se abre para mejorar detalle/usabilidad sin ampliar alcance de arquitectura.
