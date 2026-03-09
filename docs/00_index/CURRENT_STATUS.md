@@ -2,33 +2,32 @@
 
 ## Estado general actual (2026-03-09)
 - Bridge `App TV -> Backend -> XUI`: operativo.
-- Flujo auth y gate de acceso: operativo (manual + QR + OTP + control de dispositivos + ops minima).
-- TASK_006 a TASK_039: implementadas segun historial documental.
-- TASK_036 permanece validada manualmente en runtime (bloqueo inmediato al expirar/suspender).
-- TASK_038 hardening tecnico base: completada.
-- TASK_039 base minima de pruebas automatizadas: completada.
+- Flujo auth/access/ops: operativo.
+- TASK_006 a TASK_040: implementadas segun historial documental.
+- TASK_039 base minima de pruebas automatizadas: completada y activa (`npm test`).
+- TASK_040 modularizacion incremental backend auth/ops: completada.
 
-## Riesgos cerrados en TASK_039
-- Se agrega suite automatizada minima ejecutable por comando unico (`backend: npm test`).
-- Se cubren contratos criticos:
-  - boot seguro de backend por `AUTH_JWT_SECRET`
-  - decision de acceso `active|expired|suspended`
-  - bloqueo runtime contractual con `canAccessApp=false`
-  - preflight `DELETE` en ruta ops
-  - smoke web auth/admin y contrato JSON esperado por esas vistas
+## Avance concreto TASK_040
+- `backend/src/server.js` reduce monolitismo y delega:
+  - rutas auth/ops/web auth a `backend/src/routes/authOpsRoutes.js`
+  - decision de acceso a `backend/src/services/accessDecision.js`
+  - autorizacion ops a `backend/src/services/opsAuthorization.js`
+- Se mantienen contratos funcionales de TV/web/admin sin cambios de producto.
+
+## Riesgos cerrados en TASK_040
+- Menor acoplamiento de auth/ops dentro de `server.js`.
+- Mayor trazabilidad para cambios incrementales futuros en rutas y servicios auth/ops.
 
 ## Riesgos abiertos actuales
-- Mantenibilidad: backend sigue monolitico en `backend/src/server.js`.
-- Mantenibilidad frontend: `login.html` y `admin.html` conservan JS inline extenso.
-- Calidad: cobertura actual es minima; aun faltan E2E navegador y pruebas Android TV instrumentadas.
-- Entorno local Android: en esta maquina `JAVA_HOME` global puede bloquear Gradle si apunta a JBR invalido.
+- `server.js` sigue concentrando handlers y parte del flujo bridge.
+- JS inline extenso en `apps/web-app/public/auth/login.html` y `admin.html`.
+- Cobertura automatizada sigue siendo minima (sin E2E navegador ni Android instrumentado).
 
-## Validaciones tecnicas TASK_039
-- Comando: `npm test` en `backend/`.
-- Resultado reproducible: `5` pruebas OK, `0` fallos.
-- No requiere entorno Android para considerarse exitosa.
+## Validaciones tecnicas TASK_040
+- `npm test` en `backend/`: OK (`5` pruebas, `0` fallos).
+- Contratos criticos protegidos por suite existente: login, access, preflight ops, smoke web/admin.
 
 ## Recomendacion de siguiente fase
-1. Modularizacion incremental backend auth/ops usando esta base de pruebas para evitar regresiones.
-2. Modularizacion incremental de JS web auth/admin con tests de contrato adicionales.
-3. Luego ampliar a smoke TV desacoplado y, cuando entorno permita, pruebas Android mas completas.
+1. Extraer incrementalmente handlers auth/ops desde `server.js` a modulos de controllers manteniendo contratos.
+2. Añadir pruebas de contrato por modulo extraido (sin E2E pesado).
+3. Luego modularizar JS web auth/admin en iteraciones pequenas.

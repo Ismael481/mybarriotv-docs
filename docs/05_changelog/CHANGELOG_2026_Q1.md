@@ -360,3 +360,11 @@
 - Cobertura minima: contrato JSON base para web auth/admin (`/v1/auth/me`, `/v1/auth/ops/accounts`).
 - Documentacion backend actualizada con comando de pruebas, alcance y limites de cobertura.
 - Se actualizaron indices obligatorios y archivo de tarea para reflejar estado real de pruebas automatizadas minimas.
+- Se implemento `TASK_040_backend_auth_ops_modularization_incremental`.
+- Backend modularizacion incremental: rutas auth/ops/web auth extraidas a `backend/src/routes/authOpsRoutes.js`.
+- Backend modularizacion incremental: decision de acceso extraida a `backend/src/services/accessDecision.js`.
+- Backend modularizacion incremental: autorizacion ops extraida a `backend/src/services/opsAuthorization.js`.
+- `backend/src/server.js` queda mas enfocado en bootstrap/orquestacion y mantiene contratos funcionales existentes.
+- No hubo cambios de arquitectura de producto ni nuevas features (sin DB, billing/pagos, RBAC completo).
+- Validacion tecnica: `npm test` en backend OK (`5` pruebas, `0` fallos).
+- Se actualizaron indices obligatorios y archivo de tarea para reflejar estado real de la modularizacion.

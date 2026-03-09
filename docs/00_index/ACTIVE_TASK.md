@@ -1,16 +1,17 @@
 # ACTIVE_TASK
 
-Tarea activa: **TASK_039_minimum_automated_test_foundation**
+Tarea activa: **TASK_040_backend_auth_ops_modularization_incremental**
 
 Estado actual:
-- Base minima de pruebas automatizadas implementada y ejecutable (`backend npm test`).
-- Cobertura critica inicial aplicada para auth/access/ops y smoke web auth/admin.
-- Sin cambios de arquitectura, DB, billing/pagos ni RBAC completo.
+- Modularizacion incremental auth/ops completada sin cambio de contratos funcionales.
+- `server.js` ahora delega rutas auth/ops/web y servicios de acceso/autorizacion.
+- Suite minima (`npm test`) sigue pasando 5/5 tras la extraccion.
 
 Objetivo inmediato:
-- Confirmar siguiente tarea de modularizacion incremental backend/web usando esta base minima de regresion.
+- Definir siguiente iteracion de modularizacion backend/web con pasos pequenos y cobertura incremental.
 
 Archivos foco:
-- `docs/02_tasks/TASK_039_minimum_automated_test_foundation.md`
-- `backend/test/minimum-foundation.test.js`
-- `docs/00_index/CURRENT_STATUS.md`
+- `docs/02_tasks/TASK_040_backend_auth_ops_modularization_incremental.md`
+- `backend/src/routes/authOpsRoutes.js`
+- `backend/src/services/accessDecision.js`
+- `backend/src/services/opsAuthorization.js`
