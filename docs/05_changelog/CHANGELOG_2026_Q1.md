@@ -384,3 +384,8 @@
 - Contratos backend auth/ops preservados sin cambios funcionales.
 - Validacion tecnica: `npm test` backend OK (`5` pruebas, `0` fallos).
 - Indices documentales sincronizados al estado real actual (TASK_042 activa/completada).
+- TASK_042 extension: `login.app.js` particionado internamente en modulos `login-state.js` (state OTP) y `login-render.js` (render/error mapping).
+- TASK_042 extension: `admin.app.js` particionado internamente en modulos `admin-api.js` (rutas ops) y `admin-render.js` (render/filtros/error mapping).
+- Web HTML (`/auth/login`, `/admin`) actualizado para cargar nuevos assets modulares sin JS inline.
+- Smoke contractual ampliado para verificar carga de assets nuevos y contratos/rutas ops adicionales (`/v1/auth/devices`, device status, profile status).
+- Validacion tecnica TASK_042 extension: `npm test` backend OK (`5` pruebas, `0` fallos).
