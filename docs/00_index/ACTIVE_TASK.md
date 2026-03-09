@@ -1,22 +1,11 @@
-﻿# ACTIVE_TASK
+# ACTIVE_TASK
 
-Tarea activa: **TASK_044_web_login_handlers_and_admin_actions_partition**
+Tarea activa: **TASK_052_xui_playback_url_resolution_from_signed_playlist**
 
-Estado actual:
-- Particion fina completada en web auth/admin.
-- Hotfix aplicado de codificacion UI en perfiles web (caracteres mojibake corregidos).
-- `login.app.js` reducido y centrado en wiring/orquestacion.
-- `admin.app.js` reducido delegando acciones operativas a `admin-actions.js`.
-- `npm test` backend en verde (5/5).
+Estado:
+- Implementada y validada en backend runtime.
+- Playback bridge ahora entrega URL firmada reproducible del panel.
 
-Objetivo inmediato:
-- Mantener estabilidad de modularizacion incremental sin alterar contratos backend.
-
-Archivos foco:
-- `docs/02_tasks/TASK_044_web_login_handlers_and_admin_actions_partition.md`
-- `apps/web-app/public/auth/assets/login-render.js`
-- `apps/web-app/public/auth/assets/login-handlers.js`
-- `apps/web-app/public/auth/assets/login.app.js`
-- `apps/web-app/public/auth/assets/admin.app.js`
-- `apps/web-app/public/auth/assets/admin-actions.js`
-- `backend/test/minimum-foundation.test.js`
+Foco:
+- Corregir error de stream en TV por URL de playback incorrecta.
+- Resolver playback desde playlist firmada `/play/<token>/m3u8`.

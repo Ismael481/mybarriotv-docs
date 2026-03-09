@@ -406,3 +406,58 @@
 - Smoke contractual extendido para validar carga de assets nuevos.
 - Validacion tecnica: `npm test` backend OK (`5` pruebas, `0` fallos).
 - TASK_044 hotfix UI: corregidos caracteres mojibake en perfiles web (lapiz y separador de avatar/id) y texto de `Contrasena` normalizado.
+- Se implemento `TASK_045_customer_profile_web_modularization_and_usability`.
+- Web cliente profile: nuevo modulo `auth/assets/login-profile-ui.js` para separar superficie UI (`cuenta`, `perfiles`, `TVs`, modal/OTP sensible) de `login.app.js`.
+- `login.app.js` reducido y centrado en orquestacion/eventos, delegando carga y render principal de profile al modulo nuevo.
+- `/auth/login`: bloques de `Perfiles` y `TVs vinculadas` mas claros, con helper visual operativo y TVs visibles en profile.
+- Smoke contractual extendido para validar asset `login-profile-ui.js` y secciones profile base (`profileProfilesSection`, `profileDevicesSection`).
+- Validacion tecnica: `npm test` backend OK (`5` pruebas, `0` fallos).
+- Pendiente manual declarado: recorrido visual completo en navegador real para `/auth/login?mode=profile`.
+- Se implemento `BUG_015_sms_provider_not_configured_error_surface`.
+- OTP SMS backend ahora distingue error de configuracion (`SMS_PROVIDER_NOT_CONFIGURED`) de error de envio (`SMS_SEND_FAILED`).
+- Modulos actualizados: `smsProvider`, `registrationOtp`, `passwordResetOtp`, `accountChangeOtp`.
+- Web login/profile muestra mensaje explicito cuando faltan credenciales SMS en backend.
+- Validacion tecnica: `npm test` backend OK (`5` pruebas, `0` fallos).
+- Se implemento `TASK_046_sms_runtime_local_configuration_for_otp_validation`.
+- Se creo/actualizo `backend/.env` local (ignorado por git) con variables SMS necesarias para pruebas OTP reales.
+- Se confirma que hay backend activo en `:8080`; queda requerido reinicio manual del proceso para cargar nueva configuracion.
+- Hotfix TASK_046: `smsProvider` ahora envia `Accept: application/json` a zdSMS para evitar respuestas `302` HTML en errores.
+- Hotfix TASK_046: normalizacion de destinatario SMS local `XXXXXXXX -> 53XXXXXXXX`.
+- Hotfix TASK_046: cuando hay `SMS_ZDSMS_EMAIL` + `SMS_ZDSMS_PASSWORD`, se prioriza token fresco frente a `SMS_ZDSMS_API_TOKEN` fijo.
+- Validacion manual OTP: `POST /v1/auth/register/request-otp` para `50632133` respondio OK con `otpRequestId`.
+- Se documento `BUG_016_zdsms_302_redirect_and_local_recipient_format`.
+- Se implemento `TASK_047_web_otp_reload_state_recovery_and_cooldown_consistency`.
+- Web auth OTP: estado de recarga endurecido con persistencia de `flow` + identidad (`username/phone`) para requests OTP pendientes.
+- Web auth OTP: al recargar con OTP activo, identidad se restaura y queda bloqueada; input OTP permanece editable.
+- Web auth OTP: al expirar countdown se limpia estado persistido y se habilita nuevo `Enviar SMS`.
+- Web auth: `clearSensitiveFieldsOnLoad` deja de limpiar campos del formulario OTP pendiente.
+- Se documento `BUG_017_web_otp_reload_blank_locked_identity_fields`.
+- Se implemento `TASK_048_demo_timer_start_on_first_tv_login_only`.
+- Demo trial: cuentas nuevas `trial` ya no reciben `expiresAt` al crearse o al login web.
+- Demo trial: inicio explicito de `trialStartedAt/expiresAt` solo en primer login desde TV (`manual_login` o `qr_exchange`).
+- Backend: `normalizeAccountRecord` deja de inferir inicio demo desde `createdAt`.
+- Validacion tecnica: `npm test` backend OK (`5` pruebas, `0` fallos) y prueba de store temporal confirma inicio diferido de demo.
+- Cierre documental: `BUG_015`, `BUG_016` y `BUG_017` pasan a estado `closed`.
+- Se implemento `TASK_049_trial_expiry_must_not_start_from_admin_or_web`.
+- Backend ops: eliminado fallback `ops_trial_expiry_default` que auto-creaba `expiresAt` al aplicar estado `trial`.
+- Backend persistencia: cuentas `trial` sin `trialStartedAt` ni `demoConsumedAt` ahora normalizan `expiresAt=null`.
+- Backend status update: transicion a `trial` preserva regla de no-expiracion hasta primer login TV.
+- Pruebas: `backend/test/minimum-foundation.test.js` agrega regresion `ops trial status update does not auto-assign expiresAt before first TV login`.
+- Validacion tecnica: `npm test` backend OK (`6` pruebas, `0` fallos).
+- Se documento `BUG_018_trial_expiry_auto_set_from_ops_status`.
+- Se implemento `TASK_050_qr_device_approve_base_url_runtime_fix`.
+- Runtime local: `AUTH_WEB_BASE_URL` actualizado a `http://10.10.6.121:8080` para QR de TV.
+- Validacion runtime: `POST /v1/auth/device/start` ahora retorna `qrUrl` con IP LAN (no localhost).
+- Se documento `BUG_019_qr_url_localhost_not_reachable_from_mobile`.
+- Se implemento `TASK_051_xui_runtime_env_completion_and_loader_precedence_fix`.
+- Runtime local: bloque `XUI_*` completado para consumo de catalogo Xtream desde `panel.mybarriotv.com`.
+- Backend: `loadEnvFromFile` ahora carga valor de `.env` cuando variable del proceso existe vacia.
+- Validacion runtime: `GET /v1/content/home` responde con secciones/items reales de XUI.
+- Se documento `BUG_020_env_loader_ignored_dotenv_when_env_key_present_empty`.
+- Se implemento `TASK_052_xui_playback_url_resolution_from_signed_playlist`.
+- Backend xtream playback: resolucion principal ahora usa URLs firmadas obtenidas desde playlist M3U (`/playlist/.../m3u`) en lugar de forzar `/live/...`.
+- Se mantiene fallback a `/live/...` cuando no hay match por nombre.
+- Runtime local xtream: `XUI_API_KEY` vacio para evitar interferencia en lectura de playlist.
+- Validacion runtime: `/v1/content/31/playback` devuelve URL `.../play/<token>/m3u8`.
+- Se documento `BUG_021_xtream_live_url_not_playable_for_signed_panel_streams`.
+- Hotfix TASK_052: runtime local cambia `XUI_OUTPUT=ts` y playback bridge devuelve `.../play/<token>/ts` (`streamType=mpegts`) para compatibilidad de reproduccion en TV.

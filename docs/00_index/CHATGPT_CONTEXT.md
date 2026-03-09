@@ -1,40 +1,41 @@
-﻿# CHATGPT_CONTEXT
+# CHATGPT_CONTEXT
 
-Fecha: 2026-03-09
-Rama: `main`
-Tarea activa: `TASK_044_web_login_handlers_and_admin_actions_partition`
+Fecha: 2026-03-09  
+Rama: `main`  
+Tarea activa: `TASK_052_xui_playback_url_resolution_from_signed_playlist`
 
 ## Resumen operativo
-- TASK_044 completada: particion fina de handlers/eventos en login web y acciones operativas en admin web.
-- Hotfix aplicado para caracteres de codificacion en UI de perfiles web.
-- Se preservan UX y contratos backend existentes.
+- Diagnostico playback confirmado:
+  - Home cargaba desde XUI, pero playback bridge devolvia URL `/live/...` no valida para este panel.
+- Fix aplicado en backend:
+  - playback xtream se resuelve desde playlist firmada (`/playlist/.../m3u`) y devuelve URL `/play/<token>/m3u8`.
+  - `XUI_API_KEY` se deja vacio en runtime local para modo xtream.
+- Ajuste runtime adicional:
+  - `XUI_OUTPUT=ts` para devolver `.../play/<token>/ts` y evitar fallo de stream en TV en entorno actual.
+- Resultado validado:
+  - `GET /v1/content/home` y `GET /v1/content/31/playback` responden con datos operativos.
 
-## Modulos web activos
-- Shared: `apps/web-app/public/auth/assets/web-common.js`
-- Login:
-  - `apps/web-app/public/auth/assets/login-helpers.js`
-  - `apps/web-app/public/auth/assets/login-state.js`
-  - `apps/web-app/public/auth/assets/login-render.js`
-  - `apps/web-app/public/auth/assets/login-handlers.js`
-  - `apps/web-app/public/auth/assets/login.app.js`
-- Admin:
-  - `apps/web-app/public/auth/assets/admin-helpers.js`
-  - `apps/web-app/public/auth/assets/admin-api.js`
-  - `apps/web-app/public/auth/assets/admin-render.js`
-  - `apps/web-app/public/auth/assets/admin-actions.js`
-  - `apps/web-app/public/auth/assets/admin.app.js`
+## Archivos clave del ajuste actual
+- `backend/.env` (local, ignorado por git)
+- `backend/src/xuiClient.js`
+- `docs/02_tasks/TASK_052_xui_playback_url_resolution_from_signed_playlist.md`
 
 ## Validacion
-- Comando: `npm test` en `backend/`
-- Resultado: `5` pruebas OK, `0` fallos
-- Smoke valida carga de assets nuevos y contratos/rutas ops principales.
+- Validacion runtime:
+  - `GET /v1/content/home` devuelve secciones/items de XUI.
+  - `GET /v1/content/31/playback` devuelve URL firmada `/play/.../ts` (`streamType=mpegts`).
+  - `npm test` backend OK (`6` pruebas, `0` fallos).
 
-## Cambios manuales externos
-- Ninguno en XUI.
-- Ninguna configuracion externa requerida.
+## Cambios manuales externos requeridos
+- Ninguno fuera del repo.
+- Si cambian credenciales de linea o host XUI, actualizar `XUI_*` en `backend/.env` y reiniciar backend.
 
 ## Leer en repo publico
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
-- `docs/02_tasks/TASK_044_web_login_handlers_and_admin_actions_partition.md`
+- `docs/02_tasks/TASK_052_xui_playback_url_resolution_from_signed_playlist.md`
+- `docs/03_bugs/BUG_021_xtream_live_url_not_playable_for_signed_panel_streams.md`
+- `docs/03_bugs/BUG_015_sms_provider_not_configured_error_surface.md`
+- `docs/03_bugs/BUG_016_zdsms_302_redirect_and_local_recipient_format.md`
+- `docs/03_bugs/BUG_017_web_otp_reload_blank_locked_identity_fields.md`
 - `docs/05_changelog/CHANGELOG_2026_Q1.md`
