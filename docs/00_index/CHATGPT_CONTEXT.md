@@ -2,24 +2,32 @@
 
 Fecha: 2026-03-09
 Rama: `main`
-Tarea activa: `TASK_043_admin_dashboard_usability_and_operational_clarity`
+Tarea activa: `TASK_044_web_login_handlers_and_admin_actions_partition`
 
 ## Resumen operativo
-- TASK_043 completada: mejora de claridad visual y operativa en `/admin` sin cambios de negocio.
-- Admin mantiene contratos backend existentes y flujo operativo actual.
-- Feedback de acciones y lectura de detalle de cuenta mejorados.
+- TASK_044 completada: particion fina de handlers/eventos en login web y acciones operativas en admin web.
+- Hotfix aplicado para caracteres de codificacion en UI de perfiles web.
+- Se preservan UX y contratos backend existentes.
 
-## Modulos web admin activos
+## Modulos web activos
 - Shared: `apps/web-app/public/auth/assets/web-common.js`
-- Admin: `apps/web-app/public/auth/assets/admin-helpers.js`
-- Admin API: `apps/web-app/public/auth/assets/admin-api.js`
-- Admin Render: `apps/web-app/public/auth/assets/admin-render.js`
-- Admin App: `apps/web-app/public/auth/assets/admin.app.js`
+- Login:
+  - `apps/web-app/public/auth/assets/login-helpers.js`
+  - `apps/web-app/public/auth/assets/login-state.js`
+  - `apps/web-app/public/auth/assets/login-render.js`
+  - `apps/web-app/public/auth/assets/login-handlers.js`
+  - `apps/web-app/public/auth/assets/login.app.js`
+- Admin:
+  - `apps/web-app/public/auth/assets/admin-helpers.js`
+  - `apps/web-app/public/auth/assets/admin-api.js`
+  - `apps/web-app/public/auth/assets/admin-render.js`
+  - `apps/web-app/public/auth/assets/admin-actions.js`
+  - `apps/web-app/public/auth/assets/admin.app.js`
 
 ## Validacion
 - Comando: `npm test` en `backend/`
 - Resultado: `5` pruebas OK, `0` fallos
-- Smoke admin valida carga, contratos base y elementos UX clave (`clearSearchBtn`, `detailAccountId`).
+- Smoke valida carga de assets nuevos y contratos/rutas ops principales.
 
 ## Cambios manuales externos
 - Ninguno en XUI.
@@ -28,5 +36,5 @@ Tarea activa: `TASK_043_admin_dashboard_usability_and_operational_clarity`
 ## Leer en repo publico
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
-- `docs/02_tasks/TASK_043_admin_dashboard_usability_and_operational_clarity.md`
+- `docs/02_tasks/TASK_044_web_login_handlers_and_admin_actions_partition.md`
 - `docs/05_changelog/CHANGELOG_2026_Q1.md`

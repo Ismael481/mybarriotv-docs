@@ -397,3 +397,12 @@
 - CSS admin: ajustes puntuales de layout para claridad operativa sin rediseño completo.
 - Smoke ligero extendido para verificar elementos UX admin (`clearSearchBtn`, `detailAccountId`).
 - Validacion tecnica: `npm test` backend OK (`5` pruebas, `0` fallos).
+- Se implemento `TASK_044_web_login_handlers_and_admin_actions_partition`.
+- Web login: nuevo modulo `auth/assets/login-handlers.js` con handlers por dominio (`otp`, `profile`, `ops-lite`).
+- `login.app.js` reducido y enfocado en wiring/orquestacion, manteniendo UX y contratos.
+- Web admin: nuevo modulo `auth/assets/admin-actions.js` para acciones operativas criticas.
+- `admin.app.js` reducido delegando acciones en `admin-actions.js` y manteniendo `admin-api` + `admin-render`.
+- HTML actualizado para carga de nuevos assets (`login-handlers.js`, `admin-actions.js`).
+- Smoke contractual extendido para validar carga de assets nuevos.
+- Validacion tecnica: `npm test` backend OK (`5` pruebas, `0` fallos).
+- TASK_044 hotfix UI: corregidos caracteres mojibake en perfiles web (lapiz y separador de avatar/id) y texto de `Contrasena` normalizado.
