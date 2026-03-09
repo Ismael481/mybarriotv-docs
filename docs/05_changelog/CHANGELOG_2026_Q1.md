@@ -389,3 +389,11 @@
 - Web HTML (`/auth/login`, `/admin`) actualizado para cargar nuevos assets modulares sin JS inline.
 - Smoke contractual ampliado para verificar carga de assets nuevos y contratos/rutas ops adicionales (`/v1/auth/devices`, device status, profile status).
 - Validacion tecnica TASK_042 extension: `npm test` backend OK (`5` pruebas, `0` fallos).
+- Se implemento `TASK_043_admin_dashboard_usability_and_operational_clarity`.
+- Admin `/admin`: busqueda mas visible con boton `Limpiar` y mejor contexto de listado/filtrado.
+- Admin detalle: agregado snapshot operativo de cuenta (`id`, `username`, `telefono`, `role`, `expiracion`).
+- Admin acciones: feedback de botones en curso (`Buscando`, `Aplicando`, `Guardando`, `Creando`, `Eliminando`) manteniendo confirmaciones sensibles.
+- Admin render: labels de estado mas claros para dispositivos/perfiles sin cambiar contratos.
+- CSS admin: ajustes puntuales de layout para claridad operativa sin rediseño completo.
+- Smoke ligero extendido para verificar elementos UX admin (`clearSearchBtn`, `detailAccountId`).
+- Validacion tecnica: `npm test` backend OK (`5` pruebas, `0` fallos).
