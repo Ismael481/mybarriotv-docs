@@ -1,17 +1,17 @@
 # ACTIVE_TASK
 
-Tarea activa: **TASK_041_web_auth_admin_js_modularization_incremental**
+Tarea activa: **TASK_042_web_auth_admin_internal_partition_and_smoke_extension**
 
 Estado actual:
-- Modularizacion incremental del JS web auth/admin completada.
-- `login.html` y `admin.html` ya no tienen logica JS inline.
-- `npm test` sigue OK (`5/5`) tras extraccion a assets y helper compartido.
+- Particion interna incremental completada en auth/admin web.
+- Helpers separados por dominio (`login-helpers.js`, `admin-helpers.js`) y `.app.js` como orquestadores.
+- Smoke contractual extendido y estable (`npm test` 5/5).
 
 Objetivo inmediato:
-- Definir siguiente iteracion de particion interna de `login.app.js` y `admin.app.js` en modulos mas finos por dominio.
+- Planificar siguiente particion fina de `login.app.js`/`admin.app.js` por dominio de eventos/render para reducir tamaño restante.
 
 Archivos foco:
-- `docs/02_tasks/TASK_041_web_auth_admin_js_modularization_incremental.md`
+- `docs/02_tasks/TASK_042_web_auth_admin_internal_partition_and_smoke_extension.md`
 - `apps/web-app/public/auth/assets/login.app.js`
 - `apps/web-app/public/auth/assets/admin.app.js`
-- `apps/web-app/public/auth/assets/web-common.js`
+- `backend/test/minimum-foundation.test.js`

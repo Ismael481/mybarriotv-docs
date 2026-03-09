@@ -2,22 +2,22 @@
 
 Fecha: 2026-03-09
 Rama: `main`
-Tarea activa: `TASK_041_web_auth_admin_js_modularization_incremental`
+Tarea activa: `TASK_042_web_auth_admin_internal_partition_and_smoke_extension`
 
 ## Resumen operativo
-- TASK_041 completada: JS inline de login/admin extraido a assets externos.
-- Se agrego helper compartido web (`web-common.js`) para API/utilidades UI.
-- No hubo cambios de arquitectura de producto, reglas de negocio ni contratos backend auth/ops.
+- TASK_042 completada: particion interna adicional de web auth/admin en helpers modulares.
+- `login.app.js` y `admin.app.js` mantienen contratos/UX, delegando utilidades a modulos separados.
+- Smoke contractual extendido para assets y rutas ops principales admin.
 
-## Archivos clave de modularizacion web
-- `apps/web-app/public/auth/assets/login.app.js`
-- `apps/web-app/public/auth/assets/admin.app.js`
-- `apps/web-app/public/auth/assets/web-common.js`
+## Modulos web activos
+- Shared: `apps/web-app/public/auth/assets/web-common.js`
+- Login: `apps/web-app/public/auth/assets/login-helpers.js`, `apps/web-app/public/auth/assets/login.app.js`
+- Admin: `apps/web-app/public/auth/assets/admin-helpers.js`, `apps/web-app/public/auth/assets/admin.app.js`
 
 ## Validacion
 - Comando: `npm test` en `backend/`
 - Resultado: `5` pruebas OK, `0` fallos
-- Smoke valida carga de `/auth/login`, `/admin` y nuevos assets JS modularizados.
+- Smoke verifica `/auth/login`, `/admin`, carga de assets modularizados y rutas ops principales.
 
 ## Cambios manuales externos
 - Ninguno en XUI.
@@ -26,5 +26,5 @@ Tarea activa: `TASK_041_web_auth_admin_js_modularization_incremental`
 ## Leer en repo publico
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
-- `docs/02_tasks/TASK_041_web_auth_admin_js_modularization_incremental.md`
+- `docs/02_tasks/TASK_042_web_auth_admin_internal_partition_and_smoke_extension.md`
 - `docs/05_changelog/CHANGELOG_2026_Q1.md`

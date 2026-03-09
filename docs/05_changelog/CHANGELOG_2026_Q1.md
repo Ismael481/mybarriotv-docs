@@ -376,3 +376,11 @@
 - Smoke de pruebas extendido en `backend/test/minimum-foundation.test.js` para validar referencias/carga de nuevos assets JS.
 - Validacion tecnica: `npm test` en backend OK (`5` pruebas, `0` fallos).
 - Se actualizaron indices obligatorios y archivo de tarea para reflejar estado real de modularizacion web incremental.
+- Se implemento `TASK_042_web_auth_admin_internal_partition_and_smoke_extension`.
+- Web auth: nuevo modulo `auth/assets/login-helpers.js` y `login.app.js` actualizado para consumir helpers separados.
+- Web admin: nuevo modulo `auth/assets/admin-helpers.js` y `admin.app.js` actualizado para consumir helpers separados.
+- `login.html` y `admin.html` mantienen markup limpio con carga de assets modularizados.
+- Smoke contractual extendido en `backend/test/minimum-foundation.test.js` para validar assets nuevos y rutas ops principales (`list`, `detail`, `status`, `expiry`).
+- Contratos backend auth/ops preservados sin cambios funcionales.
+- Validacion tecnica: `npm test` backend OK (`5` pruebas, `0` fallos).
+- Indices documentales sincronizados al estado real actual (TASK_042 activa/completada).
