@@ -343,3 +343,9 @@
 - Se actualizaron indices obligatorios (`CHATGPT_CONTEXT`, `CURRENT_STATUS`, `ACTIVE_TASK`) con estado real y orden recomendado de proxima fase.
 - Se corrigio calidad editorial en plantillas/documentos base (`PROMPT_RULES`, `TASK_XXX`, `BUG_XXX`, `ADR_XXX`) para evitar texto con codificacion danada en el mirror publico.
 - TASK_036 validacion manual confirmada por usuario: al cambiar cuenta a `expired/suspended`, TV sale de Home inmediatamente y muestra `AccessBlocked`.
+- Se implemento `TASK_038_security_and_config_hardening_foundation`.
+- Seguridad/config: `backend/.env` eliminado del repo y `.env` locales ignorados en `.gitignore`.
+- Seguridad/config: `AUTH_JWT_SECRET` deja de usar fallback inseguro; backend falla al boot si falta secreto fuerte.
+- Backend ops: CORS actualizado para preflight con metodos reales, incluyendo `DELETE`.
+- TV build portability: removido `org.gradle.java.home` fijo de `apps/tv-app/gradle.properties`.
+- Documentacion: agregado `TASK_038` y actualizados indices de estado para reflejar hardening tecnico completado.
