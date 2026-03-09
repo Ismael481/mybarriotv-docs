@@ -349,3 +349,14 @@
 - Backend ops: CORS actualizado para preflight con metodos reales, incluyendo `DELETE`.
 - TV build portability: removido `org.gradle.java.home` fijo de `apps/tv-app/gradle.properties`.
 - Documentacion: agregado `TASK_038` y actualizados indices de estado para reflejar hardening tecnico completado.
+## 2026-03-09
+- Se implemento `TASK_039_minimum_automated_test_foundation`.
+- Backend: nuevo comando `npm test` (`node --test`) y suite minima en `backend/test/minimum-foundation.test.js`.
+- Cobertura minima: boot fallido con `AUTH_JWT_SECRET` inseguro.
+- Cobertura minima: boot exitoso con secreto valido.
+- Cobertura minima: contrato `GET /v1/auth/access` para `active|expired|suspended` con validacion de `canAccessApp=false`.
+- Cobertura minima: preflight `OPTIONS` para ruta ops `DELETE`.
+- Cobertura minima: smoke web auth/admin (`/auth/login`, `/admin`, `/auth/device-approve`, assets).
+- Cobertura minima: contrato JSON base para web auth/admin (`/v1/auth/me`, `/v1/auth/ops/accounts`).
+- Documentacion backend actualizada con comando de pruebas, alcance y limites de cobertura.
+- Se actualizaron indices obligatorios y archivo de tarea para reflejar estado real de pruebas automatizadas minimas.

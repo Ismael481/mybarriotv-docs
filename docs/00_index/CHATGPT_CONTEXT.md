@@ -1,33 +1,32 @@
 # CHATGPT_CONTEXT
 
-Fecha: 2026-03-08
+Fecha: 2026-03-09
 Rama: `main`
-Tarea activa: `TASK_038_security_and_config_hardening_foundation`
+Tarea activa: `TASK_039_minimum_automated_test_foundation`
 
 ## Resumen operativo
-- TASK_036 permanece cerrada y validada manualmente.
-- TASK_038 aplicada: hardening tecnico minimo en seguridad/configuracion y operacion base.
-- No se introdujeron features nuevas ni cambios de arquitectura.
+- TASK_039 completada con base minima de pruebas automatizadas en backend.
+- Suite actual valida flujos criticos de auth/access/ops y smoke web auth/admin sin depender de Android local.
+- No hubo cambios de arquitectura, DB, billing/pagos ni RBAC completo.
 
-## Hallazgos clave
-- `backend/.env` removido del repo; `.env` locales ahora ignorados.
-- `AUTH_JWT_SECRET` ahora es obligatorio y seguro (sin fallback default).
-- CORS ops alineado con metodos reales (`DELETE` incluido en preflight).
-- TV build ya no depende de `org.gradle.java.home` fijo dentro del repo.
+## Comando de pruebas
+- En `backend/`: `npm test`
 
-## Pruebas tecnicas TASK_038
-- `node --check` OK en `backend/src/auth.js` y `backend/src/server.js`.
-- Validado que `buildAuthConfig()` falla sin secreto seguro.
-- Validado arranque de backend con secreto valido y preflight `OPTIONS` para `DELETE` (status `204`).
-- Build TV en este entorno sigue afectada por `JAVA_HOME` global externo, no por configuracion fija en repo.
+## Cobertura minima confirmada
+- Backend falla si `AUTH_JWT_SECRET` es inseguro.
+- Backend arranca con secreto valido.
+- `GET /v1/auth/access` para `active|expired|suspended`.
+- Bloqueo contractual por `canAccessApp=false`.
+- Preflight `DELETE` en ruta ops.
+- Smoke web de `/auth/login`, `/admin`, `/auth/device-approve` y assets.
+- Contrato JSON base de `/v1/auth/me` y `/v1/auth/ops/accounts`.
 
 ## Cambios manuales externos
 - Ninguno en XUI.
-- Recomendado fuera del repo: rotar credenciales historicas usadas en `.env` local previo.
+- Ninguna configuracion externa requerida para esta tarea.
 
 ## Leer en repo publico
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
-- `docs/02_tasks/TASK_036_tv_runtime_access_gate_enforcement_on_account_expiry.md`
-- `docs/02_tasks/TASK_038_security_and_config_hardening_foundation.md`
+- `docs/02_tasks/TASK_039_minimum_automated_test_foundation.md`
 - `docs/05_changelog/CHANGELOG_2026_Q1.md`

@@ -1,15 +1,16 @@
 # ACTIVE_TASK
 
-Tarea activa: **TASK_038_security_and_config_hardening_foundation**
+Tarea activa: **TASK_039_minimum_automated_test_foundation**
 
 Estado actual:
-- Hardening tecnico minimo aplicado (seguridad/config, CORS ops, portabilidad base TV).
-- TASK_036 permanece validada manualmente.
-- TASK_038 queda implementada y validada tecnicamente en este entorno.
+- Base minima de pruebas automatizadas implementada y ejecutable (`backend npm test`).
+- Cobertura critica inicial aplicada para auth/access/ops y smoke web auth/admin.
+- Sin cambios de arquitectura, DB, billing/pagos ni RBAC completo.
 
 Objetivo inmediato:
-- Definir la siguiente tarea funcional con base ya endurecida y sin deuda critica de configuracion.
+- Confirmar siguiente tarea de modularizacion incremental backend/web usando esta base minima de regresion.
 
 Archivos foco:
-- `docs/02_tasks/TASK_038_security_and_config_hardening_foundation.md`
+- `docs/02_tasks/TASK_039_minimum_automated_test_foundation.md`
+- `backend/test/minimum-foundation.test.js`
 - `docs/00_index/CURRENT_STATUS.md`
