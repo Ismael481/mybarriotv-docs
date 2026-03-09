@@ -1,17 +1,17 @@
 # ACTIVE_TASK
 
-Tarea activa: **TASK_040_backend_auth_ops_modularization_incremental**
+Tarea activa: **TASK_041_web_auth_admin_js_modularization_incremental**
 
 Estado actual:
-- Modularizacion incremental auth/ops completada sin cambio de contratos funcionales.
-- `server.js` ahora delega rutas auth/ops/web y servicios de acceso/autorizacion.
-- Suite minima (`npm test`) sigue pasando 5/5 tras la extraccion.
+- Modularizacion incremental del JS web auth/admin completada.
+- `login.html` y `admin.html` ya no tienen logica JS inline.
+- `npm test` sigue OK (`5/5`) tras extraccion a assets y helper compartido.
 
 Objetivo inmediato:
-- Definir siguiente iteracion de modularizacion backend/web con pasos pequenos y cobertura incremental.
+- Definir siguiente iteracion de particion interna de `login.app.js` y `admin.app.js` en modulos mas finos por dominio.
 
 Archivos foco:
-- `docs/02_tasks/TASK_040_backend_auth_ops_modularization_incremental.md`
-- `backend/src/routes/authOpsRoutes.js`
-- `backend/src/services/accessDecision.js`
-- `backend/src/services/opsAuthorization.js`
+- `docs/02_tasks/TASK_041_web_auth_admin_js_modularization_incremental.md`
+- `apps/web-app/public/auth/assets/login.app.js`
+- `apps/web-app/public/auth/assets/admin.app.js`
+- `apps/web-app/public/auth/assets/web-common.js`

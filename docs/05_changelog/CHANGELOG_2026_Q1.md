@@ -368,3 +368,11 @@
 - No hubo cambios de arquitectura de producto ni nuevas features (sin DB, billing/pagos, RBAC completo).
 - Validacion tecnica: `npm test` en backend OK (`5` pruebas, `0` fallos).
 - Se actualizaron indices obligatorios y archivo de tarea para reflejar estado real de la modularizacion.
+- Se implemento `TASK_041_web_auth_admin_js_modularization_incremental`.
+- Web auth/admin: JS inline removido de `login.html` y `admin.html`.
+- Web auth/admin: logica movida a `auth/assets/login.app.js` y `auth/assets/admin.app.js`.
+- Web shared helper: nuevo `auth/assets/web-common.js` con `createApiClient` y `setLine`.
+- Se preservaron contratos funcionales existentes de auth/register/device-approve/admin ops (sin cambios de negocio).
+- Smoke de pruebas extendido en `backend/test/minimum-foundation.test.js` para validar referencias/carga de nuevos assets JS.
+- Validacion tecnica: `npm test` en backend OK (`5` pruebas, `0` fallos).
+- Se actualizaron indices obligatorios y archivo de tarea para reflejar estado real de modularizacion web incremental.
