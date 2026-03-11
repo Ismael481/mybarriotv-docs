@@ -474,3 +474,10 @@
 - `ACTIVE_TASK`, `CURRENT_STATUS` y `CHATGPT_CONTEXT` quedan alineados con una unica tarea activa.
 - No se implementan features ni cambios de backend, TV app, web app, XUI o refactors.
 - Se declara prueba minima documental para validar consistencia entre indices y changelog.
+- `TASK_054` queda cerrada formalmente tras validar consistencia de indices/changelog y confirmar una sola tarea activa.
+- Se abre `TASK_055_xui_account_link_foundation`.
+- Backend: se define fuente de verdad de vinculo XUI por cuenta en `accountsById.<accountId>.xuiLink` (`AUTH_STORE_FILE`).
+- Backend: nuevo endpoint protegido `GET /v1/auth/xui/context` para resolver identidad XUI de cuenta autenticada.
+- Pruebas: `backend/test/minimum-foundation.test.js` agrega caso minimo de cuenta vinculada/no vinculada para `auth/xui/context`.
+- Validacion tecnica: `npm test` backend OK (`7` pruebas, `0` fallos).
+- Documentacion sincronizada: indices obligatorios + `TASK_055` + `backend/README.md`.

@@ -1,29 +1,38 @@
 # ACTIVE_TASK
 
-Tarea activa unica: **TASK_054_sincronizacion_indices_post_task_053**
+Tarea activa unica: **TASK_055_xui_account_link_foundation**
 
 Estado: `in_progress`
 
 Objetivo:
-- Corregir la desincronizacion de indices/changelog posterior a `TASK_053`.
-- Dejar un unico frente activo documental, sin tocar logica de producto.
+- Definir e implementar la base minima para resolver identidad XUI por cuenta autenticada desde backend.
+- Mantener estable el bridge `App TV -> Backend -> XUI` sin cambios de arquitectura ni playback.
 
 Alcance:
+- `backend/src/authPersistence.js`
+- `backend/src/routes/authOpsRoutes.js`
+- `backend/src/server.js`
+- `backend/test/minimum-foundation.test.js`
+- `backend/README.md`
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
 - `docs/00_index/CHATGPT_CONTEXT.md`
-- `docs/05_changelog/CHANGELOG_2026_Q1.md`
 - `docs/02_tasks/TASK_054_sincronizacion_indices_post_task_053.md`
+- `docs/02_tasks/TASK_055_xui_account_link_foundation.md`
+- `docs/05_changelog/CHANGELOG_2026_Q1.md`
 
 Restricciones:
-- No implementar nuevas features.
-- No tocar backend, TV app, web app ni integracion XUI.
-- No mezclar con refactors ni con correcciones tecnicas fuera de documentacion.
+- No implementar billing.
+- No abrir panel admin nuevo.
+- No mezclar multi-servidor XUI.
+- No hacer refactor amplio.
+- No romper playback firmado/resuelto previamente.
 
 Criterio de exito:
-- Los 4 archivos indice/changelog quedan consistentes entre si.
-- Solo existe una tarea activa en indices: `TASK_054_sincronizacion_indices_post_task_053`.
+- Existe resolucion clara y documentada de identidad XUI para cuenta autenticada.
+- Backend expone el contexto XUI de forma controlada (`GET /v1/auth/xui/context`).
+- El bridge actual `App TV -> Backend -> XUI` se mantiene estable.
 
 Prueba minima:
-1. Verificar que `ACTIVE_TASK`, `CURRENT_STATUS` y `CHATGPT_CONTEXT` referencian la misma tarea activa y fecha (`2026-03-11`).
-2. Verificar que `CHANGELOG_2026_Q1` registra el movimiento documental de `TASK_054` sin cambios de codigo.
+1. Ejecutar `npm test` en `backend/` y confirmar caso de `auth/xui/context` para cuenta vinculada/no vinculada.
+2. Verificar que `ACTIVE_TASK`, `CURRENT_STATUS` y `CHATGPT_CONTEXT` apuntan a `TASK_055`.
