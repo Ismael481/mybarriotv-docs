@@ -1,14 +1,16 @@
 # CURRENT_STATUS
 
-## Estado general (2026-03-09)
-- Bridge `App TV -> Backend -> XUI`: operativo.
-- Backend auth/ops modularizado incrementalmente: operativo.
-- Web auth/admin modularizado y usable hasta `TASK_052`: operativo.
-- Suite minima automatizada (`npm test` backend): estable en verde (`6` pruebas, `0` fallos).
-- Cierre final de informes: confirmado por usuario, funcionamiento validado end-to-end.
+## Estado general (2026-03-11)
+- Ultimo bloque tecnico implementado: `TASK_052_xui_playback_url_resolution_from_signed_playlist` (operativo segun cierre previo).
+- `TASK_053_cierre_informes_y_pendientes_test`: completada como cierre administrativo, sin cambios de codigo.
+- Tarea activa actual: `TASK_054_sincronizacion_indices_post_task_053` (solo documental).
+- No hay cambios en backend, TV app, web app ni XUI en esta actualizacion.
 
 ## Pendientes de prueba manual
-- Ninguno. Validacion manual confirmada por usuario el 2026-03-09.
+- Ejecutar prueba minima documental de `TASK_054`.
+- Confirmar consistencia cruzada entre `ACTIVE_TASK`, `CURRENT_STATUS`, `CHATGPT_CONTEXT` y `CHANGELOG_2026_Q1`.
+- Confirmar que solo `TASK_054` aparece como tarea activa en indices.
 
 ## Riesgo/pendiente externo
-- Ninguno bloqueante reportado tras validacion final del usuario.
+- El espejo publico puede mostrar estado previo hasta que termine la sincronizacion automatica de `docs/`.
+- No hay cambios manuales requeridos en XUI ni en configuracion externa para esta tarea.
