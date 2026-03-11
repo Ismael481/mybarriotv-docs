@@ -1,6 +1,6 @@
-﻿# TASK_025_admin_can_activate_profile2_fix
+# TASK_025_admin_can_activate_profile2_fix
 
-Estado: implemented (pendiente validacion manual)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 Fecha de creacion:
 2026-03-08
@@ -36,3 +36,5 @@ Resultado esperado:
 
 Pasos manuales externos:
 - Ninguno.
+
+

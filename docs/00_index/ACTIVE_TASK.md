@@ -1,11 +1,11 @@
 # ACTIVE_TASK
 
-Tarea activa: **TASK_052_xui_playback_url_resolution_from_signed_playlist**
+Tarea activa: **Ninguna (cierre administrativo de informes)**
 
 Estado:
-- Implementada y validada en backend runtime.
-- Playback bridge ahora entrega URL firmada reproducible del panel.
+- Informes operativos cerrados en documentacion el 2026-03-09.
+- No hay implementacion de codigo en curso en esta tarea.
 
 Foco:
-- Corregir error de stream en TV por URL de playback incorrecta.
-- Resolver playback desde playlist firmada `/play/<token>/m3u8`.
+- Ejecutar pendientes de validacion manual acumulados.
+- Reabrir una nueva tarea solo cuando se confirme alcance puntual.

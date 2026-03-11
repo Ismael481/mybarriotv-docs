@@ -1,7 +1,6 @@
 # BUG_011_admin_expiry_state_stale_until_customer_login
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-08
 
@@ -29,3 +28,4 @@ Archivos:
 
 Validacion pendiente:
 - Prueba manual en entorno ops con cuenta que expire por tiempo sin login del cliente.
+

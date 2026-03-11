@@ -1,6 +1,6 @@
 # TASK_017_profile_surface_slots_and_qr_approve_split
 
-Estado: done (pendiente validacion visual/manual final)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 Fecha de creacion:
 2026-03-07
@@ -78,3 +78,5 @@ Pendiente manual de validacion:
 - Validar UX final de perfil cliente (tarjetas, creacion de perfil, avatares).
 - Validar flujo QR approve completo con TV real usando `/auth/device-approve`.
 - Confirmar expectativa de negocio sobre demo 1 sola vez en TV (politica backend de demo).
+
+

@@ -1,7 +1,7 @@
 # TASK_010_web_auth_surface_and_registration_prep
 
 Fecha: 2026-03-07  
-Estado: implementada (pendiente validacion final del usuario)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 ## Objetivo
 Formalizar la superficie web minima de auth en `apps/web-app` manteniendo backend como API auth central y flujo TV QR sin regresiones.
@@ -70,3 +70,5 @@ Se creo superficie minima real en `apps/web-app/public/auth/`:
 - Base web de registro visible.
 - Espacios funcionales para request/verify OTP marcados en UI.
 - Backend auth y flujo QR siguen centralizados y operativos.
+
+

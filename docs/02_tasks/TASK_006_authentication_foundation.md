@@ -1,7 +1,7 @@
 # TASK_006_authentication_foundation
 
 Fecha: 2026-03-07
-Estado: implementada (pendiente validacion funcional en TV fisica)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 ## Objetivo
 Implementar la base minima de autenticacion para habilitar login con JWT antes de introducir logica comercial o control de dispositivos.
@@ -81,3 +81,5 @@ Implementar la base minima de autenticacion para habilitar login con JWT antes d
   - `AUTH_DEMO_PASS`
   - `AUTH_JWT_SECRET`
   - `AUTH_TOKEN_TTL_SECONDS`
+
+

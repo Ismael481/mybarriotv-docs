@@ -1,7 +1,6 @@
 # BUG_004_admin_demo_settings_method_and_expiry_flow
 
-Estado: fixed
-
+Estado: closed
 Fecha:
 2026-03-08
 
@@ -44,3 +43,4 @@ Prueba minima pendiente:
 - Crear cuenta trial nueva y verificar `expiresAt` segun demo global.
 - Esperar vencimiento demo y validar que cuenta quede en `expired` persistido.
 - Intentar actualizar cuenta con fecha invalida y confirmar que no cambie estado.
+

@@ -1,7 +1,6 @@
 # BUG_013_tv_skips_profile_selector_and_web_hides_p2
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-08
 
@@ -30,3 +29,4 @@ Archivos:
 
 Validacion pendiente:
 - Prueba manual cruzada (web cliente + TV) en cuenta con dos perfiles.
+

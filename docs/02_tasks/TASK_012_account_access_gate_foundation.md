@@ -1,6 +1,6 @@
 # TASK_012_account_access_gate_foundation
 
-Estado: done (pendiente validacion final en TV fisica)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 Fecha de creacion:
 2026-03-07
@@ -112,3 +112,5 @@ Criterio de exito:
 Pendientes:
 - Validacion final en TV fisica/LAN del flujo visual `AccessBlocked`.
 - Prueba manual de UX/copy final con usuario real en cada `reasonCode`.
+
+

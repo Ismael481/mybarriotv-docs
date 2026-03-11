@@ -1,6 +1,6 @@
 # TASK_031_expiry_reason_and_demo_notice_fix
 
-Estado: implemented (pendiente validacion manual)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 Fecha de creacion:
 2026-03-08
@@ -43,3 +43,5 @@ Resultado esperado:
 
 Pasos manuales externos:
 - Ninguno.
+
+

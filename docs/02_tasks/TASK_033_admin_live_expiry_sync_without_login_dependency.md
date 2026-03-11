@@ -1,6 +1,6 @@
 # TASK_033_admin_live_expiry_sync_without_login_dependency
 
-Estado: implemented (pendiente validacion manual)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 Fecha de creacion:
 2026-03-08
@@ -41,3 +41,5 @@ Resultado esperado:
 
 Pasos manuales externos:
 - Ninguno.
+
+

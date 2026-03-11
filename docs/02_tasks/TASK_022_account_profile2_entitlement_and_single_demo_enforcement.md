@@ -1,6 +1,6 @@
-﻿# TASK_022_account_profile2_entitlement_and_single_demo_enforcement
+# TASK_022_account_profile2_entitlement_and_single_demo_enforcement
 
-Estado: implemented (pendiente validacion manual final)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 Fecha de creacion:
 2026-03-08
@@ -64,3 +64,5 @@ Resultado esperado:
 Pasos manuales externos:
 - Ninguno en XUI.
 - Sin cambios manuales fuera del repo para completar esta tarea.
+
+

@@ -1,6 +1,6 @@
 # TASK_016_admin_dashboard_detail_and_usability
 
-Estado: done (pendiente validacion visual/manual final)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 Fecha de creacion:
 2026-03-07
@@ -92,3 +92,5 @@ Pendiente manual de validacion:
 - login `operator` -> confirmar UX visual en `/admin` (resumen + filtros + detalle + feedback).
 - login `customer` -> denegacion visual en `/admin`.
 - validar consistencia visual responsive desktop/mobile.
+
+

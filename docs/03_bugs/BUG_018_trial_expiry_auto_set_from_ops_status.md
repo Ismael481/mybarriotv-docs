@@ -1,7 +1,6 @@
 # BUG_018_trial_expiry_auto_set_from_ops_status
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-09
 
@@ -34,3 +33,4 @@ Ultima actualizacion:
 
 ## Paso manual externo requerido
 - Validar visualmente en `/admin` con cuenta trial nueva sin login TV.
+

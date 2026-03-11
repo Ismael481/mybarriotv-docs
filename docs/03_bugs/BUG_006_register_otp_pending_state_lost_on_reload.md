@@ -1,7 +1,6 @@
 # BUG_006_register_otp_pending_state_lost_on_reload
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-08
 
@@ -35,3 +34,4 @@ Archivos:
 
 Validacion pendiente:
 - Prueba manual integral en navegador con recarga intermedia y reintentos de OTP.
+

@@ -1,7 +1,6 @@
 # BUG_007_admin_profile_create_route_mismatch
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-08
 
@@ -25,3 +24,4 @@ Archivos:
 
 Validacion pendiente:
 - Prueba manual en `/admin` creando `p2` desde detalle de cuenta.
+

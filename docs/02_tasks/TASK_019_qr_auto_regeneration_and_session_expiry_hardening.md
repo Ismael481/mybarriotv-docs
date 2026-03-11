@@ -1,6 +1,6 @@
-ï»¿# TASK_019_qr_auto_regeneration_and_session_expiry_hardening
+# TASK_019_qr_auto_regeneration_and_session_expiry_hardening
 
-Estado: done (pendiente validacion visual/manual final)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 Fecha de creacion:
 2026-03-08
@@ -70,10 +70,12 @@ Pendiente de prueba:
 - Flujo registrar -> login -> aprobar TV con QR vigente.
 
 Resultado esperado:
-- Nunca queda bloqueado en â€œQR expirado, regeneraâ€ sin autorotacion.
+- Nunca queda bloqueado en “QR expirado, regenera” sin autorotacion.
 - Un QR viejo no se puede usar para aprobar TV.
 - La web informa claramente cuando el QR esta vencido y pide escaneo nuevo.
 
 Pasos manuales si existen:
 - Reiniciar backend para activar cambios de expiracion/estado QR.
 - No hay cambios manuales en XUI para esta tarea.
+
+

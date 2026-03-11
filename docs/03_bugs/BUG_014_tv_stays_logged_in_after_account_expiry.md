@@ -1,7 +1,6 @@
 # BUG_014_tv_stays_logged_in_after_account_expiry
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-08
 
@@ -28,3 +27,4 @@ Validacion:
 - Prueba manual confirmada por usuario en TV/emulador.
 - Al marcar cuenta `expired` o `suspended`, la TV sale de Home inmediatamente.
 - La app muestra pantalla de bloqueo con mensaje de expiracion/bloqueo.
+

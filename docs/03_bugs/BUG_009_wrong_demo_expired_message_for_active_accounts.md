@@ -1,7 +1,6 @@
 # BUG_009_wrong_demo_expired_message_for_active_accounts
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-08
 
@@ -28,3 +27,4 @@ Archivos:
 
 Validacion pendiente:
 - Pruebas manuales con cuenta trial vencida y cuenta active vencida por fecha.
+

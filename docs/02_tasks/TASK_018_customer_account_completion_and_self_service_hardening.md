@@ -1,6 +1,6 @@
-﻿# TASK_018_customer_account_completion_and_self_service_hardening
+# TASK_018_customer_account_completion_and_self_service_hardening
 
-Estado: done (pendiente validacion visual/manual final)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 Fecha de creacion:
 2026-03-08
@@ -77,3 +77,5 @@ Pasos manuales si existen:
 - Reiniciar backend para cargar cambios de metodos/rutas.
 - Si se prueba OTP real, configurar `SMS_ZDSMS_*`.
 - No hay cambios manuales en XUI para esta tarea.
+
+

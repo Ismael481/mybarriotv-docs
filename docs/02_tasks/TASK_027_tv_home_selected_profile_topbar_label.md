@@ -1,6 +1,6 @@
 # TASK_027_tv_home_selected_profile_topbar_label
 
-Estado: implemented (pendiente validacion manual)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 Fecha de creacion:
 2026-03-08
@@ -44,3 +44,5 @@ Resultado esperado:
 
 Pasos manuales externos:
 - Ninguno.
+
+

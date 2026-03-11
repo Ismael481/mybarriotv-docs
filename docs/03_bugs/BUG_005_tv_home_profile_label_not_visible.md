@@ -1,7 +1,6 @@
 # BUG_005_tv_home_profile_label_not_visible
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-08
 
@@ -29,3 +28,4 @@ Archivos:
 
 Validacion pendiente:
 - Confirmacion visual en TV fisica/emulador tras reinicio de app.
+

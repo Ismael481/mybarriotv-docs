@@ -1,7 +1,6 @@
 # BUG_021_xtream_live_url_not_playable_for_signed_panel_streams
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-09
 
@@ -34,3 +33,4 @@ Ultima actualizacion:
 
 ## Paso manual externo requerido
 - Validar en TV fisica reproduccion de multiples canales.
+

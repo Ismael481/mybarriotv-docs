@@ -1,7 +1,6 @@
 # BUG_010_tv_session_expired_early_due_demo_ttl_token
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-08
 
@@ -32,3 +31,4 @@ Archivos:
 
 Validacion pendiente:
 - Prueba en TV con cuenta active > 60s para confirmar persistencia de sesion y countdown correcto.
+

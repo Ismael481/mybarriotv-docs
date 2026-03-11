@@ -1,6 +1,6 @@
 # TASK_021_tv_profile_session_context_and_switching
 
-Estado: implemented (pendiente validacion manual en TV)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 Fecha de creacion:
 2026-03-08
@@ -114,3 +114,5 @@ Actualizacion Admin/ops demo-expiracion (2026-03-08):
 - Endurecimiento de expiracion automatica:
   - cuenta `trial` vencida => consume demo y persiste `accountStatus=expired`.
   - cuenta `active` vencida por fecha => persiste `accountStatus=expired`.
+
+

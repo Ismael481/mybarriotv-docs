@@ -1,6 +1,6 @@
 # TASK_020_tv_app_profile_selection_post_login
 
-Estado: implemented (pendiente validacion manual en TV)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 Fecha de creacion:
 2026-03-08
@@ -67,3 +67,5 @@ Resultado esperado:
 Pasos manuales externos:
 - Ninguno en XUI.
 - Si se valida en dispositivo fisico, confirmar backend actualizado con endpoint `/v1/auth/me` activo.
+
+

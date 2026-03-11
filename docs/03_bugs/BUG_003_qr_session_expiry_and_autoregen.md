@@ -1,8 +1,6 @@
-﻿# BUG_003_qr_session_expiry_and_autoregen
+# BUG_003_qr_session_expiry_and_autoregen
 
-Estado:
-fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-08
 
@@ -49,3 +47,4 @@ Resultado esperado tras la correccion:
 - Login QR robusto con rotacion automatica.
 - Imposible reutilizar QR viejo para aprobar TV.
 - UX consistente de expiracion en web y TV.
+

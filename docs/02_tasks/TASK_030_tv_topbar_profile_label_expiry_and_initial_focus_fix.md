@@ -1,6 +1,6 @@
 # TASK_030_tv_topbar_profile_label_expiry_and_initial_focus_fix
 
-Estado: implemented (pendiente validacion manual)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 Fecha de creacion:
 2026-03-08
@@ -54,3 +54,5 @@ Resultado esperado:
 
 Pasos manuales externos:
 - Ninguno.
+
+

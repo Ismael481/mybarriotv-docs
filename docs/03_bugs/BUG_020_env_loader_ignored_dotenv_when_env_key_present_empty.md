@@ -1,7 +1,6 @@
 # BUG_020_env_loader_ignored_dotenv_when_env_key_present_empty
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-09
 
@@ -30,3 +29,4 @@ Ultima actualizacion:
 
 ## Paso manual externo requerido
 - Ninguno.
+

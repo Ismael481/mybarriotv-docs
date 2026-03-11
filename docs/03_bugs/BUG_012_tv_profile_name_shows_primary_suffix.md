@@ -1,7 +1,6 @@
 # BUG_012_tv_profile_name_shows_primary_suffix
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-08
 
@@ -25,3 +24,4 @@ Archivos:
 
 Validacion pendiente:
 - Verificacion visual en TV fisica/emulador.
+

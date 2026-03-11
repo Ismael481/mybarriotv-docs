@@ -1,7 +1,7 @@
-﻿# TASK_011_sms_otp_registration_and_verification
+# TASK_011_sms_otp_registration_and_verification
 
 Fecha: 2026-03-07  
-Estado: implementada (pendiente validacion final en entorno del usuario)
+Estado: completed (cierre administrativo; pruebas manuales listadas en TASK_053)
 
 ## Objetivo
 Implementar registro real con verificacion OTP por SMS manteniendo backend como centro de auth y sin romper login manual/QR.
@@ -77,25 +77,25 @@ Implementar registro real con verificacion OTP por SMS manteniendo backend como 
   - ajuste de entrada web: desactivacion/limpieza de autocompletado al cargar para evitar campos prellenados automaticamente
   - ajuste responsive final: compactacion de escala en breakpoints moviles para evitar scroll vertical inicial (sin cambiar UX/flujo)
   - ajuste puntual mobile adicional: en modo `Restablecer contrasena` se corrige centrado de titulo y salto de linea visual
-  - ajuste de copy final: textos visibles de web auth actualizados para usar `contraseÃ±a` con `Ã±`
+  - ajuste de copy final: textos visibles de web auth actualizados para usar `contraseña` con `ñ`
   - correccion de flujo QR web: el `qrUrl` ahora apunta a `/auth/login?mode=device-approve&sessionId=...` (superficie web nueva)
   - compatibilidad retroactiva: backend redirige `/auth/device` y `/auth/register` a modos de `/auth/login`
   - limpieza de codigo legado web: eliminados `apps/web-app/public/auth/device.html`, `apps/web-app/public/auth/register.html` y `apps/web-app/public/auth/assets/auth.css`
   - flujo login ajustado: luego de iniciar sesion web se redirige a vista minima de perfil
   - modo QR `device-approve`: tras login web, la aprobacion de TV se ejecuta automaticamente y luego se abre perfil (sin botones manuales `Aprobar/Denegar`)
-  - perfil web minimo: usuario, telefono (si aplica), placeholder de contraseÃ±a y lista de TVs vinculadas
+  - perfil web minimo: usuario, telefono (si aplica), placeholder de contraseña y lista de TVs vinculadas
   - fix de autorizacion web: llamadas protegidas del frontend incluyen nuevamente `Authorization: Bearer`, corrigiendo `Unauthorized` en `device/approve`
   - mensaje SMS actualizado a "codigo de verificacion" (sin termino OTP visible al cliente)
   - ajuste de perfil web: al abrir `mode=profile` se ocultan paneles `Registrarse/Entrar` para evitar UI mezclada con sesion activa
   - countdown de demo en perfil ajustado para reflejar TTL corto de cuenta cuando se configura `AUTH_ACCOUNT_DEMO_TTL_SECONDS`
-  - hotfix de interaccion web: corregido choque de variable global `container` con `v34-mode.js`; se restablece funcionamiento de `Entrar`, `Registrarse` y `Restablecer Contraseña` sin recarga silenciosa
+  - hotfix de interaccion web: corregido choque de variable global `container` con `v34-mode.js`; se restablece funcionamiento de `Entrar`, `Registrarse` y `Restablecer Contrase�a` sin recarga silenciosa
 
 ### TV app
-- Sin cambios de arquitectura ni rediseÃ±o.
+- Sin cambios de arquitectura ni rediseño.
 - Login manual y QR se mantienen funcionales.
 - Login manual y QR ahora guardan `expiresAtEpochSeconds` en `UserSession`.
 - `DefaultUserSession` agrega auto-logout al expirar token para regresar automaticamente a login.
-- Nuevo aviso post-expiracion: al volver al login muestra mensaje `Tu demo ha expirado. Activa una suscripción para continuar.`
+- Nuevo aviso post-expiracion: al volver al login muestra mensaje `Tu demo ha expirado. Activa una suscripci�n para continuar.`
 - Ajuste visual login TV: layout dual en la misma vista (QR a la izquierda, login manual a la derecha), sin cambios de arquitectura.
 - Se elimina boton `Regenerar QR`; la regeneracion ahora es automatica al detectar estados `expired` o `denied`.
 
@@ -178,3 +178,5 @@ Implementar registro real con verificacion OTP por SMS manteniendo backend como 
 - Ajustar politicas productivas de cuenta (bloqueo, recuperacion, etc.).
 - Migrar persistencia de cuentas/otp a DB productiva.
 - Endurecer controles anti-abuso y observabilidad avanzada.
+
+

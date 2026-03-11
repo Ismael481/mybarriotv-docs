@@ -1,8 +1,6 @@
-﻿# BUG_002_profile_edit_method_not_allowed
+# BUG_002_profile_edit_method_not_allowed
 
-Estado:
-fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-08
 
@@ -37,3 +35,4 @@ Pendiente de validacion:
 Resultado esperado tras la correccion:
 - El modal guarda correctamente nombre/avatar del perfil.
 - No aparece `Method Not Allowed` en el flujo normal de edicion.
+

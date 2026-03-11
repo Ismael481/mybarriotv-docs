@@ -1,7 +1,6 @@
 # BUG_008_tv_topbar_profile_label_expiry_and_focus
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-08
 
@@ -38,3 +37,4 @@ Archivos:
 
 Validacion pendiente:
 - Validacion manual en TV fisica/emulador.
+

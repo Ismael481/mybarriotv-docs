@@ -1,7 +1,6 @@
 # BUG_019_qr_url_localhost_not_reachable_from_mobile
 
-Estado: fixed
-
+Estado: closed
 Fecha de deteccion:
 2026-03-09
 
@@ -30,3 +29,4 @@ Ultima actualizacion:
 
 ## Paso manual externo requerido
 - Confirmar que movil y TV estan en la misma red LAN y que puerto `8080` esta accesible desde el movil.
+
