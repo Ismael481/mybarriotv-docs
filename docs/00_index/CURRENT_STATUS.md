@@ -1,18 +1,23 @@
 # CURRENT_STATUS
 
 ## Estado general (2026-03-11)
-- `TASK_054_sincronizacion_indices_post_task_053`: completada (sincronizacion documental validada).
-- Tarea activa actual: `TASK_055_xui_account_link_foundation`.
-- Implementacion minima backend agregada para resolver identidad XUI por cuenta autenticada:
-  - fuente de verdad en cuenta (`xuiLink`) dentro de `AUTH_STORE_FILE`,
-  - endpoint protegido `GET /v1/auth/xui/context`,
-  - prueba automatizada minima incluida en `backend/test/minimum-foundation.test.js`.
-- Bridge de playback (`/v1/content/*`) sin cambios funcionales en esta actualizacion.
+- `TASK_054_sincronizacion_indices_post_task_053`: completada.
+- `TASK_055_xui_account_link_foundation`: sigue `in_progress` sin cambios en esta auditoria.
+- Tarea activa actual: `TASK_056_auditoria_stream_cortes_audio_xui_player`.
+- Hallazgos tecnicos iniciales de `TASK_056`:
+  - XUI entrega `playbackUrl` validas para algunos canales (`302 -> 200`) y fallidas para otros (`302 -> 404`) con mismo flujo `/play/<token>/ts`.
+  - En muestra real aparecen codecs mixtos de audio (`aac`, `ac3`, `mp2`); `ac3` puede producir video sin audio en ciertos TVs.
+  - El player TV usa ExoPlayer con configuracion base (sin `trackSelector`/`loadControl`/telemetria por codec), lo que limita resiliencia y diagnostico.
 
 ## Pendientes de prueba manual
-- Validar en entorno real una cuenta autenticada con `xuiLink` cargado en store y confirmar respuesta esperada de `GET /v1/auth/xui/context`.
-- Ejecutar smoke manual de playback en TV para confirmar no-regresion funcional posterior a `TASK_055`.
+- Validar en TV fisica un set minimo de canales:
+  - 1 canal estable con audio AAC.
+  - 1 canal con audio AC3.
+  - 1 canal que actualmente termina en `404` tras redireccion de XUI.
+- Capturar logs de player en el instante de "video sin audio" para confirmar codec/pista seleccionada.
+- Revalidar smoke de `TASK_055` al retomar esa tarea.
 
 ## Riesgo/pendiente externo
-- El mapeo inicial `account -> xuiLink` sigue siendo carga manual en store mientras no exista superficie ops dedicada.
-- Para validar contra linea real, se requiere conocer el `lineId` existente en XUI; no requiere cambios manuales obligatorios en XUI.
+- Hay dependencia externa de XUI: algunos streams requieren correccion operativa en panel/origen porque la URL firmada termina en `404`.
+- Puede requerirse cambio manual externo en XUI para normalizar codec de audio (priorizar AAC en canales problemáticos).
+- No se aplicaron cambios de codigo en esta auditoria; la incidencia de reproduccion sigue abierta.

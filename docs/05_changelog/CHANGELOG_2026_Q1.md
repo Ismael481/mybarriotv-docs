@@ -481,3 +481,8 @@
 - Pruebas: `backend/test/minimum-foundation.test.js` agrega caso minimo de cuenta vinculada/no vinculada para `auth/xui/context`.
 - Validacion tecnica: `npm test` backend OK (`7` pruebas, `0` fallos).
 - Documentacion sincronizada: indices obligatorios + `TASK_055` + `backend/README.md`.
+- Se abre `TASK_056_auditoria_stream_cortes_audio_xui_player` para investigar cortes y audio intermitente en TV.
+- Auditoria runtime: se confirma comportamiento mixto en URLs de playback XUI (`302 -> 200` en algunos canales y `302 -> 404` en otros).
+- Auditoria de codecs: se observan streams con `aac`, `ac3` y `mp2`; riesgo de video sin audio en TVs con compatibilidad limitada para `ac3`.
+- Se registra `BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui` con causa probable multi-factor (upstream + codec + observabilidad player).
+- Sin cambios funcionales de codigo en esta iteracion; se documentan pasos manuales externos requeridos en XUI.
