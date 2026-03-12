@@ -5,6 +5,7 @@ Rama: `main`
 Tarea activa: `ninguna`
 
 ## Resumen operativo
+- `TASK_065`: completed con hardening DB de lifecycle de cuenta (estado + expiracion).
 - `TASK_064`: completed con fundacion DB operativa minima (SQLite nativo).
 - Se mantiene compatibilidad de flujo actual en convivencia temporal JSON + DB.
 - `TASK_063`, `TASK_062`, `TASK_061`: completed.
@@ -15,6 +16,7 @@ Tarea activa: `ninguna`
   - vinculo XUI por cuenta,
   - dispositivos vinculados,
   - eventos operativos.
+- Lifecycle de cuenta (`accountStatus`, `expiresAt`, metadatos de cambio) ya se consulta con preferencia DB y fallback seguro a JSON.
 - `GET /v1/auth/xui/context` y review ops de link mantienen comportamiento actual sin ruptura (DB preferente + fallback JSON).
 - No hay tarea activa abierta.
 
@@ -27,6 +29,7 @@ Tarea activa: `ninguna`
 - `docs/00_index/CURRENT_STATUS.md`
 - `docs/00_index/CHATGPT_CONTEXT.md`
 - `docs/02_tasks/TASK_064_operational_database_foundation.md`
+- `docs/02_tasks/TASK_065_account_lifecycle_db_hardening.md`
 - `docs/04_decisions/ADR_004_operational_db_sqlite_foundation.md`
 - `docs/02_tasks/TASK_063_web_internal_xui_autolink_review_surface.md`
 - `docs/02_tasks/TASK_062_auto_xui_link_on_account_activation.md`

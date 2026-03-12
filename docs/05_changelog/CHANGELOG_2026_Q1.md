@@ -566,3 +566,11 @@
 - Pruebas backend ampliadas con caso trazable de persistencia DB de cuenta+estado+link XUI; suite en verde (`16` tests, `0` fallos).
 - Decision tecnica documentada: `ADR_004_operational_db_sqlite_foundation`.
 - Indices y contexto sincronizados (`ACTIVE_TASK`, `CURRENT_STATUS`, `CHATGPT_CONTEXT`) con cierre de `TASK_064` y sin tarea activa abierta.
+- Se implementa `TASK_065_account_lifecycle_db_hardening`.
+- Backend DB (`operational_accounts`) extiende metadata lifecycle de cuenta:
+  - `account_status_updated_at/by/reason`
+  - `expiry_updated_at/by/reason`
+- Lectura de cuentas (`getAccountById`, `getAccountByUsername`, `getAccountByPhone`, `listAccounts`) usa lifecycle preferente desde DB con fallback seguro a JSON si DB esta desfasada o no disponible.
+- Operaciones admin existentes de estado/expiracion (`POST .../status`, `POST .../expiry`) quedan persistidas y consultables de forma consistente en DB.
+- Cobertura automatizada ampliada con caso trazable de lifecycle DB + detalle ops; suite en verde (`17` tests, `0` fallos).
+- Indices sincronizados con cierre de `TASK_065` y sin tarea activa abierta.

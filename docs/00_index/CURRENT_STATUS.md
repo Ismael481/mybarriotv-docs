@@ -1,11 +1,21 @@
 # CURRENT_STATUS
 
 ## Estado general (2026-03-12)
+- `TASK_065_account_lifecycle_db_hardening`: completed.
 - `TASK_064_operational_database_foundation`: completed.
 - `TASK_063_web_internal_xui_autolink_review_surface`: completed.
 - `TASK_062_auto_xui_link_on_account_activation`: completed.
 - `TASK_061_ops_xui_link_review_and_actions`: completed.
 - Tarea activa actual: ninguna.
+
+## Cierre TASK_065 (2026-03-12)
+- Lifecycle de cuenta endurecido en DB reutilizando la fundacion de `TASK_064`.
+- `operational_accounts` ahora persiste metadatos lifecycle:
+  - `account_status_updated_at/by/reason`
+  - `expiry_updated_at/by/reason`
+- Lectura operativa de cuenta (`getAccountById`, `listAccounts`) ahora usa lifecycle preferente desde DB.
+- Fallback seguro a JSON cuando DB no esta disponible o esta desfasada respecto al estado actual.
+- Validacion tecnica: `npm test` backend OK (`17` tests, `0` fallos) con nuevo caso trazable de status+expiry persistidos en DB y visibles en detalle ops.
 
 ## Cierre TASK_064 (2026-03-12)
 - Se incorpora fundacion DB operativa minima en backend usando SQLite nativo (`node:sqlite`).
@@ -23,7 +33,7 @@
 ## Estado operativo actual
 - Flujo existente de cuenta + auto-link/provision XUI se mantiene estable.
 - Superficie web/admin minima de revision/reintento XUI sigue operativa.
-- El sistema ya tiene base DB minima para datos operativos criticos y auditoria de eventos.
+- El sistema ya tiene base DB minima para datos operativos criticos, y lifecycle de cuenta (estado/expiracion) endurecido en uso real.
 
 ## Pendientes/riesgos
 - Pendiente externo (fuera del repo): rotar y validar `XUI_ADMIN_API_KEY` con permisos reales en XUI.
