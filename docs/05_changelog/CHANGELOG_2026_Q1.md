@@ -548,3 +548,11 @@
 - Backend: la respuesta de `status` agrega trazabilidad `xuiAutoLink` con resultado `linked|omitted|failed`.
 - Pruebas: se agregan 3 casos trazables para auto-link en activacion (exito, omision por ya enlazada, fallo controlado); suite en verde (`15` tests, `0` fallos).
 - Documentacion sincronizada: `TASK_062`, indices (`ACTIVE_TASK`, `CURRENT_STATUS`, `CHATGPT_CONTEXT`) y `backend/README.md`.
+- Se implementa `TASK_063_web_internal_xui_autolink_review_surface`.
+- Web admin (`/admin`): nuevo bloque interno `XUI Auto-link` en detalle de cuenta para:
+  - revisar estado de link XUI por cuenta (`resolved/code`, `xuiLineId`, `xuiUsername`);
+  - visualizar ultimo resultado de auto-link (`linked|omitted|failed`) usando auditoria reciente;
+  - ejecutar reintento manual de provisioning/link desde la UI.
+- Frontend reutiliza endpoints existentes (`GET .../xui/link`, `POST .../xui/provision`) sin contratos redundantes.
+- Smoke web/auth extendido para verificar elementos del bloque XUI en `admin.html`.
+- Validacion tecnica: `npm test` backend OK (`15` tests, `0` fallos).

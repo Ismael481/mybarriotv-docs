@@ -10,11 +10,13 @@ Tarea activa: `ninguna`
 - `TASK_060`: completed con hardening minimo de provisioning XUI.
 - `TASK_061`: completed con endpoint ops minimo para revision de link XUI y reutilizacion de provisioning existente.
 - `TASK_062`: completed con auto-link XUI en activacion de cuenta (`accountStatus=active`) usando provisioning reutilizado.
+- `TASK_063`: completed con superficie web/admin minima para revisar estado XUI y reintentar fallback manual.
 
 ## Estado actual
 - Provisioning `create+link` mantiene el caso exitoso y suma defensa minima contra bouquets invalidos.
 - Caso de permisos insuficientes/API key invalida queda mapeado explicitamente a `XUI_ADMIN_FORBIDDEN`.
 - Cambio ops de estado a `active` ahora intenta auto-link XUI con trazabilidad (`xuiAutoLink`) y fallback manual.
+- Admin web (`/admin`) expone bloque interno `XUI Auto-link` por cuenta para revisar estado y ejecutar reintento manual.
 - No hay tarea activa abierta.
 
 ## Cambios manuales externos requeridos
@@ -29,5 +31,6 @@ Tarea activa: `ninguna`
 - `docs/02_tasks/TASK_060_xui_ops_provisioning_hardening.md`
 - `docs/02_tasks/TASK_061_ops_xui_link_review_and_actions.md`
 - `docs/02_tasks/TASK_062_auto_xui_link_on_account_activation.md`
+- `docs/02_tasks/TASK_063_web_internal_xui_autolink_review_surface.md`
 - `docs/03_bugs/BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui.md`
 - `docs/05_changelog/CHANGELOG_2026_Q1.md`

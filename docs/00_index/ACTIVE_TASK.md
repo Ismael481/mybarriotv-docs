@@ -3,11 +3,13 @@
 Sin tarea activa.
 
 Estado:
+- `TASK_063_web_internal_xui_autolink_review_surface`: completed.
 - `TASK_062_auto_xui_link_on_account_activation`: completed.
 - `TASK_061_ops_xui_link_review_and_actions`: completed.
 - Sin otras tareas activas paralelas.
 
 Referencia:
+- `TASK_063_web_internal_xui_autolink_review_surface`: completed.
 - `TASK_062_auto_xui_link_on_account_activation`: completed.
 - `TASK_059_xui_ops_provision_create_and_link`: completed.
 - `TASK_060_xui_ops_provisioning_hardening`: completed.

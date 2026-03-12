@@ -10,6 +10,7 @@
 - `TASK_060_xui_ops_provisioning_hardening`: completed.
 - `TASK_061_ops_xui_link_review_and_actions`: completed.
 - `TASK_062_auto_xui_link_on_account_activation`: completed.
+- `TASK_063_web_internal_xui_autolink_review_surface`: completed.
 - `BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui`: closed (mitigacion validada en TV fisica).
 - Tarea activa actual: ninguna.
 
@@ -37,4 +38,13 @@
 - Reutilizacion de la logica existente de provisioning `create+link` sin duplicar flujo.
 - Respuesta de estado ahora incluye `xuiAutoLink` con trazabilidad minima (`linked|omitted|failed`).
 - Si auto-link falla, el cambio de estado sigue operativo y queda fallback manual en `POST /v1/auth/ops/accounts/:accountId/xui/provision`.
+- Validacion tecnica: `npm test` backend OK (`15` tests, `0` fallos).
+
+## Cierre TASK_063 (2026-03-12)
+- Admin web minima (`/admin`) ahora incluye bloque operativo `XUI Auto-link` en detalle de cuenta.
+- El bloque reutiliza contratos existentes:
+  - `GET /v1/auth/ops/accounts/:accountId/xui/link` para estado de enlace;
+  - `POST /v1/auth/ops/accounts/:accountId/xui/provision` para fallback manual.
+- La UI muestra estado de link, identidad XUI y ultimo resultado de auto-link (`linked|omitted|failed`) inferido desde auditoria reciente.
+- Se agrega accion de reintento manual desde la misma vista y refresco de estado posterior.
 - Validacion tecnica: `npm test` backend OK (`15` tests, `0` fallos).
