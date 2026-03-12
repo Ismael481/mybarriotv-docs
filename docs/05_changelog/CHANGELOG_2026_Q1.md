@@ -609,3 +609,13 @@
 - `GET /v1/auth/ops/accounts/:accountId` agrega `operationalHistory` con filtros `eventType` y `eventLimit`, sostenido por `operational_events`.
 - Cobertura automatizada ampliada con caso DB-first para listado ops filtrado + historial de cuenta; suite en verde (`21` tests, `0` fallos).
 - Indices, task doc y `backend/README.md` sincronizados con cierre de `TASK_070` y sin tarea activa abierta.
+- Se implementa `TASK_071_auth_otp_db_foundation_and_json_retirement_stage_2`.
+- Backend DB (`operationalDb`) agrega tabla `operational_auth_requests` para requests auth/OTP residuales:
+  - `registration_otp`
+  - `password_reset`
+  - `account_change`
+- `bootstrapOperationalFromAuthStore` ahora siembra tambien `otpRequestsById`, `passwordResetRequestsById` y `accountChangeRequestsById` hacia SQLite.
+- `authPersistence` endurece create/get/update/list/cleanup para requests auth/OTP con lectura preferente desde DB y compatibilidad controlada con JSON.
+- Registro OTP, reset por OTP y cambio OTP de cuenta dejan de depender operativamente de `AUTH_STORE_FILE` como soporte principal.
+- Cobertura automatizada ampliada con 2 casos trazables donde una request OTP permanece operativa desde DB aun cuando la fila JSON se retira y el backend reinicia; suite en verde (`23` tests, `0` fallos).
+- Documentacion sincronizada: `TASK_071`, indices obligatorios, `backend/README.md` y `.env.example`.

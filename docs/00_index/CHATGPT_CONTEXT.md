@@ -5,6 +5,7 @@ Rama: `main`
 Tarea activa: `ninguna`
 
 ## Resumen operativo
+- `TASK_071`: completed con fundacion DB-first para requests auth/OTP residuales y relegacion adicional del store JSON historico.
 - `TASK_070`: completed con base prebilling DB-first para historial operativo, filtros y consulta de eventos por cuenta.
 - `TASK_069`: completed con cierre operativo/documental de transicion auth/device/session hacia DB.
 - `TASK_067`: completed con hardening de rutas de lectura auth/device/session hacia DB preferente.
@@ -20,7 +21,12 @@ Tarea activa: `ninguna`
   - vinculo XUI por cuenta,
   - dispositivos vinculados,
   - eventos operativos,
-  - sesiones QR/device login.
+  - sesiones QR/device login,
+  - requests auth/OTP residuales.
+- Requests auth/OTP ahora usan DB minima real para:
+  - registro OTP;
+  - reset de contrasena por OTP;
+  - cambio OTP de contrasena/telefono de cuenta.
 - Lifecycle de cuenta (`accountStatus`, `expiresAt`, metadatos de cambio) ya se consulta con preferencia DB y fallback seguro a JSON.
 - Auth/device/session ahora usa DB minima real para:
   - `deviceLoginSessions` (dual-write JSON + DB),
@@ -29,7 +35,7 @@ Tarea activa: `ninguna`
 - Read-path auth/device/session endurecido:
   - sesiones QR, dispositivos vinculados, validacion de revocacion y auditoria auth/device leen DB primero;
   - fallback a JSON queda solo como capa controlada de transicion.
-- Fuente de verdad operativa auth/device/session:
+- Fuente de verdad operativa auth/device/session/otp:
   - `AUTH_OPERATIONAL_DB_FILE` / SQLite
   - `AUTH_STORE_FILE` queda solo como compatibilidad transitoria + respaldo auxiliar + fallback controlado
 - Operaciones internas prebilling ya apoyadas en DB:
@@ -47,6 +53,7 @@ Tarea activa: `ninguna`
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
 - `docs/00_index/CHATGPT_CONTEXT.md`
+- `docs/02_tasks/TASK_071_auth_otp_db_foundation_and_json_retirement_stage_2.md`
 - `docs/02_tasks/TASK_070_operational_history_and_db_ops_prebilling_foundation.md`
 - `docs/02_tasks/TASK_069_auth_device_db_transition_closeout.md`
 - `docs/02_tasks/TASK_067_auth_device_db_read_path_hardening.md`

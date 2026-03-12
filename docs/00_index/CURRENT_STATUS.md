@@ -1,6 +1,7 @@
 # CURRENT_STATUS
 
 ## Estado general (2026-03-12)
+- `TASK_071_auth_otp_db_foundation_and_json_retirement_stage_2`: completed.
 - `TASK_070_operational_history_and_db_ops_prebilling_foundation`: completed.
 - `TASK_069_auth_device_db_transition_closeout`: completed.
 - `TASK_067_auth_device_db_read_path_hardening`: completed.
@@ -11,6 +12,24 @@
 - `TASK_062_auto_xui_link_on_account_activation`: completed.
 - `TASK_061_ops_xui_link_review_and_actions`: completed.
 - Tarea activa actual: ninguna.
+
+## Cierre TASK_071 (2026-03-12)
+- SQLite pasa a sostener tambien requests auth/OTP residuales en `operational_auth_requests`:
+  - registro OTP;
+  - reset de contrasena por OTP;
+  - cambio OTP de contrasena/telefono de cuenta.
+- `authPersistence` ahora usa DB como fuente preferente para create/get/update/list/cleanup de:
+  - `otpRequestsById`
+  - `passwordResetRequestsById`
+  - `accountChangeRequestsById`
+- Compatibilidad preservada:
+  - sin rutas nuevas grandes;
+  - sin billing;
+  - sin retirar fisicamente `AUTH_STORE_FILE`.
+- El JSON historico queda relegado en auth/OTP a compatibilidad transitoria, respaldo auxiliar y fallback controlado.
+- Validacion tecnica: `npm test` backend OK (`23` tests, `0` fallos) con 2 casos nuevos donde:
+  - una request de registro OTP queda persistida en DB y `verify/complete` sobreviven tras retirar la fila JSON;
+  - una request de password reset queda persistida en DB y `verify/complete` sobreviven tras retirar la fila JSON.
 
 ## Cierre TASK_070 (2026-03-12)
 - SQLite pasa a sostener tambien operaciones internas prebilling sobre cuentas:
@@ -102,8 +121,8 @@
 ## Estado operativo actual
 - Flujo existente de cuenta + auto-link/provision XUI se mantiene estable.
 - Superficie web/admin minima de revision/reintento XUI sigue operativa.
-- El sistema ya tiene base DB minima para datos operativos criticos, read-path auth/device/session endurecido, reglas operativas de backup/recovery documentadas y una base prebilling minima para historial/filtros/eventos/expiracion futura.
+- El sistema ya tiene base DB minima para datos operativos criticos, read-path auth/device/session endurecido, requests auth/OTP residuales DB-first, reglas operativas de backup/recovery documentadas y una base prebilling minima para historial/filtros/eventos/expiracion futura.
 
 ## Pendientes/riesgos
 - Pendiente externo (fuera del repo): rotar y validar `XUI_ADMIN_API_KEY` con permisos reales en XUI.
-- Alcance pendiente para futuras tareas: migracion completa de auth/device/otp a DB, retiro definitivo del store JSON historico y bloque comercial/billing sobre la base prebilling ahora preparada.
+- Alcance pendiente para futuras tareas: retiro definitivo del dual-write JSON en auth/device/otp, cierre del store historico como dependencia auth restante y bloque comercial/billing sobre la base prebilling ahora preparada.
