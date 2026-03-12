@@ -532,3 +532,8 @@
 - Apertura de `TASK_060_xui_ops_provisioning_hardening` como unica tarea activa, en modo inicial documental/diseno minimo de hardening para provisioning XUI.
 - Validacion runtime de `TASK_060`: provisioning `create+link` exitoso en backend operativo y error controlado mapeado (`XUI_ADMIN_ACTION_FAILED`, HTTP `502`).
 - Hallazgo de hardening en `TASK_060`: alta posible con `bouquetIds` invalido; queda pendiente definir/implementar validacion minima de bouquets reales.
+- `TASK_060` hardening implementado en backend: validacion defensiva de bouquets previa a `create_line` con modo configurable `XUI_ADMIN_BOUQUET_VALIDATION_MODE` (`enforce|warn|off`).
+- Provisioning ahora rechaza bouquets invalidos con `400` + `XUI_ADMIN_INVALID_BOUQUET_IDS` cuando la validacion esta en `enforce`.
+- Cliente XUI Admin ahora clasifica permisos insuficientes/API key invalida como `XUI_ADMIN_FORBIDDEN` (`403`).
+- Cobertura automatizada extendida en `backend/test/minimum-foundation.test.js` con casos de bouquet invalido y `INVALID_API_KEY` (suite en verde: `11` tests, `0` fallos).
+- Cierre formal de `TASK_060_xui_ops_provisioning_hardening`; queda como pendiente externo la rotacion de `XUI_ADMIN_API_KEY` fuera del repo.

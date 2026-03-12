@@ -1,4 +1,4 @@
-﻿# CURRENT_STATUS
+# CURRENT_STATUS
 
 ## Estado general (2026-03-12)
 - `TASK_054_sincronizacion_indices_post_task_053`: completada.
@@ -7,20 +7,17 @@
 - `TASK_057_playback_failover_y_hardening_audio_stream`: completed (validada manualmente en TV fisica).
 - `TASK_058_xui_admin_api_discovery_for_auto_line_provisioning`: completada.
 - `TASK_059_xui_ops_provision_create_and_link`: completada.
+- `TASK_060_xui_ops_provisioning_hardening`: completed.
 - `BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui`: closed (mitigacion validada en TV fisica).
-- Tarea activa actual: `TASK_060_xui_ops_provisioning_hardening` (`in_progress`, modo documental/diseno inicial).
+- Tarea activa actual: ninguna.
 
-## Confirmaciones de cierre
-- Ya no hay pendiente de validacion manual en TV para `TASK_057`.
-- El criterio de exito de playback failover/audio quedo cumplido.
-- `BUG_022` permanece cerrado y no se reabre sin evidencia nueva reproducible.
-
-## Progreso TASK_060 (2026-03-12)
-- Validacion runtime minima ejecutada en endpoint de provisioning (`create+link`): caso exitoso + error controlado.
-- Mapeo de error operacional confirmado en backend (`XUI_ADMIN_ACTION_FAILED`, HTTP `502`).
-- Hallazgo pendiente de hardening: `bouquetIds` invalido puede terminar en alta exitosa; falta estrategia de validacion minima de bouquets reales.
+## Cierre TASK_060 (2026-03-12)
+- Hardening minimo aplicado en provisioning `create+link` para validar bouquets antes de alta (modo `enforce|warn|off`).
+- `bouquetIds` invalidos ahora se rechazan con `400` + `XUI_ADMIN_INVALID_BOUQUET_IDS` cuando la validacion esta en `enforce`.
+- Caso de permisos insuficientes/API key invalida mapeado a `403` + `XUI_ADMIN_FORBIDDEN` (probado en test controlado).
+- Flujo exitoso existente de provisioning se mantiene operativo.
+- Validacion tecnica: `npm test` backend OK (`11` tests, `0` fallos).
 
 ## Riesgo/pendiente externo
-- Configuracion XUI sigue siendo dependencia critica (access code/api key/permisos).
-- Pendiente operativo: rotar `XUI_ADMIN_API_KEY` por exposicion en pruebas previas.
-- El panel puede variar en nombres exactos de parametros de bouquet; usar y documentar `xuiCreateParams` cuando aplique.
+- Rotar `XUI_ADMIN_API_KEY` en XUI y entorno backend (paso externo al repo).
+- Variantes de panel XUI pueden requerir `XUI_ADMIN_BOUQUET_VALIDATION_MODE=warn` u `off` si `get_bouquets` no es fiable.
