@@ -518,3 +518,6 @@
   - provisioning forzado exitoso para cuenta `Isma` (`lineId=5`, `xuiUsername=isma_auto_3507`).
   - `GET /v1/auth/xui/context` confirma enlace actualizado (`resolved=true`, `lineId=5`).
 - Se documenta accion operativa recomendada: rotar `XUI_ADMIN_API_KEY` tras pruebas por exposicion en consola/chat.
+- Cierre documental: `TASK_057_playback_failover_y_hardening_audio_stream` pasa a `completed` tras validacion manual satisfactoria en TV fisica (failover y audio OK).
+- `BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui` pasa de `partial` a `closed` con mitigacion validada manualmente por el usuario en TV real.
+- Indices sincronizados (`ACTIVE_TASK`, `CURRENT_STATUS`, `CHATGPT_CONTEXT`) para retirar `TASK_057` de tarea activa pendiente de validacion manual.

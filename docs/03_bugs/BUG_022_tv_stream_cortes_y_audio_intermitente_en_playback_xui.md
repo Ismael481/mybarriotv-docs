@@ -1,7 +1,7 @@
-# BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui
+﻿# BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui
 
 Estado:
-partial
+closed
 
 Fecha de deteccion:
 2026-03-11
@@ -10,11 +10,11 @@ Ultima actualizacion:
 2026-03-11
 
 Descripcion:
-En TV se reportan cortes de stream frecuentes y casos donde el video reproduce pero el audio no se escucha.
+En TV se reportaban cortes de stream frecuentes y casos donde el video reproducia pero el audio no se escuchaba.
 
 Sintomas:
-- Playback que se detiene aun con buena conexion de internet.
-- Canales que muestran video sin audio.
+- Playback que se detenia aun con buena conexion de internet.
+- Canales que mostraban video sin audio.
 - Comportamiento inconsistente entre canales del mismo catalogo.
 
 Contexto:
@@ -23,8 +23,8 @@ Contexto:
 - Reproduccion en TV via ExoPlayer (Media3) con fuente TS firmada.
 
 Causa probable:
-- Causa 1 (upstream XUI): algunas URLs firmadas resuelven `302 -> 404` despues de redireccion `/auth/...` (ejemplo detectado: `contentId=41`).
-- Causa 2 (compatibilidad audio): mezcla de codecs (`aac`, `ac3`, `mp2`) en streams reales; `ac3` puede derivar en video sin audio segun decoder del TV.
+- Causa 1 (upstream XUI): algunas URLs firmadas resolvian `302 -> 404` despues de redireccion `/auth/...` (ejemplo detectado: `contentId=41`).
+- Causa 2 (compatibilidad audio): mezcla de codecs (`aac`, `ac3`, `mp2`) en streams reales; `ac3` podia derivar en video sin audio segun decoder del TV.
 - Causa 3 (observabilidad player): configuracion de ExoPlayer en defaults, sin diagnostico detallado de pista/audio codec para diferenciar fallo de codec vs fallo de origen.
 
 Archivos revisados:
@@ -35,17 +35,21 @@ Archivos revisados:
 - `backend/src/server.js`
 
 Solucion aplicada:
-- Backend ahora devuelve `fallbackPlaybackUrls` junto a `playbackUrl` para permitir failover sin romper contrato anterior.
-- TV app ahora intenta automaticamente la siguiente URL de playback cuando falla la actual.
+- Backend devuelve `fallbackPlaybackUrls` junto a `playbackUrl` para permitir failover sin romper contrato anterior.
+- TV app intenta automaticamente la siguiente URL de playback cuando falla la actual.
 - ExoPlayer se endurece con `decoder fallback` y DataSource HTTP con redirects/timeouts explicitos.
 - Se agrega prueba automatizada backend del contrato de fallback (`playback-contract.test.js`).
 
-Pendiente de validacion:
-- Probar en TV fisica canales AAC vs AC3 y confirmar mejora en audio/estabilidad.
-- Confirmar en TV caso real de failover (primaria falla, alternativa recupera).
-- Validar en XUI/panel los canales que sigan terminando en `404` tras redireccion `/auth/...`.
+Validacion manual realizada:
+- Usuario confirma prueba en TV fisica completada.
+- Failover funciona correctamente en reproduccion real.
+- Audio y reproduccion funcionan bien, con resultado satisfactorio y estable.
 
 Resultado esperado tras la correccion:
 - Reduccion de cortes por canales con URL upstream invalida.
 - Menor incidencia de video sin audio por failover + decoder fallback y/o ajuste en XUI.
 - Trazabilidad clara para distinguir fallo de origen, fallo de codec o fallo de red.
+
+Estado de cierre:
+- Con la evidencia actual, el incidente queda resuelto.
+- No se reabre sin evidencia nueva reproducible.

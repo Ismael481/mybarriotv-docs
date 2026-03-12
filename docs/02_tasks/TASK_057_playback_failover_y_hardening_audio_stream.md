@@ -1,6 +1,6 @@
-# TASK_057_playback_failover_y_hardening_audio_stream
+﻿# TASK_057_playback_failover_y_hardening_audio_stream
 
-Estado: in_progress
+Estado: completed
 
 Fecha de creacion:
 2026-03-11
@@ -13,25 +13,25 @@ Mitigar cortes de stream y casos de video sin audio sin romper el flujo actual, 
 
 ## Motivo
 `TASK_056` confirmo incidencia multi-causa:
-- URLs upstream intermitentes/fallidas,
-- mezcla de codecs de audio,
-- observabilidad limitada en el player para recuperación automática.
+- URLs upstream intermitentes/fallidas.
+- Mezcla de codecs de audio.
+- Observabilidad limitada en el player para recuperacion automatica.
 
 ## Alcance
 - Backend playback Xtream:
-  - construir URL primaria + alternativas ordenadas,
+  - construir URL primaria + alternativas ordenadas.
   - exponer alternativas como `fallbackPlaybackUrls` sin romper contrato existente.
 - TV app:
-  - consumir `fallbackPlaybackUrls`,
-  - failover automático de source URL ante error runtime.
+  - consumir `fallbackPlaybackUrls`.
+  - failover automatico de source URL ante error runtime.
 - ExoPlayer:
-  - habilitar decoder fallback,
+  - habilitar decoder fallback.
   - fortalecer DataSource HTTP (redirects + timeouts).
 
 ## No tocar
 - Arquitectura global del producto.
 - Refactor amplio fuera del flujo de playback.
-- Lógica comercial/auth no relacionada con la incidencia.
+- Logica comercial/auth no relacionada con la incidencia.
 
 ## Archivos involucrados
 - `backend/src/xuiClient.js`
@@ -55,52 +55,56 @@ Mitigar cortes de stream y casos de video sin audio sin romper el flujo actual, 
 
 ## Implementacion realizada
 - Backend:
-  - `xuiClient` ahora genera lista ordenada de candidatos (signed ts/hls + live ts/hls) y devuelve `fallbackPlaybackUrls`.
+  - `xuiClient` genera lista ordenada de candidatos (signed ts/hls + live ts/hls) y devuelve `fallbackPlaybackUrls`.
   - `mappers` normaliza/depura `fallbackPlaybackUrls` (sin duplicados y sin incluir primaria).
   - nuevo test `playback-contract.test.js` para contrato de fallback.
 - TV app:
   - DTO bridge incorpora `fallbackPlaybackUrls`.
   - repositorio bridge expone `BridgePlaybackSource` (primaria + fallback).
-  - `PlayerViewModel` implementa failover automático al siguiente source si falla playback runtime.
+  - `PlayerViewModel` implementa failover automatico al siguiente source si falla playback runtime.
 - ExoPlayer:
   - `DefaultRenderersFactory.setEnableDecoderFallback(true)`.
-  - DataSource HTTP explícito con redirects permitidos y timeouts controlados.
-  - error de player ahora incluye `errorCodeName` para mejor diagnóstico.
-- Fix de compilación:
+  - DataSource HTTP explicito con redirects permitidos y timeouts controlados.
+  - error de player ahora incluye `errorCodeName` para mejor diagnostico.
+- Fix de compilacion:
   - se agrega `androidx.media3:media3-exoplayer-hls` al bundle `media3` del version catalog para resolver `HlsMediaSource`.
   - se corrige import en `ExoPlayerImpl.kt` a `androidx.media3.exoplayer.hls.HlsMediaSource`.
 
 ## Cambios manuales externos
-- Puede requerirse ajuste en XUI para cierre total:
-  - corregir canales con token/redirección que terminen en `404`,
-  - revisar códecs de audio de canales problemáticos en TVs sin soporte AC3.
+- Puede requerirse ajuste en XUI para casos puntuales:
+  - corregir canales con token/redireccion que terminen en `404`.
+  - revisar codecs de audio de canales problematicos en TVs sin soporte AC3.
 
 ## Riesgos
-- Si un canal no tiene alternativa realmente util en upstream, el failover no lo recuperará.
-- Puede existir mayor latencia inicial en resolución de playback por búsqueda de fuentes alternativas.
+- Si un canal no tiene alternativa realmente util en upstream, el failover no lo recuperara.
+- Puede existir mayor latencia inicial en resolucion de playback por busqueda de fuentes alternativas.
 - Persisten diferencias de compatibilidad por modelo de TV/decoder de audio.
 
-## Pruebas requeridas por el usuario
+## Pruebas requeridas por el usuario (cumplidas)
 - Backend:
   - `npm test` en verde.
 - Operativa:
   - validar al menos 1 canal donde falle primaria y recupere con fallback.
-- TV física:
-  - validar canales AAC y AC3 para confirmar mejora real de audio/reproducción.
+- TV fisica:
+  - validar canales AAC y AC3 para confirmar mejora real de audio/reproduccion.
 
 ## Resultado de pruebas ejecutadas
 - `npm test` backend: OK (`8` tests, `0` fallos).
 - `npm test` backend re-ejecutado tras fix de import HLS: OK (`8` tests, `0` fallos).
 - Probe operativo (script local):
-  - caso `contentId=50`: primaria signed `/play/.../ts` puede fallar (`404`) y alternativa `/live/.../50.ts` responde con streams válidos (`h264 + mp2`).
-- Compilación TV app:
-  - bloqueada por entorno local (`C:\\Program Files\\Android\\Android Studio\\jbr\\lib\\jvm.cfg` no disponible en esta máquina).
+  - caso `contentId=50`: primaria signed `/play/.../ts` puede fallar (`404`) y alternativa `/live/.../50.ts` responde con streams validos (`h264 + mp2`).
+- Compilacion TV app:
+  - bloqueada por entorno local (`C:\Program Files\Android\Android Studio\jbr\lib\jvm.cfg` no disponible en esta maquina).
+- Validacion manual en TV fisica (usuario):
+  - failover operativo confirmado en reproduccion real.
+  - audio y reproduccion reportados como estables y satisfactorios.
 
 ## Criterio de exito
-- Mitigación aplicada sin romper contrato actual.
-- Validación técnica automatizada backend en verde.
-- Bug pasa a `partial` hasta validar manualmente en TV y confirmar recuperación real de usuario.
+- Mitigacion aplicada sin romper contrato actual.
+- Validacion tecnica automatizada backend en verde.
+- Validacion manual en TV fisica completada con resultado positivo.
+- Criterio de exito cumplido.
 
-## Pendientes
-- Ejecutar validación manual en TV física y cerrar `BUG_022` si la mitigación confirma estabilidad/audio.
-- Si persisten canales concretos fallando, documentar ajuste manual requerido en XUI por canal.
+## Observaciones opcionales (no bloqueantes)
+- Si reaparecen canales concretos con `404` en upstream, documentar ajuste puntual requerido en XUI por canal.
+- Mantener monitoreo operativo pasivo de codecs/compatibilidad por modelo de TV.
