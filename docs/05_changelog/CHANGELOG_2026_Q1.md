@@ -574,3 +574,38 @@
 - Operaciones admin existentes de estado/expiracion (`POST .../status`, `POST .../expiry`) quedan persistidas y consultables de forma consistente en DB.
 - Cobertura automatizada ampliada con caso trazable de lifecycle DB + detalle ops; suite en verde (`17` tests, `0` fallos).
 - Indices sincronizados con cierre de `TASK_065` y sin tarea activa abierta.
+- Se implementa `TASK_066_auth_device_session_db_foundation`.
+- Backend DB (`backend/src/operationalDb.js`) agrega tabla `operational_device_login_sessions` y accesos de lectura para `operational_linked_devices` + `operational_events`.
+- `deviceLoginSessions` pasa a dual-write JSON + DB; lectura de sesiones QR ahora prefiere SQLite con fallback seguro a `AUTH_STORE_FILE`.
+- Lectura de dispositivos vinculados y auditoria auth/device ahora prefiere DB con fallback seguro a JSON.
+- Compatibilidad legacy preservada para stores historicos con `linkedDevicesByUser` indexado por `accountId` sin prefijo `account:`.
+- Cobertura automatizada ampliada con caso trazable de sesion QR + linked device + evento auth/device persistidos en DB; suite en verde (`18` tests, `0` fallos).
+- Indices sincronizados con cierre de `TASK_066` y sin tarea activa abierta.
+- Se implementa `TASK_067_auth_device_db_read_path_hardening`.
+- `authPersistence` endurece rutas de lectura para que DB sea la fuente preferente real en:
+  - estado de sesion QR;
+  - listado de dispositivos vinculados;
+  - validacion de dispositivos revocados/bloqueados;
+  - auditoria auth/device.
+- Mutaciones de dispositivos (`revoke`, cambio de `accessStatus`) ya no dependen de que la fila exista primero en JSON; pueden reconstruirse desde DB.
+- Cobertura automatizada ampliada con 2 casos donde la lectura/operacion sigue funcionando aunque JSON no tenga la entrada y SQLite si; suite en verde (`20` tests, `0` fallos).
+- Indices sincronizados con cierre de `TASK_067` y sin tarea activa abierta.
+- Se implementa `TASK_069_auth_device_db_transition_closeout`.
+- Se fija documentalmente a SQLite (`AUTH_OPERATIONAL_DB_FILE`) como fuente de verdad operativa para auth/device/session.
+- `AUTH_STORE_FILE` queda formalizado como capa de compatibilidad transitoria, respaldo auxiliar y fallback controlado.
+- `backend/README.md` y `backend/.env.example` se actualizan con reglas operativas de:
+  - rutas persistentes
+  - backup minimo
+  - recovery minimo
+  - limites conocidos
+- Se documenta inconsistencia previa: `TASK_068_auth_device_json_retirement_stage_1.md` fue referenciada pero no existe en `docs/02_tasks/`.
+- Cierre documental e indices sincronizados para dejar coherente el estado final de la transicion auth/device/session.
+- Se implementa `TASK_070_operational_history_and_db_ops_prebilling_foundation`.
+- Backend DB (`operationalDb`) agrega helper de snapshots operativos por cuenta y filtros por tipo de evento en `operational_events`.
+- `GET /v1/auth/ops/accounts` pasa a usar SQLite como fuente preferente para listado ops y agrega filtros internos utiles:
+  - `accountStatus`, `role`, `status`, `hasExpiry`, `expiresBeforeDays`, `renewalStage`
+- `GET /v1/auth/ops/accounts` y `GET /v1/auth/ops/accounts/:accountId` exponen senales prebilling de expiracion/renovacion futura:
+  - `expiresInDays`, `isExpired`, `isExpiringSoon`, `renewalStage`
+- `GET /v1/auth/ops/accounts/:accountId` agrega `operationalHistory` con filtros `eventType` y `eventLimit`, sostenido por `operational_events`.
+- Cobertura automatizada ampliada con caso DB-first para listado ops filtrado + historial de cuenta; suite en verde (`21` tests, `0` fallos).
+- Indices, task doc y `backend/README.md` sincronizados con cierre de `TASK_070` y sin tarea activa abierta.
