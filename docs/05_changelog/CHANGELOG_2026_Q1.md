@@ -556,3 +556,13 @@
 - Frontend reutiliza endpoints existentes (`GET .../xui/link`, `POST .../xui/provision`) sin contratos redundantes.
 - Smoke web/auth extendido para verificar elementos del bloque XUI en `admin.html`.
 - Validacion tecnica: `npm test` backend OK (`15` tests, `0` fallos).
+- Se implementa `TASK_064_operational_database_foundation`.
+- Backend: nueva fundacion DB operativa minima con SQLite nativo (`backend/src/operationalDb.js`).
+- Esquema inicial implementado: `operational_accounts`, `operational_linked_devices`, `operational_events`.
+- Persistencia en modo convivencia: JSON (`AUTH_STORE_FILE`) se mantiene y sincroniza snapshot operativo hacia DB (`AUTH_OPERATIONAL_DB_FILE`).
+- `authPersistence` ahora refleja en DB cuentas, dispositivos y auditoria operativa sin romper contratos actuales.
+- `GET /v1/auth/xui/context` ahora usa fuente preferente `operational_db` para link XUI cuando disponible, con fallback a `account_store`.
+- Configuracion ampliada: `AUTH_OPERATIONAL_DB_ENABLED`, `AUTH_OPERATIONAL_DB_FILE`.
+- Pruebas backend ampliadas con caso trazable de persistencia DB de cuenta+estado+link XUI; suite en verde (`16` tests, `0` fallos).
+- Decision tecnica documentada: `ADR_004_operational_db_sqlite_foundation`.
+- Indices y contexto sincronizados (`ACTIVE_TASK`, `CURRENT_STATUS`, `CHATGPT_CONTEXT`) con cierre de `TASK_064` y sin tarea activa abierta.
