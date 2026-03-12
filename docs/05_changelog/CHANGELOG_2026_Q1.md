@@ -524,3 +524,11 @@
 - Cierre administrativo final por confirmacion del usuario: `TASK_055_xui_account_link_foundation` pasa a `completed`.
 - Se declara `sin tarea activa` en `ACTIVE_TASK`, `CURRENT_STATUS` y `CHATGPT_CONTEXT`.
 - Todas las validaciones manuales reportadas por el usuario quedan registradas como satisfactorias y estables para este bloque.
+
+## 2026-03-12
+- Cierre documental formal de `TASK_057_playback_failover_y_hardening_audio_stream` tras validacion manual satisfactoria del usuario en TV fisica (failover/reproduccion/audio estables).
+- Cierre formal de `BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui` con mitigacion validada manualmente en TV fisica; no reabrir sin evidencia nueva reproducible.
+- Sincronizacion de indices (`ACTIVE_TASK`, `CURRENT_STATUS`, `CHATGPT_CONTEXT`) para reflejar cierres confirmados y eliminar pendientes de validacion manual de TV.
+- Apertura de `TASK_060_xui_ops_provisioning_hardening` como unica tarea activa, en modo inicial documental/diseno minimo de hardening para provisioning XUI.
+- Validacion runtime de `TASK_060`: provisioning `create+link` exitoso en backend operativo y error controlado mapeado (`XUI_ADMIN_ACTION_FAILED`, HTTP `502`).
+- Hallazgo de hardening en `TASK_060`: alta posible con `bouquetIds` invalido; queda pendiente definir/implementar validacion minima de bouquets reales.

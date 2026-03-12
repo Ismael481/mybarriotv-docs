@@ -7,7 +7,7 @@ Fecha de deteccion:
 2026-03-11
 
 Ultima actualizacion:
-2026-03-11
+2026-03-12
 
 Descripcion:
 En TV se reportaban cortes de stream frecuentes y casos donde el video reproducia pero el audio no se escuchaba.
@@ -53,3 +53,8 @@ Resultado esperado tras la correccion:
 Estado de cierre:
 - Con la evidencia actual, el incidente queda resuelto.
 - No se reabre sin evidencia nueva reproducible.
+
+Evidencia de cierre formal:
+- Validacion manual en TV fisica reportada por el usuario como satisfactoria y estable.
+- Mitigacion de failover/audio confirmada como efectiva para el caso reportado.
+

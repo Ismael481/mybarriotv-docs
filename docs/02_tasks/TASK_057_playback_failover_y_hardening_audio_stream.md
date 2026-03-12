@@ -6,7 +6,7 @@ Fecha de creacion:
 2026-03-11
 
 Ultima actualizacion:
-2026-03-11
+2026-03-12
 
 ## Objetivo
 Mitigar cortes de stream y casos de video sin audio sin romper el flujo actual, aplicando failover controlado y hardening minimo de player/backend.
@@ -95,6 +95,7 @@ Mitigar cortes de stream y casos de video sin audio sin romper el flujo actual, 
   - caso `contentId=50`: primaria signed `/play/.../ts` puede fallar (`404`) y alternativa `/live/.../50.ts` responde con streams validos (`h264 + mp2`).
 - Compilacion TV app:
   - bloqueada por entorno local (`C:\Program Files\Android\Android Studio\jbr\lib\jvm.cfg` no disponible en esta maquina).
+  - No bloquea el cierre porque la validacion manual en TV fisica fue completada con resultado satisfactorio.
 - Validacion manual en TV fisica (usuario):
   - failover operativo confirmado en reproduccion real.
   - audio y reproduccion reportados como estables y satisfactorios.
@@ -105,6 +106,12 @@ Mitigar cortes de stream y casos de video sin audio sin romper el flujo actual, 
 - Validacion manual en TV fisica completada con resultado positivo.
 - Criterio de exito cumplido.
 
+## Estado de cierre formal
+- Validacion manual en TV fisica completada por el usuario con resultado positivo y estable.
+- Criterio de exito cumplido en failover, reproduccion y audio.
+- Bloqueos abiertos: ninguno.
+
 ## Observaciones opcionales (no bloqueantes)
 - Si reaparecen canales concretos con `404` en upstream, documentar ajuste puntual requerido en XUI por canal.
 - Mantener monitoreo operativo pasivo de codecs/compatibilidad por modelo de TV.
+
