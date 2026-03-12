@@ -486,3 +486,35 @@
 - Auditoria de codecs: se observan streams con `aac`, `ac3` y `mp2`; riesgo de video sin audio en TVs con compatibilidad limitada para `ac3`.
 - Se registra `BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui` con causa probable multi-factor (upstream + codec + observabilidad player).
 - Sin cambios funcionales de codigo en esta iteracion; se documentan pasos manuales externos requeridos en XUI.
+- `TASK_056` queda completada como auditoria y se abre `TASK_057_playback_failover_y_hardening_audio_stream`.
+- Backend playback (`xuiClient`) ahora devuelve `playbackUrl` + `fallbackPlaybackUrls` con candidatos TS/HLS/live ordenados para failover.
+- Backend mapping (`mappers`) normaliza `fallbackPlaybackUrls` sin duplicados y sin incluir URL primaria.
+- TV app bridge/player incorpora failover automatico de source URL en runtime (`BridgePlaybackSource` + `PlayerViewModel`).
+- ExoPlayer hardening: `decoder fallback` habilitado y DataSource HTTP con redirects/timeouts explicitos.
+- Pruebas backend: `npm test` OK (`8` pruebas, `0` fallos), incluyendo nuevo test `mapXuiPlaybackToContract preserves fallback playback URLs without duplicates`.
+- `BUG_022` pasa a estado `partial`: mitigacion aplicada, pendiente validacion manual en TV fisica y ajustes upstream XUI por canal si aplica.
+- Fix compilacion TV reportado por usuario: se agrega `media3-exoplayer-hls` al catalogo de dependencias para resolver referencias `hls`/`HlsMediaSource` en `libs:exoplayer`.
+- Fix compilacion TV adicional: se corrige paquete de import en `ExoPlayerImpl.kt` a `androidx.media3.exoplayer.hls.HlsMediaSource`.
+- Se abre `TASK_058_xui_admin_api_discovery_for_auto_line_provisioning` como fase de discovery antes de implementar auto-provision.
+- Discovery API: analizado insumo `API de XUI.ONE y Xtream UI.pdf` y confirmado patron Admin API `access_code + api_key + action`.
+- Acciones documentadas para provisioning: `create_line`, `get_line/get_lines`, `get_bouquets`, con `create_line` via `POST` y campos minimos `username/password`.
+- Se documentan dependencias externas obligatorias para iniciar implementacion real (Access Code, API key, posible IP allowlist y posible HMAC segun variante).
+- Sin cambios de logica en backend/TV app/web app en esta iteracion; solo sincronizacion documental para preparar implementacion fase 1.
+- Validacion runtime inicial de Admin API con datos compartidos por usuario:
+  - llamadas `user_info/get_bouquets/create_line` sobre `http://panel.mybarriotv.com/NtAFVMmW/` devolvieron login HTML (`302 -> ./login`) en lugar de JSON.
+  - se documenta bloqueo externo: confirmar Access URL/API key/allowlist reales en XUI antes de implementar provisioning backend.
+- Se completa discovery operativo de `TASK_058`:
+  - Access Code funcional confirmado: `lHpqPGtQ`.
+  - `user_info`, `get_bouquets` y `create_line` validados en panel real.
+- Se implementa `TASK_059_xui_ops_provision_create_and_link`.
+- Backend: nuevo cliente Admin API `backend/src/xuiAdminClient.js` (timeout, redirect/login y parse JSON estricto).
+- Backend: nuevo helper de persistencia `updateAccountXuiLink` en `authPersistence`.
+- Backend: nueva ruta ops `POST /v1/auth/ops/accounts/:accountId/xui/provision` para crear linea y enlazar cuenta en una sola operacion.
+- Backend: idempotencia basica en provisioning (si ya existe `xuiLink`, no reprovisiona por defecto).
+- Pruebas: `backend/test/minimum-foundation.test.js` agrega caso `ops xui provision creates and links line idempotently`.
+- Validacion tecnica: `npm test` backend OK (`9` tests, `0` fallos).
+- Documentacion y configuracion actualizadas: `backend/.env.example`, `backend/README.md`, indices obligatorios y `TASK_059`.
+- Validacion manual runtime `TASK_059` completada:
+  - provisioning forzado exitoso para cuenta `Isma` (`lineId=5`, `xuiUsername=isma_auto_3507`).
+  - `GET /v1/auth/xui/context` confirma enlace actualizado (`resolved=true`, `lineId=5`).
+- Se documenta accion operativa recomendada: rotar `XUI_ADMIN_API_KEY` tras pruebas por exposicion en consola/chat.

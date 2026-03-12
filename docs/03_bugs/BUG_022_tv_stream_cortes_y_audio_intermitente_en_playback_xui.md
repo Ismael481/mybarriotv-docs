@@ -1,7 +1,7 @@
 # BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui
 
 Estado:
-open
+partial
 
 Fecha de deteccion:
 2026-03-11
@@ -35,15 +35,17 @@ Archivos revisados:
 - `backend/src/server.js`
 
 Solucion aplicada:
-- No se aplico fix funcional en esta iteracion.
-- Se realizo auditoria tecnica y se documentaron evidencias reproducibles.
+- Backend ahora devuelve `fallbackPlaybackUrls` junto a `playbackUrl` para permitir failover sin romper contrato anterior.
+- TV app ahora intenta automaticamente la siguiente URL de playback cuando falla la actual.
+- ExoPlayer se endurece con `decoder fallback` y DataSource HTTP con redirects/timeouts explicitos.
+- Se agrega prueba automatizada backend del contrato de fallback (`playback-contract.test.js`).
 
 Pendiente de validacion:
-- Probar en TV fisica canales AAC vs AC3 y confirmar correlacion con silencio.
-- Validar en XUI/panel los canales que hoy terminan en `404` tras redireccion `/auth/...`.
-- Definir e implementar parche minimo en siguiente tarea (instrumentacion player + manejo backend/upstream segun resultado).
+- Probar en TV fisica canales AAC vs AC3 y confirmar mejora en audio/estabilidad.
+- Confirmar en TV caso real de failover (primaria falla, alternativa recupera).
+- Validar en XUI/panel los canales que sigan terminando en `404` tras redireccion `/auth/...`.
 
 Resultado esperado tras la correccion:
 - Reduccion de cortes por canales con URL upstream invalida.
-- Menor incidencia de video sin audio por manejo explicito de codec/pista y/o ajuste en XUI.
+- Menor incidencia de video sin audio por failover + decoder fallback y/o ajuste en XUI.
 - Trazabilidad clara para distinguir fallo de origen, fallo de codec o fallo de red.

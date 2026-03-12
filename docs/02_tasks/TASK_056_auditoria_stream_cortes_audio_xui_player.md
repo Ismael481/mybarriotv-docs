@@ -1,6 +1,6 @@
 # TASK_056_auditoria_stream_cortes_audio_xui_player
 
-Estado: in_progress
+Estado: completed
 
 Fecha de creacion:
 2026-03-11
@@ -86,5 +86,5 @@ Usuario reporta:
 - Siguiente paso tecnico minimo acordado (sin mezclar cambios amplios).
 
 ## Pendientes
-- Definir el parche minimo de la siguiente iteracion (player y/o backend).
 - Ejecutar validacion manual en TV con lista corta de canales representativos.
+- Consolidar cierre en `TASK_057` tras validar mitigacion aplicada.

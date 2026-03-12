@@ -2,47 +2,57 @@
 
 Fecha: 2026-03-11
 Rama: `main`
-Tarea activa: `TASK_056_auditoria_stream_cortes_audio_xui_player`
+Tarea activa: `TASK_057_playback_failover_y_hardening_audio_stream`
 
 ## Resumen operativo
-- `TASK_056` audita incidencia reportada por usuario: cortes de stream con buena conexion y casos de video sin audio.
-- Evidencia de upstream XUI:
-  - canal estable ejemplo `contentId=37`: redireccion `302` y respuesta final `200` con flujo TS.
-  - canal fallido ejemplo `contentId=41`: redireccion `302` y respuesta final `404`.
-- Evidencia de audio:
-  - canales con `aac` (compatibilidad alta),
-  - canales con `ac3` (riesgo de silencio segun decoder del TV).
-- Evidencia de codigo TV:
-  - ExoPlayer inicializado con configuracion por defecto,
-  - sin selector avanzado de pistas/audio ni telemetria de codec en runtime.
-- `TASK_055` queda sin cambios en esta iteracion.
+- Estado funcional previo confirmado:
+  - `TASK_055`: backend ya resuelve `GET /v1/auth/xui/context` por `xuiLink` manual.
+  - `TASK_057`: mitigacion playback (failover/hardening) aplicada; cierre pendiente de prueba manual en TV.
+- Discovery (`TASK_058`) ya validado en panel real:
+  - access code operativo `lHpqPGtQ`,
+  - `user_info/get_bouquets/create_line` funcionando.
+- `TASK_059` completada:
+  - endpoint ops nuevo para provisioning `create+link`,
+  - persistencia de `xuiLink` sin edicion manual del store,
+  - test automatizado de idempotencia en verde,
+  - validacion manual real: cuenta `Isma` resolviendo `lineId=5` por `GET /v1/auth/xui/context`.
 
-## Archivos clave de la tarea activa
+## Archivos clave recientes
+- `backend/src/xuiAdminClient.js`
+- `backend/src/authPersistence.js`
+- `backend/src/server.js`
+- `backend/src/routes/authOpsRoutes.js`
+- `backend/test/minimum-foundation.test.js`
+- `backend/.env.example`
+- `backend/README.md`
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
 - `docs/00_index/CHATGPT_CONTEXT.md`
-- `docs/02_tasks/TASK_056_auditoria_stream_cortes_audio_xui_player.md`
-- `docs/03_bugs/BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui.md`
+- `docs/02_tasks/TASK_059_xui_ops_provision_create_and_link.md`
+- `docs/02_tasks/TASK_058_xui_admin_api_discovery_for_auto_line_provisioning.md`
+- `docs/02_tasks/TASK_055_xui_account_link_foundation.md`
+- `docs/02_tasks/TASK_057_playback_failover_y_hardening_audio_stream.md`
 - `docs/05_changelog/CHANGELOG_2026_Q1.md`
 
-## Validacion minima
-- Confirmar reproduccion de evidencia en backend:
-  - `GET /v1/content/37/playback` y verificacion de respuesta final `200` al consumir stream.
-  - `GET /v1/content/41/playback` y verificacion de respuesta final `404` en upstream.
-- Confirmar mezcla de codecs (`aac` y `ac3`) con `ffprobe` sobre URLs reales.
-- Consistencia documental entre indices + `TASK_056` + `BUG_022`.
+## Validacion minima esperada
+- `npm test` en `backend/` en verde (incluye test `ops xui provision creates and links line idempotently`).
+- `TASK_059` ya validada manualmente en runtime real.
+- Pendiente actual del proyecto: validacion manual TV de `TASK_057` para cierre de `BUG_022`.
 
 ## Cambios manuales externos requeridos
-- Si se desea estabilizar todos los canales, se requieren ajustes manuales en XUI/origen:
-  - corregir canales que terminan en `404` tras redireccion `/auth/...`,
-  - revisar politica de audio para minimizar canales solo AC3 en dispositivos no compatibles.
-- Validar en TV fisica con los canales marcados en `BUG_022`.
+- Configurar en backend:
+  - `XUI_ADMIN_BASE_URL` (ej: `http://panel.mybarriotv.com/lHpqPGtQ/`)
+  - `XUI_ADMIN_API_KEY` (API Password del usuario API)
+- Mantener Access Code habilitado y grupos correctos.
+- Si se requiere paquete/bouquet especifico y el panel usa parametro distinto, enviarlo via `xuiCreateParams`.
+- Rotar `XUI_ADMIN_API_KEY` por exposicion en consola/chat de pruebas.
 
 ## Leer en repo publico
 - `docs/00_index/ACTIVE_TASK.md`
 - `docs/00_index/CURRENT_STATUS.md`
 - `docs/00_index/CHATGPT_CONTEXT.md`
-- `docs/02_tasks/TASK_056_auditoria_stream_cortes_audio_xui_player.md`
-- `docs/03_bugs/BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui.md`
+- `docs/02_tasks/TASK_059_xui_ops_provision_create_and_link.md`
+- `docs/02_tasks/TASK_058_xui_admin_api_discovery_for_auto_line_provisioning.md`
 - `docs/02_tasks/TASK_055_xui_account_link_foundation.md`
+- `docs/02_tasks/TASK_057_playback_failover_y_hardening_audio_stream.md`
 - `docs/05_changelog/CHANGELOG_2026_Q1.md`
