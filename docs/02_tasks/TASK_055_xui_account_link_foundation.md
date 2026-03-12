@@ -1,8 +1,11 @@
-# TASK_055_xui_account_link_foundation
+﻿# TASK_055_xui_account_link_foundation
 
-Estado: in_progress
+Estado: completed
 
 Fecha:
+2026-03-11
+
+Ultima actualizacion:
 2026-03-11
 
 ## Objetivo
@@ -52,13 +55,14 @@ Definir e implementar la base minima para vincular una cuenta interna autenticad
 - El endpoint no consume aun metadata multi-servidor XUI (fuera de alcance actual).
 
 ## Pendiente de prueba
-- Validacion manual con una cuenta real del entorno para confirmar `xuiLineId` real en respuesta.
-- Smoke manual adicional en TV para confirmar playback firmado sin regresion funcional.
+- Ninguno bloqueante.
+- Validacion manual confirmada por el usuario con resultado satisfactorio y estable en el estado actual del proyecto.
 
 ## Criterio de exito
 - Existe una forma clara y documentada de resolver identidad XUI por cuenta autenticada.
 - Backend obtiene y expone ese contexto XUI de forma controlada (`GET /v1/auth/xui/context` con JWT).
 - El bridge actual `App TV -> Backend -> XUI` se mantiene estable.
+- Criterio de exito cumplido.
 
 ## Prueba minima
 1. Ejecutar `npm test` en `backend/` y confirmar caso `auth/xui/context resolves per-account XUI link for authenticated accounts`.
@@ -69,11 +73,10 @@ Definir e implementar la base minima para vincular una cuenta interna autenticad
 ## Resultado esperado
 - Base de vinculacion cuenta interna -> identidad XUI implementada y trazable.
 - Contratos existentes de auth/access/playback sin ruptura.
+- Tarea cerrada documentalmente por confirmacion del usuario.
 
 ## Pasos manuales si existen
-1. En `AUTH_STORE_FILE`, cargar `accountsById.<accountId>.xuiLink.xuiLineId` para la cuenta objetivo.
-2. Autenticar la cuenta y consultar `GET /v1/auth/xui/context`.
-3. Confirmar que el `lineId` coincide con la linea real esperada en XUI.
+1. No aplica para cierre documental final.
 
 ## Cambios externos XUI/config requeridos
 - No se requiere cambio manual obligatorio en XUI para esta fundacion.

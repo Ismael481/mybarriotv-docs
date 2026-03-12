@@ -521,3 +521,6 @@
 - Cierre documental: `TASK_057_playback_failover_y_hardening_audio_stream` pasa a `completed` tras validacion manual satisfactoria en TV fisica (failover y audio OK).
 - `BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui` pasa de `partial` a `closed` con mitigacion validada manualmente por el usuario en TV real.
 - Indices sincronizados (`ACTIVE_TASK`, `CURRENT_STATUS`, `CHATGPT_CONTEXT`) para retirar `TASK_057` de tarea activa pendiente de validacion manual.
+- Cierre administrativo final por confirmacion del usuario: `TASK_055_xui_account_link_foundation` pasa a `completed`.
+- Se declara `sin tarea activa` en `ACTIVE_TASK`, `CURRENT_STATUS` y `CHATGPT_CONTEXT`.
+- Todas las validaciones manuales reportadas por el usuario quedan registradas como satisfactorias y estables para este bloque.
