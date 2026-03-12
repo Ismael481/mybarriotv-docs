@@ -542,3 +542,9 @@
 - Backend: el flujo de accion se mantiene minimo y reutiliza `POST /v1/auth/ops/accounts/:accountId/xui/provision` (sin crear UI/admin grande).
 - Pruebas: nuevo caso trazable en `backend/test/minimum-foundation.test.js` para cuenta vinculada y no vinculada + accion de provisioning, con suite en verde (`12` tests, `0` fallos).
 - Indices y contexto actualizados; `TASK_061` queda cerrada y sin tarea activa abierta.
+- Se implementa `TASK_062_auto_xui_link_on_account_activation`.
+- Backend: `POST /v1/auth/ops/accounts/:accountId/status` ahora intenta auto-link XUI cuando `accountStatus=active`.
+- Backend: se reutiliza la logica existente de provisioning `create+link` mediante helper interno (sin duplicar flujo ni romper fallback manual).
+- Backend: la respuesta de `status` agrega trazabilidad `xuiAutoLink` con resultado `linked|omitted|failed`.
+- Pruebas: se agregan 3 casos trazables para auto-link en activacion (exito, omision por ya enlazada, fallo controlado); suite en verde (`15` tests, `0` fallos).
+- Documentacion sincronizada: `TASK_062`, indices (`ACTIVE_TASK`, `CURRENT_STATUS`, `CHATGPT_CONTEXT`) y `backend/README.md`.

@@ -9,6 +9,7 @@
 - `TASK_059_xui_ops_provision_create_and_link`: completada.
 - `TASK_060_xui_ops_provisioning_hardening`: completed.
 - `TASK_061_ops_xui_link_review_and_actions`: completed.
+- `TASK_062_auto_xui_link_on_account_activation`: completed.
 - `BUG_022_tv_stream_cortes_y_audio_intermitente_en_playback_xui`: closed (mitigacion validada en TV fisica).
 - Tarea activa actual: ninguna.
 
@@ -30,3 +31,10 @@
   - cuenta con link existente consultada como `resolved=true`;
   - cuenta sin link consultada como `resolved=false`, provisionada y reconsultada como `resolved=true`.
 - Validacion tecnica: `npm test` backend OK (`12` tests, `0` fallos).
+
+## Cierre TASK_062 (2026-03-12)
+- Auto-link XUI integrado en `POST /v1/auth/ops/accounts/:accountId/status` cuando `accountStatus=active`.
+- Reutilizacion de la logica existente de provisioning `create+link` sin duplicar flujo.
+- Respuesta de estado ahora incluye `xuiAutoLink` con trazabilidad minima (`linked|omitted|failed`).
+- Si auto-link falla, el cambio de estado sigue operativo y queda fallback manual en `POST /v1/auth/ops/accounts/:accountId/xui/provision`.
+- Validacion tecnica: `npm test` backend OK (`15` tests, `0` fallos).
