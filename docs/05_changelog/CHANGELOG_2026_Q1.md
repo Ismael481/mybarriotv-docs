@@ -537,3 +537,8 @@
 - Cliente XUI Admin ahora clasifica permisos insuficientes/API key invalida como `XUI_ADMIN_FORBIDDEN` (`403`).
 - Cobertura automatizada extendida en `backend/test/minimum-foundation.test.js` con casos de bouquet invalido y `INVALID_API_KEY` (suite en verde: `11` tests, `0` fallos).
 - Cierre formal de `TASK_060_xui_ops_provisioning_hardening`; queda como pendiente externo la rotacion de `XUI_ADMIN_API_KEY` fuera del repo.
+- Se implementa `TASK_061_ops_xui_link_review_and_actions`.
+- Backend: nuevo endpoint ops `GET /v1/auth/ops/accounts/:accountId/xui/link` para revisar estado de vinculo XUI por cuenta.
+- Backend: el flujo de accion se mantiene minimo y reutiliza `POST /v1/auth/ops/accounts/:accountId/xui/provision` (sin crear UI/admin grande).
+- Pruebas: nuevo caso trazable en `backend/test/minimum-foundation.test.js` para cuenta vinculada y no vinculada + accion de provisioning, con suite en verde (`12` tests, `0` fallos).
+- Indices y contexto actualizados; `TASK_061` queda cerrada y sin tarea activa abierta.
